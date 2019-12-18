@@ -151,8 +151,9 @@ Afklaring mangler
 Præsentationslag for indhold i Nyhedsapp, således at visningen mellem iOS og Android er homogen, samt har lignende homogenitet til visningen på DR.dk
 Nyhedsapp-Frontend er ikke en selvstændig applikation, men et delt kodelag der anvendes af IOS og Android udgaven af nyhedsappen. 
 \subsubsection{Anbefalet handling}
-Nyhedsapp-Frontend vurderes ikke selvstændigt i forhold til referencearkitekturen.
+Nyhedsapp-Frontend er en parallel implementering i forhold til Elements. Hvis der er ændringer i visningen af en artikel der kan vises både i nyhedsapp og på web, så skal der foretages ændringer i både Elements og Nyhedsapp-Frontend. Ved en renovation af Nyhedsapp-Frontend bør det undersøges om vi kan benytte en fælles kodebase til definition af visning.
 \subsubsection{Overslag}
+%TODO Sammensmeltning med Elements??
 N/A
 
 \subsection{Nyhedsapp IOS}
@@ -180,7 +181,6 @@ Nyhedsapp til både IOS og Android overholder referencearkitekturen. Der er mås
 Ingen ændringer nødvendige
 
 
-
 \subsection{Batch.com}
 \begin{figure}[h]
 \includegraphics[width=300pt]{Batch.com.PNG}
@@ -206,22 +206,26 @@ Nyhedsapp, Drupal RG ("hvem er inde på min artikel")
 \subsubsection{Anbefalet handling}
 Tjenesten passer ind i vores referencearkitektur. Om Firebase bliver ved med at være den bedste løsning for push af beskeder vil vi ikke tage stilling til i dette dokument.
 \subsubsection{Overslag}
+Ingen ændringer nødvendige
+
+
 \subsection{OCS}
-
-
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{OCS.PNG}
+\caption{MATCH (x\{name:'OCS'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+API-afløseren til PSDB (MU-online), der leverer video- og radio-data (ikke anvendt i Web \& Apps endnu)	Udstiller program- og seriedata, således at aftagere kan benytte dette til at vise TV/Radio-indhold
 \subsubsection{Anbefalet handling}
+Ved ændringer i systemer der afhænger af PSDB, så bør det undersøges om det er relevant at anvende OCS i stedet.
 \subsubsection{Overslag}
+Da OCS ikke ejes af Web og Apps og da ingen systemer afhænger af OCS endnu, så er der ingen indsatser nødvendige på OCS.
+
+
 \subsection{Garnnøgle}
-
-
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{Garnnøgle.PNG}
+\caption{MATCH (x\{name:'Garnnøgle'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
 \subsubsection{Anbefalet handling}
