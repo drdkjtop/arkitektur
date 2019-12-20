@@ -26,11 +26,17 @@
 \subsection{Omfang}
 
 \section{Generelt forarbejde}
-\begin{itemize}
-	\item Indholds datamodel
-	\item Underliggende infrastruktur
-	\item DevOps kulturen styrkes
-\end{itemize}
+\subsection{Indholds datamodel}
+Noget af det vigtigste for at få arkitekturen til at hænge sammen er at vi får etableret en generel og gennemgående datamodel, som kan være med til at sikre at alle vores komponenter kan kommunikere på tværs. Det er et vigtigt stykke forarbejde som både bidrager til muligheden for at rydde op i den hårknude som arkitekturen er nu og gør det muligt at sikre at nyudviklede komponenter kan benyttes på tværs. Det kommer til at kræve en del arbejde at få etableret denne datamodel og derefter at få de forskellige systemer tilpasset til denne datamodel.
+
+Det anbefales at vi starter med at udarbejde en så dækkende model som muligt, gerne en der læner sig op ad den som allerede benyttes af Steffi. Dermed får vi et centralt udgangspunkt som, når det bredes ud, kan bruges som samlingspunkt om vores content aggregation service.
+%TODO estimater
+\subsection{URN / URL}
+Hvis vi samtidigt med opdateringen af datamodellen også kikker på DR URN, så kan vi sikre at det er muligt at unikt identificere indhold på tværs af systemer uden kendskab til systemlandskabet.
+%TODO Der mangler helt sikkert info her 
+\subsection{Underliggende infrastruktur}
+\subsection{DevOps kulturen styrkes}
+
 
 \section{Analyse af komponenter}
 
@@ -245,41 +251,61 @@ Udvikling af ny garnnøgle: Grov estimat 8 mandeuger.
 
 \subsection{Drupal}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{Drupal.PNG}
+\caption{MATCH (x\{name:'Drupal'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Det primære CMS til tekstbaseret indhold på DR.dk, samt redaktionel grænseflade til indholdsproduktion og slutteligt mulighed for at grafisk opbygge sektionsforsider og sites.
 \subsubsection{Anbefalet handling}
+I henhold til referencearkitekturen burde Drupal kun være forbundet med Content Services og Platform Services. Da Drupal er det centrale CMS system er antallet af forbindelser ikke den store overraskelse, det peger dog entydigt på at DR stadig er meget hængt op på Drupal og dermed vil en eventuel udskiftning eller opdatering af Drupal være en stor udgift.
+Vi bør helt klart se på at nedbringe antallet af direkte afhængigheder til og fra Drupal. 
+Dette kan enten ske ved at lade Platform Services snakke med Content Services (f.eks. at lade garnnøgle afhænge af Mimer i stedet for Drupal), affolke og lukke de gamle udgaver af Mimer eller sikre at kun services med en god grund kan kommunikere med Drupal.
+
+Drupal er lige nu vores styrende CMS system, det vil sige at Drupal har kontrollen med alle URL hos DR.dk, hvilket også er grunden til den direkte forbindelse fra Hydra ned til Drupal. Det vil være meget fornuftigt at kikke på at få etableret et fornuftigt URN / URL system, således at en URL / URN i sig selv er beskrivende nok til at kunne udpege det styrende indholdssystem. Det vil muliggøre sideløbende CMS systemer med hvert deres fokus og gøre det lettere at opdatere / udskifte Drupal på sigt.
+ 
+Vi skal også have kikket på roadmap for opdatering af Drupal 7 til enten Drupal 8 eller et andet CMS system. Drupal 7 (vores nuværende installation) har end of life i november 2021.
 \subsubsection{Overslag}
+Migrering fra Drupal 7 til andet CMS system vil være en betydelig opgave, især med det niveau af afhængigheder og egenudvikling der er foretaget på Drupal platformen. 
+Selve analysen af tidsforbrug for skiftet er uden for scope af denne rapport. Hvis vi går ud fra at det giver mening at skifte direkte fra Drupal 7 til 9 kan et groft overslag 300+ timer. Vi vil få brug for ekstern hjælp.
+
+URN / URL 
 
 
 \subsection{Mimer 1.0 API}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=200pt]{MimerAPI.PNG}
+\caption{MATCH (x\{name:'Mimer 1.0 API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Mimer 1.0 API er nogle REST services i Drupal, som giver Mimer 1.1 adgang til at oprette nyt indhold.
 \subsubsection{Anbefalet handling}
+Mimer 1.0 API er allerede under afvikling. Denne afvikling bør fortsættes og systemet lukkes.
 \subsubsection{Overslag}
-
+N/A
 
 \subsection{Drupal RG}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{DrupalRG.PNG}
+\caption{MATCH (x\{name:'Drupal RG'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Nyeste version af redaktør grænsefladen, lanceret Q1-2018. Redaktør grænsefladen (RG) er journalisternes værktøj til artikelproduktion. Den findes i to udgaver, hhv. RG1 og RG2.	
+
+Webbaseret grænseflade til at oprette, redigere og distribuere tekstbaseret indhold, primært artikler. Tilbyder også integration med tema, kategoriserings, og push-funktioner.
 \subsubsection{Anbefalet handling}
+%TODO
 \subsubsection{Overslag}
 
 
 \subsection{Drupal Entity API}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{DrupalEntityAPI.PNG}
+\caption{MATCH (x\{name:'Drupal Entity API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Udstiller væsentlige dele af Drupals datamodel for indholdstyper i et simpelt API
 \subsubsection{Anbefalet handling}
+%TODO
 \subsubsection{Overslag}
 \newpage{}
 \clearpage
@@ -287,20 +313,23 @@ Udvikling af ny garnnøgle: Grov estimat 8 mandeuger.
 
 \subsection{Drupal Menu API}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{DrupalMenuAPI.PNG}
+\caption{MATCH (x\{name:'Drupal Menu API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Udstiller Drupals menu og sitestruktur til aftagere, der ønsker at præsentere indhold i en hierarkisk visning
 \subsubsection{Anbefalet handling}
+%TODO
 \subsubsection{Overslag}
 
 
 \subsection{Ensighten}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{Ensighten.PNG}
+\caption{MATCH (x\{name:'Ensighten'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Indskyder JavaScript på dr.dk sider, f.eks. til analytics, bannere, mv. Sørger derudover også for at hente og behandle metadata til analytics og anbefalingssystemer.
 \subsubsection{Anbefalet handling}
 \subsubsection{Overslag}
 
