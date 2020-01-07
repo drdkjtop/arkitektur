@@ -32,9 +32,10 @@ Det anbefales at vi starter med at udarbejde en så dækkende model som muligt, 
 Hvis vi samtidigt med opdateringen af datamodellen også kikker på DR URN, så kan vi sikre at det er muligt at unikt identificere indhold på tværs af systemer uden kendskab til systemlandskabet.
 %TODO Der mangler helt sikkert info her 
 \subsection{Underliggende infrastruktur}
-%TODO 
+%TODO  
+% Kort blabla om de mange skyer, distribueret model og sårbarheder.  Man skulle tro nuværende setup giver stor stabilitet men reelt er antallet af fejlkilder blot forøget, mens fejlhåndteringen er skiftet fra "worst subsystem"?? til "last succesfull response"??
 \subsection{DevOps kulturen styrkes}
-* DevOps tankegangen er et strålende bud på en løsnining af 3 delingen mellem infrastruktur, drift og udvikling.
+* DevOps tankegangen er et strålende bud på en løsning af 3 delingen mellem infrastruktur, drift og udvikling.
 * Devops skal styrkes i de enkelte udviklings teams.
 	De skal kunne lave hyppige releases.
 	De skal kunne lave sikre releases.
@@ -44,6 +45,8 @@ Centraliseret overvågning af infrastrukturen.
 	De enkelte teams i Web og apps skal ikke være ansvarlige for overvågning af hele infrastrukturen.
 %TODO. Dette er nok det vigtigste afsnit. Her skal skrives MEGET
 \subsection{parallelliseret og distribueret system}
+
+
 %TODO. Bemærkning om parallel monteret sky. Hvis vi har alt kørende i en region, så kan vi risikere at alt går ned hvis den region får kritiske nok fejl. Vi bør have en aktiv instans kørende på en anden region, som er skaleret helt i bund men er klar til at skalere. Ved kritiske fejl i en region kan vi så skifte over på en anden region. 
 
 \section{Analyse af komponenter}
