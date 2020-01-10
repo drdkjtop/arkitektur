@@ -20,9 +20,6 @@
 \section{Baggrund}
 \subsection{Formål}
 
-% \subsection{Datagrundlag}
-% Denne sektion kan udelades.
-
 \subsection{Omfang}
 
 \section{Generelt forarbejde}
@@ -35,8 +32,22 @@ Det anbefales at vi starter med at udarbejde en så dækkende model som muligt, 
 Hvis vi samtidigt med opdateringen af datamodellen også kikker på DR URN, så kan vi sikre at det er muligt at unikt identificere indhold på tværs af systemer uden kendskab til systemlandskabet.
 %TODO Der mangler helt sikkert info her 
 \subsection{Underliggende infrastruktur}
+%TODO  
+% Kort blabla om de mange skyer, distribueret model og sårbarheder.  Man skulle tro nuværende setup giver stor stabilitet men reelt er antallet af fejlkilder blot forøget, mens fejlhåndteringen er skiftet fra "worst subsystem"?? til "last succesfull response"??
 \subsection{DevOps kulturen styrkes}
+* DevOps tankegangen er et strålende bud på en løsning af 3 delingen mellem infrastruktur, drift og udvikling.
+* Devops skal styrkes i de enkelte udviklings teams.
+	De skal kunne lave hyppige releases.
+	De skal kunne lave sikre releases.
+	De skal kunne overvåge deres applikationer.
+	De skal kunne fejlfinde i deres applikationer på tværs af hele platformen.
+Centraliseret overvågning af infrastrukturen.
+	De enkelte teams i Web og apps skal ikke være ansvarlige for overvågning af hele infrastrukturen.
+%TODO. Dette er nok det vigtigste afsnit. Her skal skrives MEGET
+\subsection{parallelliseret og distribueret system}
 
+
+%TODO. Bemærkning om parallel monteret sky. Hvis vi har alt kørende i en region, så kan vi risikere at alt går ned hvis den region får kritiske nok fejl. Vi bør have en aktiv instans kørende på en anden region, som er skaleret helt i bund men er klar til at skalere. Ved kritiske fejl i en region kan vi så skifte over på en anden region. 
 
 \section{Analyse af komponenter}
 
@@ -55,7 +66,6 @@ Akamai som CDN udfylder fint de behov som DR har.
 Vi kan med fordel kikke på om vi benytter fornuftige cache timeouts eller om vores hjemmeside er struktureret til at få mest muligt ud af CDN.
 \subsubsection{Overslag}
 Indgår ikke som sådan i roadmap.
-
 
 
 \subsection{Hydra}
@@ -317,7 +327,7 @@ Udstiller væsentlige dele af Drupals datamodel for indholdstyper i et simpelt A
 \caption{MATCH (x\{name:'Drupal Menu API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
-Udstiller Drupals menu og sitestruktur til aftagere, der ønsker at præsentere indhold i en hierarkisk visning
+Udstiller Drupals menu og sitestruktur til aftagere, der ønsker at præsentere indhold i en hierarkisk visning.
 \subsubsection{Anbefalet handling}
 %TODO
 \subsubsection{Overslag}
@@ -335,105 +345,125 @@ Indskyder JavaScript på dr.dk sider, f.eks. til analytics, bannere, mv. Sørger
 
 
 \subsection{Ad Server}
-\begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
-\end{figure}
 \subsubsection{Kort beskrivelse}
+"Smart Ad Server" er en hosted løsning, hvor bannerhåndtering og booking/kampagner bliver håndteret. Integreres med DR applikationer der skal vise bannere til slutbrugere.
 \subsubsection{Anbefalet handling}
+SaaS. Der er ingen udviklingsmuligheder her, kun eventuelt at fjerne afhængigheden heraf hvis nødvendigt.
 \subsubsection{Overslag}
 
 
 \subsection{Midas}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{Midas.PNG}
+\caption{MATCH (x\{name:'Midas'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Oembed-service, der omsætter oEmbed-referencer til markup, til brug i frontend.
 \subsubsection{Anbefalet handling}
 \subsubsection{Overslag}
 
 
 \subsection{PSDB (MU-online)}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{PSDB.PNG}
+\caption{MATCH (x\{name:'PSDB (MU-online)'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Program og seriedatabase til TV-baseret indhold
 \subsubsection{Anbefalet handling}
+Ejerskabet af dette system ligger uden for Web og Apps.
 \subsubsection{Overslag}
 
 
 \subsection{Scanpix}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=200pt]{Scanpix.PNG}
+\caption{MATCH (x\{name:'Scanpix'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Billededatabase. Ekstern service, der tilbyder redaktører at søge efter billed- og videoindhold som kan importeres og anvendes i DR's systemer.
 \subsubsection{Anbefalet handling}
+SaaS. Der er ingen udviklingsmuligheder her, kun eventuelt at fjerne afhængigheden heraf hvis nødvendigt.
 \subsubsection{Overslag}
 
 
 \subsection{Cxense}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=200pt]{Cxense.PNG}
+\caption{MATCH (x\{name:'Cxense'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Analysesystem til personalisering
 \subsubsection{Anbefalet handling}
+SaaS. Der er ingen udviklingsmuligheder her, kun eventuelt at fjerne afhængigheden heraf hvis nødvendigt.
 \subsubsection{Overslag}
 
 
 \subsection{Adobe Analytics}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=200pt]{AdobeAnalytics.PNG}
+\caption{MATCH (x\{name:'Adobe Analytics'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Analysesystem til personalisering
 \subsubsection{Anbefalet handling}
+SaaS. Der er ingen udviklingsmuligheder her, kun eventuelt at fjerne afhængigheden heraf hvis nødvendigt.
 \subsubsection{Overslag}
 
 
 \subsection{Pressebilleder}
-\begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
-\end{figure}
 \subsubsection{Kort beskrivelse}
+Pressesite på dr.dk Udsendelse af nyhedsbreve, integration til Mosaic-billeddatabase. Sandsynligvis eksternt produkt.
 \subsubsection{Anbefalet handling}
+N/A
 \subsubsection{Overslag}
-
+N/A
 
 \subsection{WebCMS}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[height=160pt]{WebCMS.PNG}
+\caption{MATCH (x\{name:'WebCMS'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Content Management System håndtering af sider på dr.dk. Udfaset og afløst af Drupal.
 \subsubsection{Anbefalet handling}
+N/A
 \subsubsection{Overslag}
-
+N/A
 
 \subsection{DR Search}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{DRSearch.PNG}
+\caption{MATCH (x\{name:'DR Search'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Søgemaskine tekst, video og radioindhold på DR.dk	
+
+Tilbyder søgefunktionalitet med ekstrem domæneforståelse for DR's forskellige indholdstyper, distributionsregler og indholdssystemer. Kan indlejres i RG-systemer og tilbyde specialiseret søgefunktionalitet til både publiceret og ikke-publiceret indhold. Kan tilbyde slutbrugere at søge agnostisk og præsenterer søgeresultater ud fra den type indhold der er tale om, eks afspilningsoplysninger til TV-indhold. Indekserer de forskellige indholdssystemer for nyt eller opdateret indhold, og indekserer også indhold via webvisning på DR.dk
 \subsubsection{Anbefalet handling}
+DR Search er for tiden uden ejerskab og uden ansvarlige udviklere. Enten skal systemet adopteres af at team eller også så skal vi have afviklet systemet. Der er ikke umiddelbart et system der kan tage over som erstatning for DR Search endnu. 
+
+%TODO 
+* Skal vi erstatte?
+* Skal vi beholde?
+* Skal det helt skrottes?
+* Kan vi benytte Drupals search til artiker, og evt streamingtjenestens søgefunktionalitet til TV / Radio?
 \subsubsection{Overslag}
 
 
 \subsection{Nyhedsbreve}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=200pt]{Nyhedsbreve.PNG}
+\caption{MATCH (x\{name:'Nyhedsbreve'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Udsendelse af nyhedsbreve. Benytter Peytz' service	
+
+Tilbyder nyhedsbreve som en distributionskanal til DR's indholdsysstemer, således at indhold kan skubbes ud til brugeren samtidig med at det publiceres på DR.dk
 \subsubsection{Anbefalet handling}
+SaaS men uden ejerskab. 
+Det skal vurderes om denne løsning er passende for vores fremtidige arkitektur. Det er dog ikke højeste prioritet.
 \subsubsection{Overslag}
-\newpage{}
-\clearpage
 
 
 \subsection{DR Billeder}
