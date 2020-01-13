@@ -45,7 +45,8 @@ Noget af det vigtigste for at få arkitekturen til at hænge sammen er at vi få
 Det anbefales at vi starter med at udarbejde en så dækkende model som muligt, gerne en der læner sig op ad den som allerede benyttes af Steffi. Dermed får vi et centralt udgangspunkt som, når det bredes ud, kan bruges som samlingspunkt om vores content aggregation service.
 
 Datamodellen skal ikke nødvendigvis implementeres på tværs af hele dr.dk fra starten af, men det vil være til stor gavn hvis vi kan arbejde os i retning af en fælles datamodel i alle fremtidige større ændringer af systemerne.
-Udarbejdelse af Datamodellen bør ske inden næste store ændring i et af de centrale indholdsbærende datalag (mimer, steffi, Hydra, nyhedsapp eller lignende)
+Udarbejdelse af Datamodellen bør ske inden næste store ændring i et af de centrale indholdsbærende datalag (mimer, steffi, Hydra, nyhedsapp eller lignende).
+
 Udarbejdelse af datamodellen vil tage ca 2 mandeuger.
 
 
@@ -67,12 +68,35 @@ Kommunikations udfald eller nedbrud hos en af cloud udbyderne vil i de fleste ti
 \subsection{parallelliseret og distribueret system}
 Vi har en forpligtigelse om at kunne udkomme med nyheder og varslinger hele tiden og med kort varsel. Det stiller selvfølgeligt krav til vores systemers oppetid. Jo tættere koblet et system er, jo mere sårbar er det over for nedbrud et eller andet sted i afhængighedskæden.
 De systemer vi selv hoster og drifter bør sikres i det omfang det er muligt. Jeg vil foreslå at vi kikker grundigt på et parallelt sky setup, så vi f.eks. har en primær region (europe-west2) hvor der er veldefinerede skalerings regler og overvågning sat op. Vi kan samtidigt have en sekundær sky sat op i en anden region (f.eks. europe-west4) som er skaleret helt i bund og ingen trafik varetager.
-Ved nedbrud i den region kan vi skifte til den sekundære og lade den skalere op.
+Ved nedbrud i den primære region kan vi skifte til den sekundære og lade den skalere op.
 
 %TODO. Bemærkning om parallel monteret sky. Hvis vi har alt kørende i en region, så kan vi risikere at alt går ned hvis den region får kritiske nok fejl. Vi bør have en aktiv instans kørende på en anden region, som er skaleret helt i bund men er klar til at skalere. Ved kritiske fejl i en region kan vi så skifte over på en anden region. 
 
 
 \subsection{DevOps kulturen styrkes}
+Teams i Web og Apps lever på mange punkter op til DevOps tankegangen. De enkelte teams er i stand til at drifte, udvikle, teste og deploye deres produkter.  Der er dog en række punkter som helt klart kan forbedres.
+
+\subsubsection{Ensretning af pipeline}
+Med henblik på at lette deployment til både test miljøer og produktions miljøer vil det være en stor fordel hvis deployment kunne foregå fra et fælles værktøj. 
+Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for at deploye dedikerede testsystemer. 
+
+\subsubsection{Fælles overvågning}
+Udviklerne i de enkelte teams er specialister i deres egne systemer og er som sådan de bedst egnede til at fejl finde og vedligeholde deres systemer. Det er dog ikke det samme som at udviklerne er de bedst egnede til at overvåge og fejl finde i infrastrukturen som systemerne kører på. Ideelt skal vores systemer køre på en fælles platform, som der kan overvåges centralt.
+Ideelt set burde platformen overvåges centralt, med veldefinerede alarmer på alle miljøer. I tilfælde af nedbrud på et miljø bør overvågningen have en drejebog på hvilke skridt der kan foretages for at afhjælpe problemerne.
+For at opnå det er der behov for følgende:
+\begin{itemize}
+\item konsolidering af driftsmiljøer
+\item velbeskrevne overvågnings parametre
+\item velbeskrevet drejebog for afhjælpning af problemer
+\item velbeskrevet eskalerings muligheder af problemer
+\end{itemize}
+
+Udviklerne i de enkelte teams har ansvaret for udvikling tests og vedligeholdelse af deres systemer. Udviklerne skal ligeledes sørge for at der opsættes overvågningspunkter, så der kan rapporteres systemstatus til overvågningen samt drejebøger for hvordan almindelige fejl kan afhjælpes.
+DevOps afdelingen skal stå for udvikling af de nødvendige værktøjer og skal have det formelle ejerskab af infrastrukturen. Hvis der er nedbrud på netværk, Hosting eller andre infrastruktur komponenter, så skal dette løses af ejeren af infrastrukturen.
+Overvågningen kan varetages af "Infra". Denne overvågning skal være af både infrastruktur og overvågningspunkter der leveres af udviklerne i de enkelte udviklingsteams. Da hverken DevOps eller de enkelte udviklingsteams har døgnovervågnings muligheder er Infra en af de eneste muligheder der er for at afhjælpe problemer på platformen uden for normal arbejdstid.
+
+
+
 * DevOps tankegangen er et strålende bud på en løsning af 3 delingen mellem infrastruktur, drift og udvikling.
 * Devops skal styrkes i de enkelte udviklings teams.
 	De skal kunne lave hyppige releases.
