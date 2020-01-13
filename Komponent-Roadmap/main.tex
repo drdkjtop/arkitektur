@@ -77,8 +77,16 @@ Ved nedbrud i den primære region kan vi skifte til den sekundære og lade den s
 Teams i Web og Apps lever på mange punkter op til DevOps tankegangen. De enkelte teams er i stand til at drifte, udvikle, teste og deploye deres produkter.  Der er dog en række punkter som helt klart kan forbedres.
 
 \subsubsection{Ensretning af pipeline}
-Med henblik på at lette deployment til både test miljøer og produktions miljøer vil det være en stor fordel hvis deployment kunne foregå fra et fælles værktøj. 
+Med henblik på at lette deployment til både test miljøer og produktions miljøer vil det være en stor fordel hvis deployment kunne foregå fra et fælles værktøj. Dermed ville det være muligt at 
+* byg, automatiseret tests, fælles image repository.
+
+
+\subsubsection{Testmiljøer}
 Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for at deploye dedikerede testsystemer. 
+* fast fuld funktionibelt testsystem (staging)
+* mulighed for deploy af nyt miljø med nødvendige komponenter.
+
+
 
 \subsubsection{Fælles overvågning}
 Udviklerne i de enkelte teams er specialister i deres egne systemer og er som sådan de bedst egnede til at fejl finde og vedligeholde deres systemer. Det er dog ikke det samme som at udviklerne er de bedst egnede til at overvåge og fejl finde i infrastrukturen som systemerne kører på. Ideelt skal vores systemer køre på en fælles platform, som der kan overvåges centralt.
@@ -733,13 +741,18 @@ Applikationen skal lukkes ned, da dens funktionalitet bliver erstattet af Cxense
 
 \subsection{Nyhedsapp Backend}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=300pt]{NyhedsappBE.PNG}
+\caption{MATCH (x\{name:'Nyhedsapp Backend'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
-\subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Backend til DR's Nyhedsapp.	
 
+Applikation der indsamler, aggregerer og transformerer artikler til DRs nyhedsapps dataformat. Persisterer og udstiller data for Nyhedsapp (Nyhedsapp Frontend).
+\subsubsection{Anbefalet handling}
+Nyhedsapp Backend forekommer også som en parallel implementering af funktionalitet der allerede eksisterer andet steds i DR.dk. 
+Artikeldata burde blive udstillet igennem Steffi på lige fod med hjemmesiden og Nyhedsapp backend burde kun varetage funktionaliteten der adskiller Nyhedsapp fra hjemmesiden. Det vil sige push beskeder, brugerstyrring, abonnementer og lignende. 
+\subsubsection{Overslag}
+Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lidt op i systemlandskabet, men når vi på et tidspunkt skal genbesøge nyhedsapp med henblik på modernisering bør vi også sikre at vi følger den anbefalede arkitektur og dermed indhenter content i veldefineret format fra den fælles content aggregation service.
 
 \subsection{Tag Admin}
 \begin{figure}[h]
