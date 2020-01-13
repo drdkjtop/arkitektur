@@ -22,6 +22,7 @@ Dette rapport er skrevet for nedfælge mine tanker og ideer angående arkitektur
 Det primære formål med rapporten er at ridse et roadmap op for hvad vi bør fokusere på hvis vi gerne vil opnå en sammenhængende, tidssvarende og vedligeholdbar arkitektur.
 
 \subsection{Omfang}
+Denne rapport er skrevet ud fra informationerne i DR systemkatalog og de betragtninger der er blevet gjort i forbindelse med arkitektur rapporten fra Eksponent. Estimater og overslag der er angivet i rapporten er foretaget ud fra et kvalificeret bud på besvær og omkostninger og ikke ud fra en detaljeret analyse af hvert enkelt projekt. Mere præcise estimater vil være mulige for hvert delopgave, men er uden for scope af denne rapport.
 % highlevel gennemgang. mere præcise estimater kræver mere konkret gennemgang af de enkelte elementer i den samlede arkitektur
 
 \section{Executive summary}
@@ -42,11 +43,14 @@ Vi skulle gerne ende op med en arkitektur, hvor det er muligt at have styr på v
 Noget af det vigtigste for at få arkitekturen til at hænge sammen er at vi får etableret en generel og gennemgående datamodel, som kan være med til at sikre at alle vores komponenter kan kommunikere på tværs. Det er et vigtigt stykke forarbejde som både bidrager til muligheden for at rydde op i den hårknude som arkitekturen er nu og gør det muligt at sikre at nyudviklede komponenter kan benyttes på tværs. Det kommer til at kræve en del arbejde at få etableret denne datamodel og derefter at få de forskellige systemer tilpasset til denne datamodel.
 
 Det anbefales at vi starter med at udarbejde en så dækkende model som muligt, gerne en der læner sig op ad den som allerede benyttes af Steffi. Dermed får vi et centralt udgangspunkt som, når det bredes ud, kan bruges som samlingspunkt om vores content aggregation service.
-%TODO estimater
+
+Datamodellen skal ikke nødvendigvis implementeres på tværs af hele dr.dk fra starten af, men det vil være til stor gavn hvis vi kan arbejde os i retning af en fælles datamodel i alle fremtidige større ændringer af systemerne.
+Udarbejdelse af Datamodellen bør ske inden næste store ændring i et af de centrale indholdsbærende datalag (mimer, steffi, Hydra, nyhedsapp eller lignende)
+Udarbejdelse af datamodellen vil tage ca 2 mandeuger.
 
 
 \subsection{URN / URL}
-Hvis vi samtidigt med opdateringen af datamodellen også kikker på DR URN, så kan vi sikre at det er muligt at unikt identificere indhold på tværs af systemer uden kendskab til systemlandskabet.
+Hvis vi samtidigt med opdateringen af datamodellen også kikker på DR URN, så kan vi sikre at det er muligt at unikt identificere indhold på tværs af systemer uden kendskab til systemlandskabet. 
 %TODO Der mangler helt sikkert info her 
 
 
@@ -56,9 +60,16 @@ Alt indhold på dr.dk serves i dag igennem Akamai CDN. Akamai fungerer som conte
 Infrastrukturen som i dag driver dr.dk har et par fordele men også en række ulemper. Hvert team har valgt hosting og teknologi ud fra hvad de kender til og deres ønsker om funktionalitet. Det betyder at vi i dag har dele af dr.dk hostet på 4 forskellige cloud platforme.
 For at en artikel kan udkomme på dr.dk forsiden og i nyhedsapp skal der udveksles data på tværs af alle 4 skyer.
 
-Kommunikations udfald eller nedbrud hos en af cloud udbyderne vil i de fleste tilfælde betyde at vi ikke kan udkomme med nye artikler.
+Kommunikations udfald eller nedbrud hos en af cloud udbyderne vil i de fleste tilfælde betyde at vi ikke kan udkomme med nye artikler. Der er ingen driftsmæssig fordel ved at vi har baseret vores infrastruktur på 4 forskellige skyer, da udgivelse af en artikel vil fejle lige meget hvilket led i kæden der knækker. 
 %TODO  
 % Kort blabla om de mange skyer, distribueret model og sårbarheder.  Man skulle tro nuværende setup giver stor stabilitet men reelt er antallet af fejlkilder blot forøget, mens fejlhåndteringen er skiftet fra "worst subsystem"?? til "last succesfull response"??
+
+\subsection{parallelliseret og distribueret system}
+Vi har en forpligtigelse om at kunne udkomme med nyheder og varslinger hele tiden og med kort varsel. Det stiller selvfølgeligt krav til vores systemers oppetid. Jo tættere koblet et system er, jo mere sårbar er det over for nedbrud et eller andet sted i afhængighedskæden.
+De systemer vi selv hoster og drifter bør sikres i det omfang det er muligt. Jeg vil foreslå at vi kikker grundigt på et parallelt sky setup, så vi f.eks. har en primær region (europe-west2) hvor der er veldefinerede skalerings regler og overvågning sat op. Vi kan samtidigt have en sekundær sky sat op i en anden region (f.eks. europe-west4) som er skaleret helt i bund og ingen trafik varetager.
+Ved nedbrud i den region kan vi skifte til den sekundære og lade den skalere op.
+
+%TODO. Bemærkning om parallel monteret sky. Hvis vi har alt kørende i en region, så kan vi risikere at alt går ned hvis den region får kritiske nok fejl. Vi bør have en aktiv instans kørende på en anden region, som er skaleret helt i bund men er klar til at skalere. Ved kritiske fejl i en region kan vi så skifte over på en anden region. 
 
 
 \subsection{DevOps kulturen styrkes}
@@ -72,13 +83,6 @@ Centraliseret overvågning af infrastrukturen.
 	De enkelte teams i Web og apps skal ikke være ansvarlige for overvågning af hele infrastrukturen.
 %TODO. Dette er nok det vigtigste afsnit. Her skal skrives MEGET
 
-
-\subsection{parallelliseret og distribueret system}
-Vi har en forpligtigelse om at kunne udkomme med nyheder og varslinger hele tiden og med kort varsel. Det stiller selvfølgeligt krav til vores systemers oppetid. Jo tættere koblet et system er, jo mere sårbar er det over for nedbrud et eller andet sted i afhængighedskæden.
-De systemer vi selv hoster og drifter bør sikres i det omfang det er muligt. Jeg vil foreslå at vi kikker grundigt på et parallelt sky setup, så vi f.eks. har en primær region (europe-west2) hvor der er veldefinerede skalerings regler og overvågning sat op. Vi kan samtidigt have en sekundær sky sat op i en anden region (f.eks. europe-west4) som er skaleret helt i bund og ingen trafik varetager.
-Ved nedbrud i den region kan vi skifte til den sekundære og lade den skalere op.
-
-%TODO. Bemærkning om parallel monteret sky. Hvis vi har alt kørende i en region, så kan vi risikere at alt går ned hvis den region får kritiske nok fejl. Vi bør have en aktiv instans kørende på en anden region, som er skaleret helt i bund men er klar til at skalere. Ved kritiske fejl i en region kan vi så skifte over på en anden region. 
 
 \section{Analyse af komponenter}
 
