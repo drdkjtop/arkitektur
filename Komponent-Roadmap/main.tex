@@ -23,10 +23,9 @@ Det primære formål med rapporten er at ridse et roadmap op for hvad vi bør fo
 
 \subsection{Omfang}
 Denne rapport er skrevet ud fra informationerne i DR systemkatalog og de betragtninger der er blevet gjort i forbindelse med arkitektur rapporten fra Eksponent. Estimater og overslag der er angivet i rapporten er foretaget ud fra et kvalificeret bud på besvær og omkostninger og ikke ud fra en detaljeret analyse af hvert enkelt projekt. Mere præcise estimater vil være mulige for hvert delopgave, men er uden for scope af denne rapport.
-% highlevel gennemgang. mere præcise estimater kræver mere konkret gennemgang af de enkelte elementer i den samlede arkitektur
 
 \section{Executive summary}
-Arkitekturen i Web og Apps bærer præg af at have vokset organisk frem. Når et forretningsproblem har vist sig, er der blevet lavet en løsning på problemet ud fra de for hånden værende ressourcer og kompetencer, uden hensyntagen til hvordan løsningen passer ind i resten af systemlandskabet. Det har resulteret i at vi i dag har mange eksempler på parallelle implementeringer, på systemer der ikke kan vedligeholdes, på ukendt aftagerlandskab og på fragmenteret infrastruktur.
+Arkitekturen i Web og Apps bærer præg af at have vokset organisk frem. Når et forretningsproblem har vist sig, er der blevet lavet en løsning på problemet ud fra de for hånden værende ressourcer og kompetencer, uden hensyntagen til hvordan løsningen passer ind i resten af systemlandskabet. Det har resulteret i at vi i dag har mange eksempler på parallelle implementeringer, på systemer der ikke kan vedligeholdes, på ukendt aftager landskab og på fragmenteret infrastruktur.
 
 De vigtigste skridt vi skal igennem er følgende:
 \begin{itemize}
@@ -35,8 +34,12 @@ De vigtigste skridt vi skal igennem er følgende:
 \item Omskrivning af forældede produkter
 \item Sikre DevOps fundament
 \end{itemize}
-Vi skulle gerne ende op med en arkitektur, hvor det er muligt at have styr på vores aftagerlandskab. Vi skal også have mulighed for hurtig kommunikation imellem interne komponenter via sikret og afgrænset netværk. Det skal være muligt at teste komponenter individuelt og i et sammenhængende produktionslignende test setup.
-%TODO grov estimat?
+Vi skulle gerne ende op med en arkitektur, hvor det er muligt at have styr på vores aftager landskab. Vi skal også have mulighed for hurtig kommunikation imellem interne komponenter via sikret og afgrænset netværk. Det skal være muligt at teste komponenter individuelt og i et sammenhængende produktionslignende test setup.
+
+Vi kan passende gå i gang med de lavt hængende frugter i form af at flytte de letteste kandidater over på pipeline, imens vi går i gang med de designtunge dele af opgaven (f.eks. design af fælles datamodel og redesign af relationssystem).
+
+Det er svært at tids estimere præcist uden at grave dybere ned i detaljerne for de enkelte opgaver. Selve transformationen vil formentligt tage 2 år eller længere. Hvis vi i den tidsperiode stadig vil kunne varetage normale udviklingsopgaver, så bør vil allerede nu overveje at mande op i de forskellige teams.
+
 
 \section{Generelt forarbejde}
 \subsection{Indholds datamodel}
@@ -47,19 +50,20 @@ Det anbefales at vi starter med at udarbejde en så dækkende model som muligt, 
 Datamodellen skal ikke nødvendigvis implementeres på tværs af hele dr.dk fra starten af, men det vil være til stor gavn hvis vi kan arbejde os i retning af en fælles datamodel i alle fremtidige større ændringer af systemerne.
 Udarbejdelse af Datamodellen bør ske inden næste store ændring i et af de centrale indholdsbærende datalag (mimer, steffi, Hydra, nyhedsapp eller lignende).
 
-Udarbejdelse af datamodellen vil tage ca 2 mandeuger.
+Udarbejdelse af første udgave af datamodellen vil formentligt tage 3 mandeuger.
 
 
 \subsection{URN / URL}
 Hvis vi samtidigt med opdateringen af datamodellen også kikker på DR URN, så kan vi sikre at det er muligt at unikt identificere indhold på tværs af systemer uden kendskab til systemlandskabet. 
+
 %TODO Der mangler helt sikkert info her 
 
 
 \subsection{Underliggende infrastruktur}
 Alt indhold på dr.dk serves i dag igennem Akamai CDN. Akamai fungerer som content delivery network, ddos beskyttelse og cache lag. I tilfælde af udfald hos DR.dk er cache hos Akamai sat til at blive ved med at serve gammel data ind til vi igen er i stand til at besvare på forespørgsler hos DR.dk. Det betyder at forlængede svartider eller korte nedbrud ikke nødvendigvis bliver bemærket hos slutbrugeren.
 
-Infrastrukturen som i dag driver dr.dk har et par fordele men også en række ulemper. Hvert team har valgt hosting og teknologi ud fra hvad de kender til og deres ønsker om funktionalitet. Det betyder at vi i dag har dele af dr.dk hostet på 4 forskellige cloud platforme.
-For at en artikel kan udkomme på dr.dk forsiden og i nyhedsapp skal der udveksles data på tværs af alle 4 skyer.
+Infrastrukturen som i dag driver DR.dk har et par fordele men også en række ulemper. Hvert team har valgt hosting og teknologi ud fra hvad de kender til og deres ønsker om funktionalitet. Det betyder at vi i dag har dele af DR.dk hostet på 4 forskellige cloud platforme.
+For at en artikel kan udkomme på DR.dk forsiden og i nyhedsapp skal der udveksles data på tværs af alle 4 skyer.
 
 Kommunikations udfald eller nedbrud hos en af cloud udbyderne vil i de fleste tilfælde betyde at vi ikke kan udkomme med nye artikler. Der er ingen driftsmæssig fordel ved at vi har baseret vores infrastruktur på 4 forskellige skyer, da udgivelse af en artikel vil fejle lige meget hvilket led i kæden der knækker. 
 %TODO  
@@ -77,14 +81,13 @@ Ved nedbrud i den primære region kan vi skifte til den sekundære og lade den s
 Teams i Web og Apps lever på mange punkter op til DevOps tankegangen. De enkelte teams er i stand til at drifte, udvikle, teste og deploye deres produkter.  Der er dog en række punkter som helt klart kan forbedres.
 
 \subsubsection{Ensretning af pipeline}
-Med henblik på at lette deployment til både test miljøer og produktions miljøer vil det være en stor fordel hvis deployment kunne foregå fra et fælles værktøj. Dermed ville det være muligt at 
-* byg, automatiseret tests, fælles image repository.
+% Fælles deploy pipeline på tværs af teams
+% Velkendt systemlandskab i huset og genkendelige systemer for nye ansatte
+% Opdeling af ansvar for platform, instans og program
 
 
 \subsubsection{Testmiljøer}
-Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for at deploye dedikerede testsystemer. 
-* fast fuld funktionibelt testsystem (staging)
-* mulighed for deploy af nyt miljø med nødvendige komponenter.
+Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for deploy af dedikerede testsystemer. 
 
 
 
