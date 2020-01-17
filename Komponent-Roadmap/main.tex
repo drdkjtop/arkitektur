@@ -58,7 +58,6 @@ Hvis vi samtidigt med opdateringen af datamodellen også kikker på DR URN, så 
 
 %TODO Der mangler helt sikkert info her 
 
-
 \subsection{Underliggende infrastruktur}
 Alt indhold på dr.dk serves i dag igennem Akamai CDN. Akamai fungerer som content delivery network, ddos beskyttelse og cache lag. I tilfælde af udfald hos DR.dk er cache hos Akamai sat til at blive ved med at serve gammel data ind til vi igen er i stand til at besvare på forespørgsler hos DR.dk. Det betyder at forlængede svartider eller korte nedbrud ikke nødvendigvis bliver bemærket hos slutbrugeren.
 
@@ -76,7 +75,6 @@ Ved nedbrud i den primære region kan vi skifte til den sekundære og lade den s
 
 %TODO. Bemærkning om parallel monteret sky. Hvis vi har alt kørende i en region, så kan vi risikere at alt går ned hvis den region får kritiske nok fejl. Vi bør have en aktiv instans kørende på en anden region, som er skaleret helt i bund men er klar til at skalere. Ved kritiske fejl i en region kan vi så skifte over på en anden region. 
 
-
 \subsection{DevOps kulturen styrkes}
 Teams i Web og Apps lever på mange punkter op til DevOps tankegangen. De enkelte teams er i stand til at drifte, udvikle, teste og deploye deres produkter.  Der er dog en række punkter som helt klart kan forbedres.
 
@@ -85,10 +83,8 @@ Teams i Web og Apps lever på mange punkter op til DevOps tankegangen. De enkelt
 % Velkendt systemlandskab i huset og genkendelige systemer for nye ansatte
 % Opdeling af ansvar for platform, instans og program
 
-
 \subsubsection{Testmiljøer}
 Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for deploy af dedikerede testsystemer. 
-
 
 
 \subsubsection{Fælles overvågning}
@@ -107,15 +103,14 @@ DevOps afdelingen skal stå for udvikling af de nødvendige værktøjer og skal 
 Overvågningen kan varetages af "Infra". Denne overvågning skal være af både infrastruktur og overvågningspunkter der leveres af udviklerne i de enkelte udviklingsteams. Da hverken DevOps eller de enkelte udviklingsteams har døgnovervågnings muligheder er Infra en af de eneste muligheder der er for at afhjælpe problemer på platformen uden for normal arbejdstid.
 
 
-
-* DevOps tankegangen er et strålende bud på en løsning af 3 delingen mellem infrastruktur, drift og udvikling.
-* Devops skal styrkes i de enkelte udviklings teams.
-	De skal kunne lave hyppige releases.
-	De skal kunne lave sikre releases.
-	De skal kunne overvåge deres applikationer.
-	De skal kunne fejlfinde i deres applikationer på tværs af hele platformen.
-Centraliseret overvågning af infrastrukturen.
-	De enkelte teams i Web og apps skal ikke være ansvarlige for overvågning af hele infrastrukturen.
+%* DevOps tankegangen er et strålende bud på en løsning af 3 delingen mellem infrastruktur, drift og udvikling.
+%* Devops skal styrkes i de enkelte udviklings teams.
+%	De skal kunne lave hyppige releases.
+%	De skal kunne lave sikre releases.
+%	De skal kunne overvåge deres applikationer.
+%	De skal kunne fejlfinde i deres applikationer på tværs af hele platformen.
+%Centraliseret overvågning af infrastrukturen.
+%	De enkelte teams i Web og apps skal ikke være ansvarlige for overvågning af hele infrastrukturen.
 %TODO. Dette er nok det vigtigste afsnit. Her skal skrives MEGET
 
 
@@ -288,7 +283,7 @@ Ingen ændringer nødvendige
 
 \subsection{Firebase}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Firebase.PNG}
+\includegraphics[width=260pt]{Firebase.PNG}
 \caption{MATCH (x\{name:'Firebase'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -302,7 +297,7 @@ Ingen ændringer nødvendige
 
 \subsection{OCS}
 \begin{figure}[h]
-\includegraphics[width=300pt]{OCS.PNG}
+\includegraphics[width=200pt]{OCS.PNG}
 \caption{MATCH (x\{name:'OCS'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -351,7 +346,7 @@ URN / URL
 
 \subsection{Mimer 1.0 API}
 \begin{figure}[h]
-\includegraphics[width=200pt]{MimerAPI.PNG}
+\includegraphics[width=120pt]{MimerAPI.PNG}
 \caption{MATCH (x\{name:'Mimer 1.0 API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -377,7 +372,7 @@ Webbaseret grænseflade til at oprette, redigere og distribuere tekstbaseret ind
 
 \subsection{Drupal Entity API}
 \begin{figure}[h]
-\includegraphics[width=300pt]{DrupalEntityAPI.PNG}
+\includegraphics[width=200pt]{DrupalEntityAPI.PNG}
 \caption{MATCH (x\{name:'Drupal Entity API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -468,7 +463,7 @@ SaaS. Der er ingen udviklingsmuligheder her, kun eventuelt at fjerne afhængighe
 
 \subsection{Adobe Analytics}
 \begin{figure}[h]
-\includegraphics[width=200pt]{AdobeAnalytics.PNG}
+\includegraphics[width=160pt]{AdobeAnalytics.PNG}
 \caption{MATCH (x\{name:'Adobe Analytics'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -520,7 +515,7 @@ DR Search er for tiden uden ejerskab og uden ansvarlige udviklere. Enten skal sy
 
 \subsection{Nyhedsbreve}
 \begin{figure}[h]
-\includegraphics[width=200pt]{Nyhedsbreve.PNG}
+\includegraphics[width=160pt]{Nyhedsbreve.PNG}
 \caption{MATCH (x\{name:'Nyhedsbreve'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -610,7 +605,7 @@ Metadataservice, der leverer metadata til brug i TMS
 
 \subsection{Infomedia}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Infomedia.PNG}
+\includegraphics[width=130pt]{Infomedia.PNG}
 \caption{MATCH (x\{name:'Infomedia'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -638,8 +633,8 @@ N/A
 
 \subsection{Identity API}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=130pt]{Identity.PNG}
+\caption{MATCH (x\{name:'Identity API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
 Backend til DR's login-løsning.
@@ -650,7 +645,7 @@ N/A
 
 \subsection{Telegrammaskine}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Telegrammaskine.PNG}
+\includegraphics[width=200pt]{Telegrammaskine.PNG}
 \caption{MATCH (x\{name:'Telegrammaskine'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -677,7 +672,7 @@ Tilbyder forsideredaktører at opbygge og redigere forsiden af DR.dk ud fra sene
 
 \subsection{dr.dk forsiden}
 \begin{figure}[h]
-\includegraphics[width=300pt]{DrDkForsiden.PNG}
+\includegraphics[width=200pt]{DrDkForsiden.PNG}
 \caption{MATCH (x\{name:'dr.dk forsiden'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -690,7 +685,7 @@ Robust system til visning af de forsider som forsideredaktører udarbejder i Dr.
 
 \subsection{Alle Nyheder}
 \begin{figure}[h]
-\includegraphics[width=300pt]{AlleNyheder.PNG}
+\includegraphics[width=120pt]{AlleNyheder.PNG}
 \caption{MATCH (x\{name:'Alle Nyheder'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -703,7 +698,7 @@ Tilbyder overblik over senest publiceret artikelindhold samt en søgning ud fra 
 
 \subsection{Newsapp UI}
 \begin{figure}[h]
-\includegraphics[width=300pt]{NyhedsAppUi.PNG}
+\includegraphics[width=120pt]{NyhedsAppUi.PNG}
 \caption{MATCH (x\{name:'Newsapp UI'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -717,7 +712,7 @@ N/A
 
 \subsection{SMD (API shortmessage-dispatcher)}
 \begin{figure}[h]
-\includegraphics[width=300pt]{SMD.PNG}
+\includegraphics[width=120pt]{SMD.PNG}
 \caption{MATCH (x\{name:'SMD (API shortmessage-dispatcher)'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -744,7 +739,7 @@ Applikationen skal lukkes ned, da dens funktionalitet bliver erstattet af Cxense
 
 \subsection{Nyhedsapp Backend}
 \begin{figure}[h]
-\includegraphics[width=300pt]{NyhedsappBE.PNG}
+\includegraphics[height=200pt]{NyhedsappBE.PNG}
 \caption{MATCH (x\{name:'Nyhedsapp Backend'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -759,7 +754,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Tag Admin}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -769,7 +764,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Ritzau}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -779,7 +774,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Ratatosk}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -789,7 +784,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Drupal Vinr Mimer}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -799,7 +794,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{DRIP}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -809,7 +804,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Global Navigation}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -819,7 +814,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{BrugerUpload}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -829,7 +824,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Imagescaler}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -839,7 +834,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{ADFS}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -849,7 +844,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Global Assets}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -859,7 +854,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Global}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -869,7 +864,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Webstat}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -879,7 +874,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Describe Assets}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -889,7 +884,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{URN Router}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -899,7 +894,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Freja}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -909,7 +904,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Karrierekanonen}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -919,7 +914,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Apigee}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -929,7 +924,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Varnish}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -939,7 +934,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Newspackage service}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -949,7 +944,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Freki}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -959,7 +954,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Berigelsessider}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -969,7 +964,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{IronMQ}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
