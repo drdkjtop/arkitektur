@@ -38,6 +38,37 @@ Vi kan passende gå i gang med de lavt hængende frugter i form af at flytte de 
 
 Det er svært at tids estimere præcist uden at grave dybere ned i detaljerne for de enkelte opgaver. Selve transformationen vil formentligt tage 2 år eller længere. Hvis vi i den tidsperiode stadig vil kunne varetage normale udviklingsopgaver, så bør vil allerede nu overveje at mande op i de forskellige teams.
 
+\section{Forretningsbehov}
+
+\subsection{Nyhedsapp}
+Nyhedsappen har fungeret fint i 4 år og er i efteråret 2019 blevet vurderet af app bureauet Nodes som værende så godt optimeret som det er muligt baseret på den teknologi den er bygget på. Nodes anbefaling var at skifte over til en native applikation, det vil sige at der skal udvikles en native IOS og en native Android version.
+
+Hvis vi skal have en bedre brugeroplevelse eller markante udvidelser af nyhedsappen, så skal vi efter alt at dømme bygge appen helt op igen fra bunden af i en Native udgave. I den forbindelse vil det være meget relevant at vi også sikre datagrundlaget og platformen under appen, så vi kan få den bedst mulige brugeroplevelse.
+Hermed vil det være relevant at sikre datamodel, event system og relations system er forberedt på denne udvikling.
+
+\subsection{Drupal 7 pensioneres}
+Drupal 7 står over for End Of Life i november 2021. Inden da skal vi have taget stilling til hvordan vi skal fortsætte derfra.
+Oprindeligt var Drupal hele vores udgivelses platform og det styrende system for alt indhold på DR.dk. I den rejse som DR.dk har været på de sidste par år, er flere og flere af Drupals oprindelige ansvarsområder blevet flyttet ud af Drupal og over i andre systemer. Dermed står vi med markant andre behov i forhold til CMS system end vi gjorde da vi oprindeligt valgte Drupal 7. Det er ikke nødvendigvis en simpel udskiftning af Drupal 7 med Drupal 8 der giver mest mening. 
+
+For at sikre at vi kan tage det bedst mulige valg over for denne udskiftning skal vi sikre at vores Datamodel er på plads og vi har afdækket API og event behov i forhold til redaktør grænsefladen og artikel database. 
+
+\subsection{Relations system}
+Garnnøgle og TAG system har af flere omgange været oppe og vende som problematiske systemer. Garnnøgle er i en kritisk tilstand hvor det er stort set umuligt at vedligeholde eller videreudvikle på. Ud over Garnnøgle og Tag, så er der også en række andre systemer der varetager relationshåndtering i større eller mindre omfang
+
+\subsection{Udgivelseshastighed}
+
+En stor del af den kompleksitet der er i vores platform i dag er på grund af afhængighederne imellem systemerne. Hver gang der er forbindelse mellem to systemer hvor det afhænger af en brugerhandling eller et push af informationer fra et system til et andet system, så er der mulighed for forbedringer både i form af reaktionstid men også i form af systemkompleksitet ved at vende afhængighederne om og lade alle systemer udstille generaliserede APIer og lade systemer udgive og abonnere på events i forbindelse med opdateringer.
+
+I dag, når en artikel udgives i Drupal, så skabes der et event, som opfanges af mimer og bruges til at igangsætte indekseringen.
+Hvis vi raffinerer den løsning og benytter et fornuftigt besked framework, så kan den samme besked benyttes til at igangsætte alle de andre tjenester rundt omkring, som også skal være på plads for at en artikel er søgbar på dr.dk.
+
+Disse events og lignende events fra andre dele af systemet kan benyttes til at lade opdateringerne propagere ud til alle dele af systemet, inklusiv at opdatere cache lag, forside lister, personaliserings søgninger, markering af Breaking artikler, push af notifikationer til Nyhedsapp  osv. 
+
+Et publiceringsevent vil dermed selv kunne triggere indeksering fra Cxense, opdatering af cache, opdatering af Garnnøgle og lignende. Det vil effektivt få ventetiden på opdatering ned i nærheden af hvad de enkelte systemer kan præstere.
+Ligeledes vil en eventbaseret arkitektur sikre at vi ikke behøver at pushe fra et system til et andet, men kan nøjes med at udstille APIer så et system ikke behøver at kende sine aftagere, blot at overholde den aftalte datakontrakt.
+
+
+
 \section{Vision}
 Web og Apps har i de sidste år gennemgået en betydelig omstrukturering af deres miljøer og services. Det landskab vi står med i dag er i langt højere grad forberedt på at håndtere de skiftende krav til danskernes medieforbrug. Der er blevet foretaget en række gode valg i opdeling af ansvar og løsere kobling imellem systemer. Denne transformation er dog foregået med begrænset koordination ud fra de behov der opstod undervejs. 
 
@@ -45,18 +76,31 @@ Det efterlader os i dag med en arkitektur af en noget organisk karakter, hvor ma
 
 Det er svært at spå om præcist hvad fremtiden vil bringe af udfordringer og muligheder, det er dog muligt at spå om hvilken funktionaliteter der vil gøre det muligt for os at møde den.  
 
+\subsection{Cloud strategi}
+    \textit{TODO: Kort om DR cloud strategi, hvad var den oprindelige ide, hvordan har vi implementeret vores bud og hvordan vi bør sigte efter at implementer det fremover.}
+
 \subsection{Antallet af systemer der aftager artikler vil efter alt at dømme stige}
 Vi bør derfor sørge for at adskille visningslag fra artikel lag i videst muligt omfang og sikre en konsistent datastruktur for artikeldata. Hvis vi får etableret en gennemgribende datamodel, så vil den samme platform kunne levere artikel data til hvilket som helst medie (web, IOS / Android, nyhedsbreve, RSS feeds, ttv) der måtte forbruge det og vi vil stadig være i stand til at give en rimeligt konsistent oplevelse på tværs af medier.
     \textit{TODO: Mere fyld!}
+
+
+\subsection{Event system}
+
+
 \subsection{Behovet for personalisering vil blive endnu højere}
 både forbrugere og redaktører stiller større og større krav til at vi kan vise de mest relevante artikler for en given bruger. For at imødekomme dette bliver vi nød til at få kikket nærmere på personalisering
     \textit{TODO: Mere fyld!}
 
+
 \subsection{Afdækning af trends i forbrugsmønstre vil blive mere og mere relevant}
     \textit{TODO: Mere fyld!}
+
+
 \subsection{Større behov for at kunne linke på tværs af platforme}
  (nyhedsartikler der linker til On Demand udsendelser, podcasts eller andet)
     \textit{TODO: Mere fyld!}
+
+
 \subsection{Større frihed til at relatere indhold}
  både på tværs af platforme men også på tværs af emner
     \textit{TODO: Mere fyld!}
@@ -75,7 +119,7 @@ Udarbejdelse af Datamodellen bør ske inden næste store ændring i et af de cen
 
 
 \subsection{URN / URL}
-Hvis vi samtidigt med opdateringen af datamodellen også kikker på DR URN, så kan vi sikre at det er muligt at unikt identificere indhold på tværs af systemer uden kendskab til systemlandskabet. 
+Vi bør i forbindelse med arbejdet på datamodellen også kikke på at få etableret en URN / URL der unikt kan identificere et hvilket som helst stykke indhold på tværs af systemlandskabet. Denne URN skal være i stand til unikt og konsistent kunne identificere en artikel, en relationsliste, et billede eller hvad som helst andet. Det bør ud fra URN alene være muligt at slå indhold op uden at man nødvendigvis kender det underliggende systemlandskab. Det vil gøre det muligt at have meget løst koblede systemer.
 
     \textit{TODO: Mere fyld!}
 
@@ -86,6 +130,8 @@ Infrastrukturen som i dag driver DR.dk har et par fordele men også en række ul
 For at en artikel kan udkomme på DR.dk forsiden og i nyhedsapp skal der udveksles data på tværs af alle 4 skyer.
 
 Kommunikations udfald eller nedbrud hos en af cloud udbyderne vil i de fleste tilfælde betyde at vi ikke kan udkomme med nye artikler. Der er ingen driftsmæssig fordel ved at vi har baseret vores infrastruktur på 4 forskellige skyer, da udgivelse af en artikel vil fejle lige meget hvilket led i kæden der knækker. 
+
+At vores platform er fordelt over 4 skyer efterlader os også ret sårbare over for angreb på 
 
     \textit{TODO: Mere fyld på ulemper ved fælles arkitektur}
 
@@ -99,13 +145,24 @@ Ved nedbrud i den primære region kan vi skifte til den sekundære og lade den s
 
 
 \subsection{DevOps kulturen styrkes}
-Teams i Web og Apps lever på mange punkter op til DevOps tankegangen. De enkelte teams er i stand til at drifte, udvikle, teste og deploye deres produkter.  Der er dog en række punkter som helt klart kan forbedres.
+Den primære fokus i DevOps kulturen er et forsøg på at gøre op med de forskelle der er imellem en udviklingsafdeling og en driftsafdeling. Dette er primært ud fra anerkendelsen af at udviklerne af et stykke software formentligt også er dem der bedst er i stand til at finde og rette fejl i deres software.
+
+Et vigtigt element i dette er at det skal være muligt for udviklerne at teste i et produktionslignende miljø og at kunne deploye en rettelse til produktion med god antagelse af at det ikke har en negativ impact på resten af infrastrukturen. 
+
+Det er her relevant at kikke nærmere på elementer fra CI/CD kulturen (Continuous Integration / Continuous Deployment). Standardiseret byg pipeline, statisk kodeanalyse, afvikling af unittests og automatiseret deploy til test miljø og relateret tiltag vil være med til at finde fejl og mangler så tidligt som muligt, så releases til produktion kan ske både trygt og hurtigt.
 
 \subsubsection{Ensretning af pipeline}
-    \textit{TODO: Fælles deploy pipeline på tværs af teams}
-    \textit{TODO:  Velkendt systemlandskab i huset og genkendelige systemer for nye ansatte}
-    \textit{TODO:  Opdeling af ansvar for platform, instans og program}
+De pipelines der i dag benyttes på tværs af web og apps er ret optimeret i forhold til de enkelte teams og deres release process. Hvis vi går fra en specialiseret til en generel pipeline vil de enkelte teams releaseprocess skulle tilrettes markant for blot at opnå den samme funktionalitet som i dag. Der vil dog være store fordele der kan høstes hvis pipelinen benyttes af flere teams. 
+\begin{itemize}
+\item Fælles værktøjer
+\item Central udvikling af værktøjer
+\item Standardiserede værktøjer til statisk kodeanalyse
+\item Standardiseret deployment værktøj
+\item Fælles repository af deployet kode
+\end{itemize}
 
+Det vil ligeledes give den fordel at det vil være lettere for udviklerne at aflaste hinanden på tværs af teams, da værktøjer og standarder er fælles, så det kun er kodeforskelle der er behov for at sætte sig ind i.
+ 
 \subsubsection{Testmiljøer}
 Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for deploy af dedikerede testsystemer. 
 
