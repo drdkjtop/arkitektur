@@ -68,7 +68,6 @@ Et publiceringsevent vil dermed selv kunne triggere indeksering fra Cxense, opda
 Ligeledes vil en eventbaseret arkitektur sikre at vi ikke behøver at pushe fra et system til et andet, men kan nøjes med at udstille APIer så et system ikke behøver at kende sine aftagere, blot at overholde den aftalte datakontrakt.
 
 
-
 \section{Vision}
 Web og Apps har i de sidste år gennemgået en betydelig omstrukturering af deres miljøer og services. Det landskab vi står med i dag er i langt højere grad forberedt på at håndtere de skiftende krav til danskernes medieforbrug. Der er blevet foretaget en række gode valg i opdeling af ansvar og løsere kobling imellem systemer. Denne transformation er dog foregået med begrænset koordination ud fra de behov der opstod undervejs. 
 
@@ -77,6 +76,13 @@ Det efterlader os i dag med en arkitektur af en noget organisk karakter, hvor ma
 Det er svært at spå om præcist hvad fremtiden vil bringe af udfordringer og muligheder, det er dog muligt at spå om hvilken funktionaliteter der vil gøre det muligt for os at møde den.  
 
 \subsection{Cloud strategi}
+DR har i årevis gået efter en Cloud strategi. Den har vi i DR.dk efterlevet efter bedste evne i den enkelte teams. Resultatet heraf er at der i hvert team er blevet taget en række valg om pipeline, hosting og platform.
+De enkelte teams løsning af problemet har dermed resulteret i 4 forskellige skyer og release processer.
+%problemer?
+%hvordan løser vi dem
+%anbefalinger
+
+
     \textit{TODO: Kort om DR cloud strategi, hvad var den oprindelige ide, hvordan har vi implementeret vores bud og hvordan vi bør sigte efter at implementer det fremover.}
 
 \subsection{Antallet af systemer der aftager artikler vil efter alt at dømme stige}
@@ -85,6 +91,7 @@ Vi bør derfor sørge for at adskille visningslag fra artikel lag i videst mulig
 
 
 \subsection{Event system}
+Vi bør anvende et Eventsystem med et fornuftig interface, respektable service kontrakter og som kan sikre hurtig besked håndtering i mellem systemerne. For at holde os til en enkelt cloud udbyder og ikke eksponere os for øget responstider og risiko, så bør vi kikke på om vi kan benytte googles "Cloud pub/sub" eller om der er et andet system der vil passe bedre.
 
 
 \subsection{Behovet for personalisering vil blive endnu højere}
