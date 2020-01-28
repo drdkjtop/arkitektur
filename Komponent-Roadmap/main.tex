@@ -57,7 +57,7 @@ For at sikre at vi kan tage det bedst mulige valg over for denne udskiftning ska
 \subsection{Relations system}
 Garnnøgle og TAG system har af flere omgange været oppe og vende som problematiske systemer. Garnnøgle er i en kritisk tilstand hvor det er stort set umuligt at vedligeholde eller videreudvikle på. Ud over Garnnøgle og Tag, så er der også en række andre systemer der varetager relationshåndtering i større eller mindre omfang.
 
-Da relationssystemer både har stor forretningsmæssig potentiale og er i kritisk vedligeholdelsestilstand, så er det et oplagt sted at prioritere i vores systemgennemgang.
+Da relationssystemer både har stor forretningsmæssig potentiale og er i kritisk vedligeholdelsestilstand, så er det et oplagt område at prioritere i vores systemgennemgang.
 
 \subsection{Udgivelseshastighed}
 
@@ -93,17 +93,20 @@ Vi bør konsolidere vores cloud strategi til at benytte den samme udbyder på tv
 
 
 \subsection{Antallet af systemer der aftager artikler vil efter alt at dømme stige}
-Vi bør derfor sørge for at adskille visningslag fra artikel lag i videst muligt omfang og sikre en konsistent datastruktur for artikeldata. Hvis vi får etableret en gennemgribende datamodel, så vil den samme platform kunne levere artikel data til hvilket som helst medie (web, IOS / Android, nyhedsbreve, RSS feeds, ttv osv.) der måtte forbruge det og vi vil stadig være i stand til at give en rimeligt konsistent oplevelse på tværs af medier.
+Vi bør derfor sørge for at adskille visningslag fra artikel lag i videst muligt omfang og sikre en konsistent datastruktur for artikeldata. Hvis vi får etableret en gennemgribende datamodel, så vil den samme platform kunne levere artikel data til hvilket som helst medie (web, IOS / Android, nyhedsbreve, RSS feeds, TTV osv.) der måtte forbruge det og vi vil stadig være i stand til at give en rimeligt konsistent oplevelse på tværs af medier.
 
 Vores mål arkitektur bør i videst muligt omfang være forberedt på at vi ikke nødvendigvis kender aftager landskabet i morgen, så jo bedre vi er i stand til at udstille vores indholdsdata i en veldefineret format på så mange niveauer som muligt, jo bedre vil vi være i stand til at imødekomme ønskerne fra morgendagens aftagere, om det så er interne eller eksterne aftagere.
 
 
 \subsection{Event system}
-Vi bør anvende et Eventsystem med et fornuftig interface, respektable service kontrakter og som kan sikre hurtig besked håndtering i mellem systemerne. For at holde os til en enkelt cloud udbyder og ikke eksponere os for øget responstider og risiko, så bør vi kikke på om vi kan benytte googles "Cloud pub/sub" eller om der er et andet system der vil passe bedre.
+Vi bør anvende et Eventsystem med et fornuftig interface, respektable service kontrakter og som kan sikre hurtig besked håndtering i mellem systemerne.
+
+For at holde os til en enkelt cloud udbyder og ikke eksponere os for øget responstider og risiko, så bør vi kikke på om vi kan benytte googles "Cloud pub/sub" eller om der er et andet system der vil passe bedre.
 
 
 \subsection{Behovet for personalisering vil blive endnu højere}
 Både forbrugere og redaktører stiller større og større krav til at vi kan vise de mest relevante artikler for en given bruger. For at imødekomme dette bliver vi nød til at få kikket nærmere på personalisering og integrationerne med de eksterne systemer vi benytter til dette.
+
 Cxense er et godt eksempel på et kraftfuldt eksternt system, som vi ikke benytter til fulde endnu. Vi benytter f.eks. ikke de APIer Cxense  udstiller til at sikre rettidig indeksering af publicerede sider, lige som vi ikke relaterer brugerkonti med Cxense brugerID i forbindelse med udsendelse af nyhedsbreve.
 
 
