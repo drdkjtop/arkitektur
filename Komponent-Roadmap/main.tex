@@ -19,7 +19,8 @@
 Det primære formål med rapporten er at ridse et roadmap op for hvad vi bør fokusere på hvis vi gerne vil opnå en sammenhængende, tidssvarende og vedligeholdbar arkitektur.
 
 \section{Omfang}
-Denne rapport er skrevet ud fra informationerne i DR systemkatalog og de betragtninger der er blevet gjort i forbindelse med arkitektur rapporten fra Eksponent. Estimater og overslag der er angivet i rapporten er foretaget ud fra et kvalificeret bud på besvær og omkostninger og ikke ud fra en detaljeret analyse af hvert enkelt projekt. 
+Denne rapport er skrevet ud fra informationerne i DR systemkatalog og de betragtninger der er blevet gjort i forbindelse med arkitektur rapporten fra Eksponent. Estimater og overslag der er angivet i rapporten er foretaget ud fra et kvalificeret bud på besvær og omkostninger og ikke ud fra en detaljeret analyse af hvert enkelt projekt.
+ 
 Mere præcise estimater vil være mulige for hvert delopgave, men er uden for scope af denne rapport.
 
 \section{Executive summary}
@@ -32,7 +33,7 @@ De vigtigste skridt vi skal igennem er følgende:
 \item Omskrivning af forældede produkter
 \item Sikre DevOps fundament
 \end{itemize}
-Vi skulle gerne ende op med en arkitektur, hvor det er muligt at have styr på vores aftager landskab. Vi skal også have mulighed for hurtig kommunikation imellem interne komponenter via sikret og afgrænset netværk. Det skal være muligt at teste komponenter individuelt og i et sammenhængende produktionslignende test setup.
+Vi skulle gerne ende op med en arkitektur, hvor det er muligt at have styr på vores aftager-landskab. Vi skal også have mulighed for hurtig kommunikation imellem interne komponenter via sikret og afgrænset netværk. Det skal være muligt at teste komponenter individuelt og i et sammenhængende produktionslignende test setup.
 
 Vi kan passende gå i gang med de lavt hængende frugter i form af at flytte de letteste kandidater over på pipeline, imens vi går i gang med de designtunge dele af opgaven (f.eks. design af fælles datamodel og redesign af relationssystem).
 
@@ -40,20 +41,23 @@ Det er svært at tids estimere præcist uden at grave dybere ned i detaljerne fo
 
 \section{Forretningsbehov}
 
+
 \subsection{Nyhedsapp}
-Nyhedsappen har fungeret fint i 4 år og er i efteråret 2019 blevet vurderet af app bureauet Nodes som værende så godt optimeret som det er muligt baseret på den teknologi den er bygget på. Nodes anbefaling var at skifte over til en native applikation, det vil sige at der skal udvikles en native IOS og en native Android version.
+Nyhedsappen har fungeret fint i 4 år og er i efteråret 2019 blevet vurderet af app bureauet Nodes som værende så godt optimeret som det er muligt baseret på den teknologi den er bygget på. Hvis nyhedsappen skal fortsætte med at være tidssvarende og blive ved med at give en god brugeroplevelse, så var det Nodes anbefaling at skifte over til en native applikation. Det vil sige at der skal udvikles en native IOS og en native Android version.
 
 Hvis vi skal have en bedre brugeroplevelse eller markante udvidelser af nyhedsappen, så skal vi efter alt at dømme bygge appen helt op igen fra bunden af i en Native udgave. I den forbindelse vil det være meget relevant at vi også sikre datagrundlaget og platformen under appen, så vi kan få den bedst mulige brugeroplevelse.
 Hermed vil det være relevant at sikre datamodel, event system og relations system er forberedt på denne udvikling.
 
 \subsection{Drupal 7 pensioneres}
-Drupal 7 står over for End Of Life i november 2021. Inden da skal vi have taget stilling til hvordan vi skal fortsætte derfra.
-Oprindeligt var Drupal hele vores udgivelses platform og det styrende system for alt indhold på DR.dk. I den rejse som DR.dk har været på de sidste par år, er flere og flere af Drupals oprindelige ansvarsområder blevet flyttet ud af Drupal og over i andre systemer. Dermed står vi med markant andre behov i forhold til CMS system end vi gjorde da vi oprindeligt valgte Drupal 7. Det er ikke nødvendigvis en simpel udskiftning af Drupal 7 med Drupal 8 der giver mest mening. 
+Drupal 7 (og Drupal 8) står over for End Of Life i november 2021. Inden da skal vi have taget stilling til hvordan vi skal fortsætte derfra.
+Oprindeligt var Drupal hele vores udgivelses platform og det styrende system for alt indhold på DR.dk. I den rejse som DR.dk har været på de sidste par år, er flere og flere af Drupals oprindelige ansvarsområder blevet flyttet ud af Drupal og over i andre systemer. Dermed står vi med markant andre behov i forhold til CMS system end vi gjorde da vi oprindeligt valgte Drupal 7. Det er ikke nødvendigvis en direkte udskiftning af Drupal 7 med Drupal 9 der giver mest mening. 
 
 For at sikre at vi kan tage det bedst mulige valg over for denne udskiftning skal vi sikre at vores Datamodel er på plads og vi har afdækket API og event behov i forhold til redaktør grænsefladen og artikel database. 
 
 \subsection{Relations system}
-Garnnøgle og TAG system har af flere omgange været oppe og vende som problematiske systemer. Garnnøgle er i en kritisk tilstand hvor det er stort set umuligt at vedligeholde eller videreudvikle på. Ud over Garnnøgle og Tag, så er der også en række andre systemer der varetager relationshåndtering i større eller mindre omfang
+Garnnøgle og TAG system har af flere omgange været oppe og vende som problematiske systemer. Garnnøgle er i en kritisk tilstand hvor det er stort set umuligt at vedligeholde eller videreudvikle på. Ud over Garnnøgle og Tag, så er der også en række andre systemer der varetager relationshåndtering i større eller mindre omfang.
+
+Da relationssystemer både har stor forretningsmæssig potentiale og er i kritisk vedligeholdelsestilstand, så er det et oplagt sted at prioritere i vores systemgennemgang.
 
 \subsection{Udgivelseshastighed}
 
@@ -77,17 +81,21 @@ Det er svært at spå om præcist hvad fremtiden vil bringe af udfordringer og m
 
 \subsection{Cloud strategi}
 DR har i årevis gået efter en Cloud strategi. Den har vi i DR.dk efterlevet efter bedste evne i den enkelte teams. Resultatet heraf er at der i hvert team er blevet taget en række valg om pipeline, hosting og platform.
-De enkelte teams løsning af problemet har dermed resulteret i 4 forskellige skyer og release processer.
-%problemer?
-%hvordan løser vi dem
-%anbefalinger
+De enkelte teams løsning af problemet har dermed resulteret i 4 forskellige skyer og release processer. Den manglende ensretning betyder at der er noget spild arbejde i form af at vedligeholde de 4 forskellige byg og deploy pipelines men især også at der er nogle uhensigtsmæssige afhængigheder på tværs af disse skyer. 
+Alle 4 skyer skal i spil når en ny artikel skal udgives og et udfald hos hvilken som helst af de 4 udbydere betyder at et led i kæden knækker og dermed at artikler ikke kan udkomme. Vi udnytter dermed ikke de fordele der kan være ved at have vores hosting spredt ud, men vi får ulemperne ved det.
+\begin{itemize}
+\item Offentligt tilgængelige endpoints der kun burde benyttes til intern kommunikation
+\item Betaling for trafik mellem sky udbydere
+\item Manglende ensretning af den underliggende platform
+\item Ekstra latenstid imellem komponenter 
+\end{itemize}
+Vi bør konsolidere vores cloud strategi til at benytte den samme udbyder på tværs af teams og gerne også en fælles pipeline. Dermed vil vi opnå både en ensartet release og deploy process og vi vil samtidigt fælles kunne høste de forbedringer som et fælles miljø vil kunne tilbyde.
 
-
-    \textit{TODO: Kort om DR cloud strategi, hvad var den oprindelige ide, hvordan har vi implementeret vores bud og hvordan vi bør sigte efter at implementer det fremover.}
 
 \subsection{Antallet af systemer der aftager artikler vil efter alt at dømme stige}
-Vi bør derfor sørge for at adskille visningslag fra artikel lag i videst muligt omfang og sikre en konsistent datastruktur for artikeldata. Hvis vi får etableret en gennemgribende datamodel, så vil den samme platform kunne levere artikel data til hvilket som helst medie (web, IOS / Android, nyhedsbreve, RSS feeds, ttv) der måtte forbruge det og vi vil stadig være i stand til at give en rimeligt konsistent oplevelse på tværs af medier.
-    \textit{TODO: Mere fyld!}
+Vi bør derfor sørge for at adskille visningslag fra artikel lag i videst muligt omfang og sikre en konsistent datastruktur for artikeldata. Hvis vi får etableret en gennemgribende datamodel, så vil den samme platform kunne levere artikel data til hvilket som helst medie (web, IOS / Android, nyhedsbreve, RSS feeds, ttv osv.) der måtte forbruge det og vi vil stadig være i stand til at give en rimeligt konsistent oplevelse på tværs af medier.
+
+Vores mål arkitektur bør i videst muligt omfang være forberedt på at vi ikke nødvendigvis kender aftager landskabet i morgen, så jo bedre vi er i stand til at udstille vores indholdsdata i en veldefineret format på så mange niveauer som muligt, jo bedre vil vi være i stand til at imødekomme ønskerne fra morgendagens aftagere, om det så er interne eller eksterne aftagere.
 
 
 \subsection{Event system}
@@ -95,22 +103,18 @@ Vi bør anvende et Eventsystem med et fornuftig interface, respektable service k
 
 
 \subsection{Behovet for personalisering vil blive endnu højere}
-både forbrugere og redaktører stiller større og større krav til at vi kan vise de mest relevante artikler for en given bruger. For at imødekomme dette bliver vi nød til at få kikket nærmere på personalisering
-    \textit{TODO: Mere fyld!}
+Både forbrugere og redaktører stiller større og større krav til at vi kan vise de mest relevante artikler for en given bruger. For at imødekomme dette bliver vi nød til at få kikket nærmere på personalisering og integrationerne med de eksterne systemer vi benytter til dette.
+Cxense er et godt eksempel på et kraftfuldt eksternt system, som vi ikke benytter til fulde endnu. Vi benytter f.eks. ikke de APIer Cxense  udstiller til at sikre rettidig indeksering af publicerede sider, lige som vi ikke relaterer brugerkonti med Cxense brugerID i forbindelse med udsendelse af nyhedsbreve.
 
 
 \subsection{Afdækning af trends i forbrugsmønstre vil blive mere og mere relevant}
-    \textit{TODO: Mere fyld!}
+Det er vigtigt at vi holder for øje at det bør være muligt at holde styr hos forbrugsmønsteret hos vores brugere. Jo bedre vi kan spore forbrugsmønsteret på tværs af platformen, jo bedre vil vi være i stand til at imødekomme fremtidens behov og dokumentere i hvilket omfang vi opfylder de forventninger vi har til platformen.
+Vi skal med GDPR reglementet for øje have sikret at vi opfanger det relevante data der skal til for at kunne gøre vores platform så brugervenlig som mulig.
 
 
 \subsection{Større behov for at kunne linke på tværs af platforme}
- (nyhedsartikler der linker til On Demand udsendelser, podcasts eller andet)
-    \textit{TODO: Mere fyld!}
-
-
-\subsection{Større frihed til at relatere indhold}
- både på tværs af platforme men også på tværs af emner
-    \textit{TODO: Mere fyld!}
+Det har længe været et ønske at kunne binde Radio, TV og Nyhedsartikler tættere sammen end nu. Især set ud fra personaliserings synspunkt kan det være meget relevant at kunne relatere nyhedsartikler med enten on demand radio eller video segmenter.
+Hvad end behovet vil være, så bør vi være sikre på at vi er forberedt på at understøtte disse relationer, både i form af adfærdsanalyser på tværs af platforme og også i form af relationssystemer der kan linke radio, video og artikler.
 
 
 \section{Generelt forarbejde}
@@ -138,7 +142,9 @@ For at en artikel kan udkomme på DR.dk forsiden og i nyhedsapp skal der udveksl
 
 Kommunikations udfald eller nedbrud hos en af cloud udbyderne vil i de fleste tilfælde betyde at vi ikke kan udkomme med nye artikler. Der er ingen driftsmæssig fordel ved at vi har baseret vores infrastruktur på 4 forskellige skyer, da udgivelse af en artikel vil fejle lige meget hvilket led i kæden der knækker. 
 
-At vores platform er fordelt over 4 skyer efterlader os også ret sårbare over for angreb på 
+At vores platform er fordelt over 4 skyer efterlader os også ret sårbare over for angreb på alle de endpoints der er udstillet og kun tiltænkt til intern kommunikation. Disse endpoints er langt fra alle beskyttet mod simple denial of service angreb og hvis vi bliver udsat for et angreb på et eller flere af disse endpoints vil vores nuværende arkitektur gøre det svært for os at stoppe et sådan angreb. Hvad der sker ved sådan et angreb kommer an på hvor det ville ramme, men det er ikke usandsynligt at det vil være umuligt for os at udkomme med nye artikler eller opdateringer mens angrebet pågår.
+
+
 
     \textit{TODO: Mere fyld på ulemper ved fælles arkitektur}
 
@@ -168,7 +174,7 @@ De pipelines der i dag benyttes på tværs af web og apps er ret optimeret i for
 \item Fælles repository af deployet kode
 \end{itemize}
 
-Det vil ligeledes give den fordel at det vil være lettere for udviklerne at aflaste hinanden på tværs af teams, da værktøjer og standarder er fælles, så det kun er kodeforskelle der er behov for at sætte sig ind i.
+Det vil ligeledes give den fordel at det vil være lettere for udviklerne at aflaste hinanden på tværs af teams, da værktøjer og standarder på pipelinen er fælles, så det kun er kodeforskelle der er behov for at sætte sig ind i.
  
 \subsubsection{Testmiljøer}
 Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for deploy af dedikerede testsystemer. 
