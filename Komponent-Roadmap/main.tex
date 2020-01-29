@@ -131,15 +131,12 @@ Noget af det vigtigste for at få arkitekturen til at hænge sammen, er at vi et
 % NB: Jeg er ikke uenig, men savner argumentation og ligeledes klarhed over hvilke dele fra Steffi,
 % der bør tjene til inspiration. Min frygt er at man *benytter Steffis tilgang, og dermed får
 % en datamodel som er en visningsmodel, altså hvilke felter der skal vises i frontend.
-Det anbefales at vi starter med at udarbejde en så dækkende model som muligt, gerne en der læner sig op ad den som allerede benyttes af Steffi. Dermed får vi et centralt udgangspunkt som, når det bredes ud, kan bruges som samlingspunkt om vores content aggregation service.
+Det anbefales at vi starter med at udarbejde en så dækkende model som muligt. Her kan vi passende tage udgangspunkt i den datamodel der allerede benyttes af Steffi og afdække hvorvidt den dækker de behov vi kan forudse. Dermed får vi et centralt udgangspunkt som, når det bredes ud, kan bruges som samlingspunkt om vores content aggregation service. 
 
 Datamodellen skal ikke nødvendigvis implementeres på tværs af hele dr.dk fra starten af, men det vil være til stor gavn hvis vi kan arbejde os i retning af en fælles datamodel i alle fremtidige større ændringer af systemerne,
 samt i al større nyudvikling.
 Udarbejdelse af datamodellen bør ske inden næste store ændring i et af de centrale indholdsbærende datalag (Mimer, Steffi, Hydra, Nyhedsapp eller lignende).
 
-% Hvad bunder dette estimat i, og hvem er udførende?
-% Med andre ord, er det en opgave som styres af Arkitekturgruppen og måske udføres der, eller
-% kan den gives til et team, under styring og vejledning af Arkitekturgruppen?
     \textit{TODO: evt et estimat}
 
 
@@ -165,7 +162,7 @@ Infrastrukturen som i dag driver dr.dk har et par fordele men også en række ul
 
 For at en artikel kan udkomme på dr.dk-forsiden og i Nyhedsapp skal der udveksles data på tværs af alle fem skyer.
 
-Kommunikationsudfald eller nedbrud hos en af cloud-udbyderne vil i de fleste tilfælde betyde, at vi ikke kan udkomme med nye artikler. Der er ingen driftsmæssig fordel ved at vi har baseret vores infrastruktur på 4 forskellige skyer, da udgivelse af en artikel vil fejle lige meget hvilket led i kæden der knækker. 
+Kommunikationsudfald eller nedbrud hos en af cloud-udbyderne vil i de fleste tilfælde betyde, at vi ikke kan udkomme med nye artikler. Der er ingen driftsmæssig fordel ved at vi har baseret vores infrastruktur på fem forskellige skyer, da udgivelse af en artikel vil fejle lige meget hvilket led i kæden der knækker. 
 
 \subsection{Parallelliseret og distribueret system}
 DR har i kraft af Public Service-kontrakten med staten, en forpligtigelse til at kunne udkomme med nyheder og varslinger hele tiden og med kort varsel.
@@ -214,13 +211,13 @@ For at opnå det er der behov for følgende:
 \item Konsolidering af driftsmiljøer.
 \item Velbeskrevne overvågningsparametre.
 \item Velbeskrevet drejebog for afhjælpning af problemer.
-\item Velbeskrevede eskaleringsmuligheder af problemer.
+\item Velbeskrevne eskaleringsmuligheder af problemer.
 \end{itemize}
 
 Udviklerne i de enkelte teams har ansvaret for udvikling, test og vedligeholdelse af deres systemer. Udviklerne skal ligeledes sørge for at der opsættes overvågningspunkter, så der kan rapporteres systemstatus til overvågningen samt drejebøger for hvordan almindelige fejl kan afhjælpes.
 DevOps-afdelingen skal stå for udvikling af de nødvendige værktøjer og skal have det formelle ejerskab af infrastrukturen. Hvis der er nedbrud på netværk, hosting eller andre infrastrukturkomponenter, så skal dette løses af ejeren af infrastrukturen.
 
-Overvågningen kan varetages af Infra-afdelingen. Denne overvågning skal være af både infrastruktur og overvågningspunkter der leveres af udviklerne i de enkelte udviklingsteams. Da hverken DevOps eller de enkelte udviklingsteams har døgnbemanding, er Infrareelt eneste mulighed for at afhjælpe problemer på platformen uden for normal arbejdstid.
+Overvågningen kan varetages af Infra-afdelingen. Denne overvågning skal være af både infrastruktur og overvågningspunkter der leveres af udviklerne i de enkelte udviklingsteams. Da hverken DevOps eller de enkelte udviklingsteams har døgnbemanding, er Infra reelt eneste mulighed for at afhjælpe problemer på platformen uden for normal arbejdstid.
 
 %* DevOps tankegangen er et strålende bud på en løsning af 3 delingen mellem infrastruktur, drift og udvikling.
 %* Devops skal styrkes i de enkelte udviklings teams.
@@ -230,7 +227,7 @@ Overvågningen kan varetages af Infra-afdelingen. Denne overvågning skal være 
 %	De skal kunne fejlfinde i deres applikationer på tværs af hele platformen.
 %Centraliseret overvågning af infrastrukturen.
 %	De enkelte teams i Web og apps skal ikke være ansvarlige for overvågning af hele infrastrukturen.
-%	Teams skal kunne fejlfinde i egene applikationer på tværs af hele platformen.
+%	Teams skal kunne fejlfinde i egne applikationer på tværs af hele platformen.
 
 %TODO. Dette er nok det vigtigste afsnit. Her skal skrives MEGET
 
