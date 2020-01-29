@@ -15,15 +15,13 @@
     \textit{}
 \end{quote}
 
-\section{Baggrund}
-Dette rapport er skrevet for nedfælge mine tanker og ideer angående arkitekturen i Web og Apps. Det skrevne er baseret på det indblik jeg har fået i arkitekturen over de sidste par måneder. Der vil helt klart være nuancer i den eksisterende arkitektur som der ikke er taget højde for og dermed er der formentligt konklusioner der er baseret på mangelfuld information. Dette dokument skal helt bestemt ses som et levende dokument, som over tid skal holdes opdateret.
-
-\subsection{Formål}
+\section{Formål}
 Det primære formål med rapporten er at opridse et roadmap for hvad vi bør fokusere på, hvis vi gerne vil opnå en sammenhængende, tidssvarende og vedligeholdbar arkitektur.
 
-\subsection{Omfang}
+\section{Omfang}
 Denne rapport er skrevet ud fra information i DR-systemkatalog og de betragtninger der er blevet gjort i forbindelse med arkitekturrapporten udarbejdet i samarbejde med Eksponent. Estimater og overslag, der er angivet i rapporten, er foretaget ud fra et kvalificeret bud på besvær og omkostninger og ikke ud fra en detaljeret analyse af hvert enkelt projekt. Mere præcise estimater vil være mulige for hvert delopgave, men er uden for scope af denne rapport.
-% highlevel gennemgang. mere præcise estimater kræver mere konkret gennemgang af de enkelte elementer i den samlede arkitektur
+ 
+Mere præcise estimater vil være mulige for hvert delopgave, men er uden for scope af denne rapport.
 
 \section{Executive summary}
 Arkitekturen i Web \& Apps bærer præg af at have vokset organisk frem. Når et forretningsproblem har vist sig, er en løsning på problemet lavet ud fra de for håndenværende ressourcer og kompetencer, uden hensyntagen til hvordan løsningen passer ind i resten af systemlandskabet. Det har resulteret i at vi i dag har mange eksempler på parallelle implementeringer, på systemer der ikke kan vedligeholdes, på ukendt aftagerlandskab og på fragmenteret infrastruktur.
@@ -37,8 +35,92 @@ De vigtigste skridt vi skal igennem er følgende:
     % Sikre et tilstrækkeligt fundament, eller at der ER et fundament?
 \item Sikre DevOps fundament
 \end{itemize}
-Vi skulle gerne ende op med en arkitektur, hvor det er muligt at have styr på vores aftagerlandskab. Vi skal også have mulighed for hurtig kommunikation imellem interne komponenter via sikret og afgrænset netværk. Det skal være muligt at teste komponenter individuelt og i et sammenhængende produktionslignende test setup.
-%TODO grov estimat?
+Vi skulle gerne ende op med en arkitektur, hvor det er muligt at have styr på vores aftager-landskab. Vi skal også have mulighed for hurtig kommunikation imellem interne komponenter via sikret og afgrænset netværk. Det skal være muligt at teste komponenter individuelt og i et sammenhængende produktionslignende test setup.
+
+Vi kan passende gå i gang med de lavt hængende frugter i form af at flytte de letteste kandidater over på pipeline, imens vi går i gang med de designtunge dele af opgaven (f.eks. design af fælles datamodel og redesign af relationssystem).
+
+Det er svært at tids estimere præcist uden at grave dybere ned i detaljerne for de enkelte opgaver. Selve transformationen vil formentligt tage 2 år eller længere. Hvis vi i den tidsperiode stadig vil kunne varetage normale udviklingsopgaver, så bør vil allerede nu overveje at mande op i de forskellige teams.
+
+\section{Forretningsbehov}
+
+
+\subsection{Nyhedsapp}
+Nyhedsappen har fungeret fint i 4 år og er i efteråret 2019 blevet vurderet af app bureauet Nodes som værende så godt optimeret som det er muligt baseret på den teknologi den er bygget på. Hvis nyhedsappen skal fortsætte med at være tidssvarende og blive ved med at give en god brugeroplevelse, så var det Nodes anbefaling at skifte over til en native applikation. Det vil sige at der skal udvikles en native IOS og en native Android version.
+
+Hvis vi skal have en bedre brugeroplevelse eller markante udvidelser af nyhedsappen, så skal vi efter alt at dømme bygge appen helt op igen fra bunden af i en Native udgave. I den forbindelse vil det være meget relevant at vi også sikre datagrundlaget og platformen under appen, så vi kan få den bedst mulige brugeroplevelse.
+Hermed vil det være relevant at sikre datamodel, event system og relations system er forberedt på denne udvikling.
+
+\subsection{Drupal 7 pensioneres}
+Drupal 7 (og Drupal 8) står over for End Of Life i november 2021. Inden da skal vi have taget stilling til hvordan vi skal fortsætte derfra.
+Oprindeligt var Drupal hele vores udgivelses platform og det styrende system for alt indhold på DR.dk. I den rejse som DR.dk har været på de sidste par år, er flere og flere af Drupals oprindelige ansvarsområder blevet flyttet ud af Drupal og over i andre systemer. Dermed står vi med markant andre behov i forhold til CMS system end vi gjorde da vi oprindeligt valgte Drupal 7. Det er ikke nødvendigvis en direkte udskiftning af Drupal 7 med Drupal 9 der giver mest mening. 
+
+For at sikre at vi kan tage det bedst mulige valg over for denne udskiftning skal vi sikre at vores Datamodel er på plads og vi har afdækket API og event behov i forhold til redaktør grænsefladen og artikel database. 
+
+\subsection{Relations system}
+Garnnøgle og TAG system har af flere omgange været oppe og vende som problematiske systemer. Garnnøgle er i en kritisk tilstand hvor det er stort set umuligt at vedligeholde eller videreudvikle på. Ud over Garnnøgle og Tag, så er der også en række andre systemer der varetager relationshåndtering i større eller mindre omfang.
+
+Da relationssystemer både har stor forretningsmæssig potentiale og er i kritisk vedligeholdelsestilstand, så er det et oplagt område at prioritere i vores systemgennemgang.
+
+\subsection{Udgivelseshastighed}
+
+En stor del af den kompleksitet der er i vores platform i dag er på grund af afhængighederne imellem systemerne. Hver gang der er forbindelse mellem to systemer hvor det afhænger af en brugerhandling eller et push af informationer fra et system til et andet system, så er der mulighed for forbedringer både i form af reaktionstid men også i form af systemkompleksitet ved at vende afhængighederne om og lade alle systemer udstille generaliserede APIer og lade systemer udgive og abonnere på events i forbindelse med opdateringer.
+
+I dag, når en artikel udgives i Drupal, så skabes der et event, som opfanges af mimer og bruges til at igangsætte indekseringen.
+Hvis vi raffinerer den løsning og benytter et fornuftigt besked framework, så kan den samme besked benyttes til at igangsætte alle de andre tjenester rundt omkring, som også skal være på plads for at en artikel er søgbar på dr.dk.
+
+Disse events og lignende events fra andre dele af systemet kan benyttes til at lade opdateringerne propagere ud til alle dele af systemet, inklusiv at opdatere cache lag, forside lister, personaliserings søgninger, markering af Breaking artikler, push af notifikationer til Nyhedsapp  osv. 
+
+Et publiceringsevent vil dermed selv kunne triggere indeksering fra Cxense, opdatering af cache, opdatering af Garnnøgle og lignende. Det vil effektivt få ventetiden på opdatering ned i nærheden af hvad de enkelte systemer kan præstere.
+Ligeledes vil en eventbaseret arkitektur sikre at vi ikke behøver at pushe fra et system til et andet, men kan nøjes med at udstille APIer så et system ikke behøver at kende sine aftagere, blot at overholde den aftalte datakontrakt.
+
+
+\section{Vision}
+Web og Apps har i de sidste år gennemgået en betydelig omstrukturering af deres miljøer og services. Det landskab vi står med i dag er i langt højere grad forberedt på at håndtere de skiftende krav til danskernes medieforbrug. Der er blevet foretaget en række gode valg i opdeling af ansvar og løsere kobling imellem systemer. Denne transformation er dog foregået med begrænset koordination ud fra de behov der opstod undervejs. 
+
+Det efterlader os i dag med en arkitektur af en noget organisk karakter, hvor mange design valg er taget med et specifikt produkt for øje i stedet for at gennemtænke hvordan platformen i sin helhed kan få glæde af og inkorporere en given funktionalitet.
+
+Det er svært at spå om præcist hvad fremtiden vil bringe af udfordringer og muligheder, det er dog muligt at spå om hvilken funktionaliteter der vil gøre det muligt for os at møde den.  
+
+\subsection{Cloud strategi}
+DR har i årevis gået efter en Cloud strategi. Den har vi i DR.dk efterlevet efter bedste evne i den enkelte teams. Resultatet heraf er at der i hvert team er blevet taget en række valg om pipeline, hosting og platform.
+De enkelte teams løsning af problemet har dermed resulteret i 4 forskellige skyer og release processer. Den manglende ensretning betyder at der er noget spild arbejde i form af at vedligeholde de 4 forskellige byg og deploy pipelines men især også at der er nogle uhensigtsmæssige afhængigheder på tværs af disse skyer. 
+Alle 4 skyer skal i spil når en ny artikel skal udgives og et udfald hos hvilken som helst af de 4 udbydere betyder at et led i kæden knækker og dermed at artikler ikke kan udkomme. Vi udnytter dermed ikke de fordele der kan være ved at have vores hosting spredt ud, men vi får ulemperne ved det.
+\begin{itemize}
+\item Offentligt tilgængelige endpoints der kun burde benyttes til intern kommunikation
+\item Betaling for trafik mellem sky udbydere
+\item Manglende ensretning af den underliggende platform
+\item Ekstra latenstid imellem komponenter 
+\end{itemize}
+Vi bør konsolidere vores cloud strategi til at benytte den samme udbyder på tværs af teams og gerne også en fælles pipeline. Dermed vil vi opnå både en ensartet release og deploy process og vi vil samtidigt fælles kunne høste de forbedringer som et fælles miljø vil kunne tilbyde.
+
+
+\subsection{Antallet af systemer der aftager artikler vil efter alt at dømme stige}
+Vi bør derfor sørge for at adskille visningslag fra artikel lag i videst muligt omfang og sikre en konsistent datastruktur for artikeldata. Hvis vi får etableret en gennemgribende datamodel, så vil den samme platform kunne levere artikel data til hvilket som helst medie (web, IOS / Android, nyhedsbreve, RSS feeds, TTV osv.) der måtte forbruge det og vi vil stadig være i stand til at give en rimeligt konsistent oplevelse på tværs af medier.
+
+Vores mål arkitektur bør i videst muligt omfang være forberedt på at vi ikke nødvendigvis kender aftager landskabet i morgen, så jo bedre vi er i stand til at udstille vores indholdsdata i en veldefineret format på så mange niveauer som muligt, jo bedre vil vi være i stand til at imødekomme ønskerne fra morgendagens aftagere, om det så er interne eller eksterne aftagere.
+
+
+\subsection{Event system}
+Vi bør anvende et Eventsystem med et fornuftig interface, respektable service kontrakter og som kan sikre hurtig besked håndtering i mellem systemerne.
+
+For at holde os til en enkelt cloud udbyder og ikke eksponere os for øget responstider og risiko, så bør vi kikke på om vi kan benytte googles "Cloud pub/sub" eller om der er et andet system der vil passe bedre.
+
+
+\subsection{Behovet for personalisering vil blive endnu højere}
+Både forbrugere og redaktører stiller større og større krav til at vi kan vise de mest relevante artikler for en given bruger. For at imødekomme dette bliver vi nød til at få kikket nærmere på personalisering og integrationerne med de eksterne systemer vi benytter til dette.
+
+Cxense er et godt eksempel på et kraftfuldt eksternt system, som vi ikke benytter til fulde endnu. Vi benytter f.eks. ikke de APIer Cxense  udstiller til at sikre rettidig indeksering af publicerede sider, lige som vi ikke relaterer brugerkonti med Cxense brugerID i forbindelse med udsendelse af nyhedsbreve.
+
+
+\subsection{Afdækning af trends i forbrugsmønstre vil blive mere og mere relevant}
+Det er vigtigt at vi holder for øje at det bør være muligt at holde styr hos forbrugsmønsteret hos vores brugere. Jo bedre vi kan spore forbrugsmønsteret på tværs af platformen, jo bedre vil vi være i stand til at imødekomme fremtidens behov og dokumentere i hvilket omfang vi opfylder de forventninger vi har til platformen.
+Vi skal med GDPR reglementet for øje have sikret at vi opfanger det relevante data der skal til for at kunne gøre vores platform så brugervenlig som mulig.
+
+
+\subsection{Større behov for at kunne linke på tværs af platforme}
+Det har længe været et ønske at kunne binde Radio, TV og Nyhedsartikler tættere sammen end nu. Især set ud fra personaliserings synspunkt kan det være meget relevant at kunne relatere nyhedsartikler med enten on demand radio eller video segmenter.
+Hvad end behovet vil være, så bør vi være sikre på at vi er forberedt på at understøtte disse relationer, både i form af adfærdsanalyser på tværs af platforme og også i form af relationssystemer der kan linke radio, video og artikler.
+
 
 \section{Generelt forarbejde}
 \subsection{Indholdsdatamodel}
@@ -58,14 +140,14 @@ Udarbejdelse af datamodellen bør ske inden næste store ændring i et af de cen
 % Hvad bunder dette estimat i, og hvem er udførende?
 % Med andre ord, er det en opgave som styres af Arkitekturgruppen og måske udføres der, eller
 % kan den gives til et team, under styring og vejledning af Arkitekturgruppen?
-Udarbejdelse af datamodellen vil tage ca 2 mandeuger.
+    \textit{TODO: evt et estimat}
 
 
 \subsection{URN / URL}
-Hvis vi samtidigt med opdateringen af datamodellen også kikker på DR URN, så kan vi sikre at det er muligt at unikt identificere indhold på tværs af systemer uden kendskab til systemlandskabet. 
-%TODO Der mangler helt sikkert info her 
+Vi bør i forbindelse med arbejdet på datamodellen også kikke på at få etableret en URN / URL der unikt kan identificere et hvilket som helst stykke indhold på tværs af systemlandskabet. Denne URN skal være i stand til unikt og konsistent kunne identificere en artikel, en relationsliste, et billede eller hvad som helst andet. Det bør ud fra URN alene være muligt at slå indhold op uden at man nødvendigvis kender det underliggende systemlandskab. Det vil gøre det muligt at have meget løst koblede systemer.
 % Kan det uddybes hvad problemstillingen er, og hvilke fordele vi kan opnå
 % ved at udrulle/ensrette URN/URL?
+    \textit{TODO: Mere fyld!}
 
 \subsection{Underliggende infrastruktur}
 Alt indhold på dr.dk serves i dag igennem Akamai CDN. Akamai fungerer som Content Delivery Network, DDOS-beskyttelse og cache-lag. I tilfælde af udfald på dr.dk er cache hos Akamai sat
@@ -84,8 +166,6 @@ Infrastrukturen som i dag driver dr.dk har et par fordele men også en række ul
 For at en artikel kan udkomme på dr.dk-forsiden og i Nyhedsapp skal der udveksles data på tværs af alle fem skyer.
 
 Kommunikationsudfald eller nedbrud hos en af cloud-udbyderne vil i de fleste tilfælde betyde, at vi ikke kan udkomme med nye artikler. Der er ingen driftsmæssig fordel ved at vi har baseret vores infrastruktur på 4 forskellige skyer, da udgivelse af en artikel vil fejle lige meget hvilket led i kæden der knækker. 
-%TODO  
-% Kort blabla om de mange skyer, distribueret model og sårbarheder.  Man skulle tro nuværende setup giver stor stabilitet men reelt er antallet af fejlkilder blot forøget, mens fejlhåndteringen er skiftet fra "worst subsystem"?? til "last succesfull response"??
 
 \subsection{Parallelliseret og distribueret system}
 DR har i kraft af Public Service-kontrakten med staten, en forpligtigelse til at kunne udkomme med nyheder og varslinger hele tiden og med kort varsel.
@@ -94,32 +174,36 @@ De systemer vi selv hoster og drifter, bør sikres i det omfang det er muligt. J
 Vi kan samtidigt have en sekundær sky sat op i en anden region (f.eks. europe-west4) som er skaleret helt i bund og ingen trafik varetager.
 Ved nedbrud i den primære region kan vi skifte til den sekundære og lade den skalere op.
 
-%TODO. Bemærkning om parallel monteret sky. Hvis vi har alt kørende i en region, så kan vi risikere at alt går ned hvis den region får kritiske nok fejl. Vi bør have en aktiv instans kørende på en anden region, som er skaleret helt i bund men er klar til at skalere. Ved kritiske fejl i en region kan vi så skifte over på en anden region. 
+    \textit{TODO: Grovestimat af fordele / ulemper ved dette}
 
 
 \subsection{DevOps-kulturen styrkes}
-Teams i Web \& Apps lever på mange punkter op til DevOps-tankegangen. De enkelte teams er i stand til at drifte, udvikle, teste og deploye deres produkter.  Der er dog en række punkter som helt klart kan forbedres.
+Den primære fokus i DevOps kulturen er et forsøg på at gøre op med de forskelle der er imellem en udviklingsafdeling og en driftsafdeling. Dette er primært ud fra anerkendelsen af at udviklerne af et stykke software formentligt også er dem der bedst er i stand til at finde og rette fejl i deres software.
+
+Et vigtigt element i dette er at det skal være muligt for udviklerne at teste i et produktionslignende miljø og at kunne deploye en rettelse til produktion med god antagelse af at det ikke har en negativ impact på resten af infrastrukturen. 
+
+Det er her relevant at kikke nærmere på elementer fra CI/CD kulturen (Continuous Integration / Continuous Deployment). Standardiseret byg pipeline, statisk kodeanalyse, afvikling af unittests og automatiseret deploy til test miljø og relateret tiltag vil være med til at finde fejl og mangler så tidligt som muligt, så releases til produktion kan ske både trygt og hurtigt.
 
 \subsubsection{Ensretning af pipeline}
-Med henblik på at lette deployment til både test- og produktionsmiljøer, vil det være en stor fordel hvis deployment foregår fra et fælles værktøj.
-Dermed ville det være muligt at,
-
+De pipelines der i dag benyttes på tværs af web og apps er ret optimeret i forhold til de enkelte teams og deres release process. Hvis vi går fra en specialiseret til en generel pipeline vil de enkelte teams releaseprocess skulle tilrettes markant for blot at opnå den samme funktionalitet som i dag. Der vil dog være store fordele der kan høstes hvis pipelinen benyttes af flere teams. 
 \begin{itemize}
-    % Hvad var pointen her?
-    \item Bygge.
-    \item Udføre automatiserede tests.
-    \item Anvende et fælles image repository til container-images.
+\item Fælles værktøjer
+\item Central udvikling af værktøjer
+\item Standardiserede værktøjer til statisk kodeanalyse
+\item Standardiseret deployment værktøj
+\item Fælles repository af deployet kode
 \end{itemize}
 
 
+Det vil ligeledes give den fordel at det vil være lettere for udviklerne at aflaste hinanden på tværs af teams, da værktøjer og standarder på pipelinen er fælles, så det kun er kodeforskelle der er behov for at sætte sig ind i.
+ 
 \subsubsection{Testmiljøer}
-Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for at deploye dedikerede testsystemer. 
+Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for deploy af dedikerede testsystemer. 
 
 \begin{itemize}
     \item fast fuld funktionibelt testsystem (staging).
     \item mulighed for deploy af nyt miljø med nødvendige komponenter.
 \end{itemize}
-
 
 
 \subsubsection{Fælles overvågning}
@@ -138,19 +222,16 @@ DevOps-afdelingen skal stå for udvikling af de nødvendige værktøjer og skal 
 
 Overvågningen kan varetages af Infra-afdelingen. Denne overvågning skal være af både infrastruktur og overvågningspunkter der leveres af udviklerne i de enkelte udviklingsteams. Da hverken DevOps eller de enkelte udviklingsteams har døgnbemanding, er Infrareelt eneste mulighed for at afhjælpe problemer på platformen uden for normal arbejdstid.
 
-DevOps-tankegangen er et strålende bud på en løsning af tredelingen mellem infrastruktur, drift og udvikling.
-Devops-kulturen skal styrkes i de enkelte udviklingsteams, således at følgende kan opnåes,
+%* DevOps tankegangen er et strålende bud på en løsning af 3 delingen mellem infrastruktur, drift og udvikling.
+%* Devops skal styrkes i de enkelte udviklings teams.
+%	De skal kunne lave hyppige releases.
+%	De skal kunne lave sikre releases.
+%	De skal kunne overvåge deres applikationer.
+%	De skal kunne fejlfinde i deres applikationer på tværs af hele platformen.
+%Centraliseret overvågning af infrastrukturen.
+%	De enkelte teams i Web og apps skal ikke være ansvarlige for overvågning af hele infrastrukturen.
+%	Teams skal kunne fejlfinde i egene applikationer på tværs af hele platformen.
 
-\begin{itemize}
-    \item Teams skal kunne lave hyppige releases.
-    % Hvad er sikre releases?
-    \item Teams skal kunne lave sikre releases.
-    \item Teams skal kunne overvåge egne applikationer.
-    \item Teams skal kunne fejlfinde i egene applikationer på tværs af hele platformen.
-\end{itemize}
-
-Centraliseret overvågning af infrastrukturen.
-De enkelte teams i Web og apps skal ikke være ansvarlige for overvågning af hele infrastrukturen.
 %TODO. Dette er nok det vigtigste afsnit. Her skal skrives MEGET
 
 
@@ -323,7 +404,7 @@ Ingen ændringer nødvendige.
 
 \subsection{Firebase}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Firebase.PNG}
+\includegraphics[width=260pt]{Firebase.PNG}
 \caption{MATCH (x\{name:'Firebase'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -338,7 +419,7 @@ Ingen ændringer nødvendige
 
 \subsection{OCS}
 \begin{figure}[h]
-\includegraphics[width=300pt]{OCS.PNG}
+\includegraphics[width=200pt]{OCS.PNG}
 \caption{MATCH (x\{name:'OCS'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -387,7 +468,7 @@ URN / URL
 
 \subsection{Mimer 1.0 API}
 \begin{figure}[h]
-\includegraphics[width=200pt]{MimerAPI.PNG}
+\includegraphics[width=120pt]{MimerAPI.PNG}
 \caption{MATCH (x\{name:'Mimer 1.0 API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -413,7 +494,7 @@ Webbaseret grænseflade til at oprette, redigere og distribuere tekstbaseret ind
 
 \subsection{Drupal Entity API}
 \begin{figure}[h]
-\includegraphics[width=300pt]{DrupalEntityAPI.PNG}
+\includegraphics[width=200pt]{DrupalEntityAPI.PNG}
 \caption{MATCH (x\{name:'Drupal Entity API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -504,7 +585,7 @@ SaaS. Der er ingen udviklingsmuligheder her, kun eventuelt at fjerne afhængighe
 
 \subsection{Adobe Analytics}
 \begin{figure}[h]
-\includegraphics[width=200pt]{AdobeAnalytics.PNG}
+\includegraphics[width=160pt]{AdobeAnalytics.PNG}
 \caption{MATCH (x\{name:'Adobe Analytics'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -556,7 +637,7 @@ DR Search er for tiden uden ejerskab og uden ansvarlige udviklere. Enten skal sy
 
 \subsection{Nyhedsbreve}
 \begin{figure}[h]
-\includegraphics[width=200pt]{Nyhedsbreve.PNG}
+\includegraphics[width=160pt]{Nyhedsbreve.PNG}
 \caption{MATCH (x\{name:'Nyhedsbreve'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -646,7 +727,7 @@ Metadataservice, der leverer metadata til brug i TMS
 
 \subsection{Infomedia}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Infomedia.PNG}
+\includegraphics[width=130pt]{Infomedia.PNG}
 \caption{MATCH (x\{name:'Infomedia'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -674,8 +755,8 @@ N/A
 
 \subsection{Identity API}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=130pt]{Identity.PNG}
+\caption{MATCH (x\{name:'Identity API'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
 Backend til DR's login-løsning.
@@ -686,7 +767,7 @@ N/A
 
 \subsection{Telegrammaskine}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Telegrammaskine.PNG}
+\includegraphics[width=200pt]{Telegrammaskine.PNG}
 \caption{MATCH (x\{name:'Telegrammaskine'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -713,7 +794,7 @@ Tilbyder forsideredaktører at opbygge og redigere forsiden af DR.dk ud fra sene
 
 \subsection{dr.dk forsiden}
 \begin{figure}[h]
-\includegraphics[width=300pt]{DrDkForsiden.PNG}
+\includegraphics[width=200pt]{DrDkForsiden.PNG}
 \caption{MATCH (x\{name:'dr.dk forsiden'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -726,7 +807,7 @@ Robust system til visning af de forsider som forsideredaktører udarbejder i Dr.
 
 \subsection{Alle Nyheder}
 \begin{figure}[h]
-\includegraphics[width=300pt]{AlleNyheder.PNG}
+\includegraphics[width=120pt]{AlleNyheder.PNG}
 \caption{MATCH (x\{name:'Alle Nyheder'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -739,7 +820,7 @@ Tilbyder overblik over senest publiceret artikelindhold samt en søgning ud fra 
 
 \subsection{Newsapp UI}
 \begin{figure}[h]
-\includegraphics[width=300pt]{NyhedsAppUi.PNG}
+\includegraphics[width=120pt]{NyhedsAppUi.PNG}
 \caption{MATCH (x\{name:'Newsapp UI'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -753,7 +834,7 @@ N/A
 
 \subsection{SMD (API shortmessage-dispatcher)}
 \begin{figure}[h]
-\includegraphics[width=300pt]{SMD.PNG}
+\includegraphics[width=120pt]{SMD.PNG}
 \caption{MATCH (x\{name:'SMD (API shortmessage-dispatcher)'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -780,7 +861,7 @@ Applikationen skal lukkes ned, da dens funktionalitet bliver erstattet af Cxense
 
 \subsection{Nyhedsapp Backend}
 \begin{figure}[h]
-\includegraphics[width=300pt]{NyhedsappBE.PNG}
+\includegraphics[height=200pt]{NyhedsappBE.PNG}
 \caption{MATCH (x\{name:'Nyhedsapp Backend'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -795,7 +876,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Tag Admin}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -805,7 +886,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Ritzau}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -815,7 +896,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Ratatosk}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -825,7 +906,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Drupal Vinr Mimer}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -835,7 +916,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{DRIP}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -845,7 +926,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Global Navigation}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -855,7 +936,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{BrugerUpload}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -865,7 +946,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Imagescaler}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -875,7 +956,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{ADFS}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -885,7 +966,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Global Assets}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -895,7 +976,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Global}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -905,7 +986,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Webstat}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -915,7 +996,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Describe Assets}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -925,7 +1006,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{URN Router}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -935,7 +1016,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Freja}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -945,7 +1026,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Karrierekanonen}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -955,7 +1036,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Apigee}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -965,7 +1046,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Varnish}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -975,7 +1056,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Newspackage service}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -985,7 +1066,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Freki}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -995,7 +1076,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Berigelsessider}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -1005,7 +1086,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{IronMQ}
 \begin{figure}[h]
-\includegraphics[width=300pt]{CHANGE.PNG}
+\includegraphics[width=30pt]{CHANGE.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
