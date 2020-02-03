@@ -142,8 +142,16 @@ Udarbejdelse af datamodellen bør ske inden næste store ændring i et af de cen
 
 \subsection{URN / URL}
 Vi bør i forbindelse med arbejdet på datamodellen også kikke på at få etableret en URN / URL der unikt kan identificere et hvilket som helst stykke indhold på tværs af systemlandskabet. Denne URN skal være i stand til unikt og konsistent kunne identificere en artikel, en relationsliste, et billede eller hvad som helst andet. Det bør ud fra URN alene være muligt at slå indhold op uden at man nødvendigvis kender det underliggende systemlandskab. Det vil gøre det muligt at have meget løst koblede systemer.
+Jo mere vi kan adskille vores systemer, jo lettere vil det være at udskifte enkelte elementer og jo lettere kan vi skalere de enkelte komponenter. 
+
+% systemafhængighed og problemerne
+% Event System og omvendt afhængighed
+% Fordele? 
+
 % Kan det uddybes hvad problemstillingen er, og hvilke fordele vi kan opnå
 % ved at udrulle/ensrette URN/URL?
+
+
     \textit{TODO: Mere fyld!}
 
 \subsection{Underliggende infrastruktur}
@@ -262,9 +270,7 @@ Ovenstående figur viser at der er et højt antal afhængigheder til mange syste
 \subsubsection{Anbefalet handling}
 Hydra er beskrevet som at den direkte henter data fra og sender data til Drupal. Er det korrekt, så springer den flere lag over i referencearkitekturen.
 Hydra burde kun afhænge af platform utilities, platform services, product services eller content aggregation.
-% TODO Verificer at alle de beskrevne afhængigheder også er aktuelle afhængigheder.
-\subsubsection{Overslag}
-Afklaring nødvendigt før det kan estimeres.
+
 
 
 \subsection{Steffi}
