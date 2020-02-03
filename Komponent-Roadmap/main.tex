@@ -275,13 +275,12 @@ Afklaring nødvendigt før det kan estimeres.
 \subsubsection{Kort beskrivelse}
 Forespørgselslag, der tilbyder GraphQL-grænseflader til frontendapplikationer.
 Benytter Content aggregering.
-\subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+
 
 
 \subsection{Talentholdet}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Talentholdet.PNG}
+\includegraphics[width=80pt]{Talentholdet.PNG}
 \caption{MATCH (x\{name:'Talentholdet'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -289,24 +288,22 @@ Talentholdet er en rekrutteringsplatform for nye talenter til DR. Talentholdet h
 \subsubsection{Anbefalet handling}
 Talentholdet udfører en mindre opgave som det er muligt at diskutere værdien af. Vi bør få afklaret med forretningen om vi eventuelt kan pensionere programmet. Der er en del kodegæld i programmet og GDPR-afledte sletninger er en manuel process.
 Prioriteten af Talentholdet er dog ret lav, så den manuelle process kan tolereres.
-\subsubsection{Overslag}
-N/A
+
 
 \subsection{Elements}
 \begin{figure}[h]
-\includegraphics[width=200pt]{Elements.PNG}
+\includegraphics[width=120pt]{Elements.PNG}
 \caption{MATCH (x\{name:'Elements'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
 Elements er DR's centrale komponentbibliotek, som består af frontendkomponenter. Elements er kodet i React. Elements benyttes af en række af vores frontend-produkter, men ikke alle.
 \subsubsection{Anbefalet handling}
 Elements benyttes af en række af vores frontend-produkter og passer fint ind i vores referencearkitektur.
-\subsubsection{Overslag}
-N/A
+
 
 \subsection{Webdok}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Webdok.PNG}
+\includegraphics[width=180pt]{Webdok.PNG}
 \caption{MATCH (x\{name:'Webdok'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -321,7 +318,7 @@ Ukendt.
 
 \subsection{Skole-Undervisning}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Skole-Undervisning.PNG}
+\includegraphics[width=80pt]{Skole-Undervisning.PNG}
 \caption{MATCH (x\{name:'Skole-Undervisning'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -329,65 +326,56 @@ Skole og Undervisning er et site, der formidler undervisningsforløb og undervis
 \subsubsection{Anbefalet handling}
 Skole-Undervisning passer ikke ind i referencearkitekturen, idet den udgør sin helt egen silo og udstiller data direkte til slutbrugere via Akamai. 
 Afhængigt af levetiden for projektet (Gartners TIME-model) skal vi overveje hvad vi gør ved projektet.
-\subsubsection{Overslag}
-Afklaring mangler.
-%TODO
+
 
 \subsection{Mad}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Mad.PNG}
+\includegraphics[width=240pt]{Mad.PNG}
 \caption{MATCH (x\{name:'Mad'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
 Mad er en applikation, der håndterer opskrifter, artikler og opskriftssamlinger. Mad er bygget som Headless Drupal med egen RG til opskrifter. Artikler publiceres gennem Drupal. 
 \subsubsection{Anbefalet handling}
 Mad passer ikke helt ind i referencearkitekturen som beskrevet. Om det er en mangel i dokumentationen eller i arkitekturen skal undersøges. (hvorfor tilgår Steffi Mad direkte og ikke igennem f.eks. Mimer?)
-\subsubsection{Overslag}
-Afklaring mangler
-%TODO
+
 
 \subsection{Nyhedsapp-Frontend}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Nyhedsapp-Frontend.PNG}
+\includegraphics[width=160pt]{Nyhedsapp-Frontend.PNG}
 \caption{MATCH (x\{name:'Nyhedsapp Frontend'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
 Præsentationslag for indhold i Nyhedsapp, således at visningen mellem iOS og Android er homogen, samt har lignende homogenitet til visningen på DR.dk
 Nyhedsapp-Frontend er ikke en selvstændig applikation, men et delt kodelag der anvendes af iOS- og Android-udgaverne af Nyhedsapp. 
 \subsubsection{Anbefalet handling}
-Nyhedsapp-Frontend er en parallelimplementation i forhold til Elements. Hvis der er ændringer i artikelvisningen, der ønskes i både Nyhedsapp og på dr.dk,  skal ændringer foretages i både Elements og Nyhedsapp-Frontend. Ved en renovation af Nyhedsapp-Frontend bør det undersøges om vi kan benytte en fælles kodebase til definition af visning.
-\subsubsection{Overslag}
-%TODO Sammensmeltning med Elements??
-N/A
+Nyhedsapp-Frontend eksisterer kun i kraft af den aktuelle implementering af Nyhedsappen. Hvis Nyhedsappen skal opdateres eller udskiftes vil Nyhedsapp-Frontend også skulle opdateres eller skiftes.
+
 
 \subsection{Nyhedsapp-iOS}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Nyhedsapp-IOS.PNG}
+\includegraphics[width=120pt]{Nyhedsapp-IOS.PNG}
 \caption{MATCH (x\{name:'Nyhedsapp IOSApp'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
 Afvikler Nyhedsapp-frontend, integrerer til iOS-native funktionalitet
 \subsubsection{Anbefalet handling}
-Nyhedsapp til både iOS og Android overholder referencearkitekturen. Der er måske ønsker om at opdatere applikationerne, så de får et mere moderne udtryk på telefonerne. Dette ønske er dog et forretningsdrevet ønske og ikke en nødvendighed set ud fra referencearkitekturen
-\subsubsection{Overslag}
-Ingen ændringer nødvendige.
+Nyhedsapp til både iOS og Android overholder referencearkitekturen. Der er måske ønsker om at opdatere applikationerne, så de får et mere moderne udtryk på telefonerne. Dette ønske er dog et forretningsdrevet ønske og ikke en nødvendighed set ud fra referencearkitekturen. Dette forretningsønske kan dog meget vel være med til at drive en række af de ændringer der vil være nødvendige for at programstakken under nyhedsappen bliver mere i tråd med referencearkitekturen.
+
 
 \subsection{Nyhedsapp-Android}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Nyhedsapp-Android.PNG}
+\includegraphics[width=120pt]{Nyhedsapp-Android.PNG}
 \caption{MATCH (x\{name:'Nyhedsapp AndroidApp'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
 Native Android-wrapper, der afvikler Nyhedsapp-Frontend
 \subsubsection{Anbefalet handling}
-Nyhedsapp til både iOS og Android overholder referencearkitekturen. Der er måske ønsker om at opdatere applikationerne så de får et mere moderne udtryk på telefonerne. Dette ønske er dog et forretningsdrevet ønske og ikke en nødvendighed set ud fra referencearkitekturen.
-\subsubsection{Overslag}
-Ingen ændringer nødvendige.
+Nyhedsapp til både iOS og Android overholder referencearkitekturen. Der er måske ønsker om at opdatere applikationerne så de får et mere moderne udtryk på telefonerne. Dette ønske er dog et forretningsdrevet ønske og ikke en nødvendighed set ud fra referencearkitekturen. Dette forretningsønske kan dog meget vel være med til at drive en række af de ændringer der vil være nødvendige for at programstakken under nyhedsappen bliver mere i tråd med referencearkitekturen.
 
 
 \subsection{Batch.com}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Batch-com.PNG}
+\includegraphics[width=120pt]{Batch-com.PNG}
 \caption{MATCH (x\{name:'Batch.com'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -395,13 +383,11 @@ SaaS tjeneste der benyttes til push af beskeder til Nyhedsapp.
 Distribuerer data til Nyhedsapp-instanser, med mulighed for dublikeringskontrol så den samme enhed kun modtager data én gang, og ligeledes en opfølgningsmulighed så devices der var utilgængelige på udsendelsestidspunktet, opdateres når de er tilgængelige igen
 \subsubsection{Anbefalet handling}
 Tjenesten passer ind i vores referencearkitektur. Om Batch.com bliver ved med at være den bedste løsning for push af beskeder vil vi ikke tage stilling til i dette dokument.
-\subsubsection{Overslag}
-Ingen ændringer nødvendige.
 
 
 \subsection{Firebase}
 \begin{figure}[h]
-\includegraphics[width=260pt]{Firebase.PNG}
+\includegraphics[width=220pt]{Firebase.PNG}
 \caption{MATCH (x\{name:'Firebase'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -410,8 +396,6 @@ Nyhedsapp, Drupal RG ("hvem er inde på min artikel")
 % Er det virkelig tilfældet?
 \subsubsection{Anbefalet handling}
 Tjenesten passer ind i vores referencearkitektur. Om Firebase bliver ved med at være den bedste løsning for push af beskeder vil vi ikke tage stilling til i dette dokument.
-\subsubsection{Overslag}
-Ingen ændringer nødvendige
 
 
 \subsection{OCS}
@@ -420,11 +404,12 @@ Ingen ændringer nødvendige
 \caption{MATCH (x\{name:'OCS'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
-API-afløseren til PSDB (MU-online), der leverer video- og radio-data (ikke anvendt i Web \& Apps endnu)	Udstiller program- og seriedata, således at aftagere kan benytte dette til at vise TV/Radio-indhold
+API-afløseren til PSDB (MU-online), der leverer video- og radio-data (ikke anvendt i Web \& Apps endnu).
+
+Udstiller program- og seriedata, således at aftagere kan benytte dette til at vise TV/Radio-indhold
 \subsubsection{Anbefalet handling}
 Ved ændringer i systemer der afhænger af PSDB, så bør det undersøges om det er relevant at anvende OCS i stedet.
-\subsubsection{Overslag}
-Da OCS ikke ejes af Web og Apps og da ingen systemer afhænger af OCS endnu, så er der ingen indsatser nødvendige på OCS.
+
 
 
 \subsection{Garnnøgle}
@@ -437,13 +422,11 @@ Tema- og sagskategorisering af artikelindhold, således specielt nyhedsindhold k
 Garnnøgle er ret central i værdikæden for DR.dk, da den benyttes af en lang række systemer og funktioner. Garnnøgle applikationen er behæftet med en del teknisk gæld og unødig kompleksitet i dens implementering.
 \subsubsection{Anbefalet handling}
 Garnnøgles placering i forhold til referencearkitekturen er ok. Selve implementeringen af garnnøgle bør dog genbesøges og afhængigt af det reelle forretningsbehov skal vi have set på en ny implementering.
-\subsubsection{Overslag}
-Udvikling af ny garnnøgle: Grov estimat 8 mandeuger.
 
 
 \subsection{Drupal}
 \begin{figure}[h]
-\includegraphics[width=300pt]{Drupal.PNG}
+\includegraphics[width=120pt]{Drupal.PNG}
 \caption{MATCH (x\{name:'Drupal'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -455,12 +438,9 @@ Dette kan enten ske ved at lade Platform Services snakke med Content Services (f
 
 Drupal er lige nu vores styrende CMS system, det vil sige at Drupal har kontrollen med alle URL hos DR.dk, hvilket også er grunden til den direkte forbindelse fra Hydra ned til Drupal. Det vil være meget fornuftigt at kikke på at få etableret et fornuftigt URN / URL system, således at en URL / URN i sig selv er beskrivende nok til at kunne udpege det styrende indholdssystem. Det vil muliggøre sideløbende CMS systemer med hvert deres fokus og gøre det lettere at opdatere / udskifte Drupal på sigt.
  
-Vi skal også have kikket på roadmap for opdatering af Drupal 7 til enten Drupal 8 eller et andet CMS system. Drupal 7 (vores nuværende installation) har end of life i november 2021.
+Vi skal også have kikket på roadmap for opdatering af Drupal 7 til enten Drupal 9 eller et andet CMS system. Drupal 7 (vores nuværende installation) og efterfølgeren Drupal 8 har end of life i november 2021.
 \subsubsection{Overslag}
 Migrering fra Drupal 7 til andet CMS system vil være en betydelig opgave, især med det niveau af afhængigheder og egenudvikling der er foretaget på Drupal platformen. 
-Selve analysen af tidsforbrug for skiftet er uden for scope af denne rapport. Hvis vi går ud fra at det giver mening at skifte direkte fra Drupal 7 til 9 kan et groft overslag 300+ timer. Vi vil få brug for ekstern hjælp.
-
-URN / URL 
 
 
 \subsection{Mimer 1.0 API}
@@ -644,7 +624,7 @@ Tilbyder nyhedsbreve som en distributionskanal til DR's indholdsysstemer, såled
 \subsubsection{Anbefalet handling}
 SaaS men uden ejerskab. 
 Det skal vurderes om denne løsning er passende for vores fremtidige arkitektur. Det er dog ikke højeste prioritet.
-\subsubsection{Overslag}
+
 
 
 \subsection{DR Billeder}
@@ -656,7 +636,7 @@ Det skal vurderes om denne løsning er passende for vores fremtidige arkitektur.
 Billedhåndteringssystem til DR's indholdsproducenter, anvender standardsystemet Cumulus fra Canto. Der anvendes en underleverandør, Attention, til at konfigurere systemet. Består af følgende delkomponenter: Database, applikationsserver, web UI, tyk klient.
 \subsubsection{Anbefalet handling}
 Ingen handling nødvendig. Systemet håndteres uden for Web og Apps
-\subsubsection{Overslag}
+
 
 
 \subsection{DR.DK oEmbed S3 bucket}
@@ -668,7 +648,7 @@ Ingen handling nødvendig. Systemet håndteres uden for Web og Apps
 En AWS S3 bucket der anvendes til online versioner af billeder som indlejres med oEmbed
 \subsubsection{Anbefalet handling}
 Ingen handling nødvendig. Systemet håndteres uden for Web og Apps
-\subsubsection{Overslag}
+
 
 
 \subsection{Mimer 3}
@@ -696,7 +676,7 @@ API til Drupals artikelindhold.
 
 Udstiller Drupals primære indholdstyper til brug og visning i andre systemer.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+
 
 
 \subsection{Tag}
@@ -708,7 +688,7 @@ Udstiller Drupals primære indholdstyper til brug og visning i andre systemer.
 Tagsystem til opmærkning af DR's web-indhold.
 \subsubsection{Anbefalet handling}
 Tag manager systemet bliver slet ikke brugt i det omfang det burde. Sidste opdatering er fra marts 2018. Vi bør sammen med opdateringen af garnnøgle se på om vi kan enten bygge Tag systemet sammen med Garnnøgles erstatning eller helt udskifte Tag systemet til noget der stemmer mere overens med de behov vi har.
-\subsubsection{Overslag}
+
 
 
 \subsection{Urd}
@@ -719,7 +699,7 @@ Tag manager systemet bliver slet ikke brugt i det omfang det burde. Sidste opdat
 \subsubsection{Kort beskrivelse}
 Metadataservice, der leverer metadata til brug i TMS
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+
 
 
 \subsection{Infomedia}
@@ -734,7 +714,7 @@ Tilbyder en komplet, vedligeholdt taksonomi samt tekstanalysefunktionalitet, der
 
 \subsubsection{Anbefalet handling}
 Infomedia bruges idag til tag systemet. Tag systemet og Garnnøgle står formentligt over for en større omskrivning. Om Infomedia skal benyttes til tekstanalyse og forslag til Tagging af artikler skal vi have set nærmere på.
-\subsubsection{Overslag}
+
 
 
 \subsection{Auth0}
@@ -746,8 +726,7 @@ Infomedia bruges idag til tag systemet. Tag systemet og Garnnøgle står forment
 Oauth autentifikations platform. SaaS.
 \subsubsection{Anbefalet handling}
 Auth0 er en fin platform til autentificering af brugere. Det er en betalt service, der passer godt ind i vores eksisterende programstak. 
-\subsubsection{Overslag}
-N/A
+
 
 
 \subsection{Identity API}
@@ -759,8 +738,7 @@ N/A
 Backend til DR's login-løsning.
 \subsubsection{Anbefalet handling}
 Ingen nødvendig
-\subsubsection{Overslag}
-N/A
+
 
 \subsection{Telegrammaskine}
 \begin{figure}[h]
@@ -773,12 +751,11 @@ Integration til Ritzau-indhold, med mulighed for at redigere og udgive telegramm
 DR modtager løbende nyhedsunderretninger fra Ritzau i form af telegrammer; Telegrammaskinen tilbyder redaktører en meget hurtig måde at overskue seneste telegrammer samt at publicere disse direkte på DR.dk
 \subsubsection{Anbefalet handling}
 Ingen ændringer nødvendigt.
-\subsubsection{Overslag}
-N/A
+
 
 \subsection{Dr. Edition}
 \begin{figure}[h]
-\includegraphics[width=300pt]{DrEdition.PNG}
+\includegraphics[width=220pt]{DrEdition.PNG}
 \caption{MATCH (x\{name:'Dr. Edition'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -786,12 +763,12 @@ Forsideværktøj til forsiden af DR.dk, hvor redaktører udarbejder forsider, in
 
 Tilbyder forsideredaktører at opbygge og redigere forsiden af DR.dk ud fra seneste udgivne artikelindhold fra Drupal, samt at versionere og skifte mellem flere forskellige forsideudgaver.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+
 
 
 \subsection{dr.dk forsiden}
 \begin{figure}[h]
-\includegraphics[width=200pt]{DrDkForsiden.PNG}
+\includegraphics[width=160pt]{DrDkForsiden.PNG}
 \caption{MATCH (x\{name:'dr.dk forsiden'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -799,7 +776,7 @@ Azure-driftet ASP.NET MVC applikation til at hente data og vise forsiden af dr.d
 
 Robust system til visning af de forsider som forsideredaktører udarbejder i Dr. Edition.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+
 
 
 \subsection{Alle Nyheder}
@@ -812,12 +789,12 @@ Systemet der driver siden allenyheder (alle nyheder): http://www.dr.dk/nyheder/a
 
 Tilbyder overblik over senest publiceret artikelindhold samt en søgning ud fra publiceringstidspunkt
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+
 
 
 \subsection{Newsapp UI}
 \begin{figure}[h]
-\includegraphics[width=120pt]{NyhedsAppUi.PNG}
+\includegraphics[width=50pt]{NyhedsAppUi.PNG}
 \caption{MATCH (x\{name:'Newsapp UI'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
@@ -826,8 +803,7 @@ Web-renderingsværktøj til DR Nyheder (app). Web-hostet værktøj til at se mob
 Redaktørvendt visning af hvordan indhold vises i Nyhedsapp, således at redaktører kan lave Nyhedsapp-specifikt preview af indhold.
 \subsubsection{Anbefalet handling}
 Ingen nødvendig. Applikationen lever eller dør med de 2 nyheds App
-\subsubsection{Overslag}
-N/A
+
 
 \subsection{SMD (API shortmessage-dispatcher)}
 \begin{figure}[h]
@@ -839,7 +815,7 @@ Push SMS; nyhedsbrev, Nyheds app. fra f.eks. Drupal, facebook.
 
 Tilbyder push af tekstbaseret indhold til en række forskellige platforme og distributionsmekanismer
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+
 
 
 \subsection{Mest læste og delte}
@@ -853,7 +829,7 @@ ESI mest læste og delte mm. på DR.dk og Drupal sider.
 Tilbyder en liste af mest besøgt og delt (via social medier) indhold ud fra besøgsstatistik.
 \subsubsection{Anbefalet handling}
 Applikationen skal lukkes ned, da dens funktionalitet bliver erstattet af Cxense.
-\subsubsection{Overslag}
+
 
 
 \subsection{Nyhedsapp Backend}
@@ -873,226 +849,259 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 
 \subsection{Tag Admin}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=120pt]{TagAdmin.PNG}
+\caption{MATCH (x\{name:'Tag Admin'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Administrative interface for Tag API.
+Rent frontend produkt der er integreret som en del af Drupal
 \subsubsection{Anbefalet handling}
+Tag API skal vi have kikket på i den generelle renovation af Relations systemer.
 \subsubsection{Overslag}
 
 
 \subsection{Ritzau}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=80pt]{Ritzau.PNG}
+\caption{MATCH (x\{name:'Ritzau'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Eksternt system. Dataleverandør til Drupal-artikler.
+Tilbyder bred dækning af nyhedsbilledet i form af kortfattede telegrammer.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Eksternt system som er kritisk for redaktionen. Ingen handling nødvendig.
+
 
 
 \subsection{Ratatosk}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=80pt]{Ratatosk.PNG}
+\caption{MATCH (x\{name:'Ratatosk'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
-\subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+RSS feed generator. Leverer data til Nyhedsbreve.
 
 
 \subsection{Drupal Vinr Mimer}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=120pt]{DrupalVinrMimer.PNG}
+\caption{MATCH (x\{name:'Drupal Vinr Mimer'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Mikroservice til at udstille indhold ud fra flere forskellige identifikationsmuligheder
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+I forbindelse med alignment med reference arkitekturen, så skal vi have kikket på om denne service har et eksistensgrundlag eller om den skal erstattes af en anden.
 
 
 \subsection{DRIP}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=120pt]{DRIP.PNG}
+\caption{MATCH (x\{name:'DRIP'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+DR Integrationsplatform, et køsystem til udveksling og transformation af beskeder mellem systemer. Har ind- og ud-adapters.
+Tilbyder applikationer at udveksle data pålideligt samt at distribuere til mange forskellige aftagere.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Systemet ejes af Virksomhedssystemer, så vil ikke være oplagt at ændre på ud fra ønsker i Web \& Apps. 
+Skal muligvis erstattes af et Event system alt efter hvad analysen af det viser.
 
 
 \subsection{Global Navigation}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=120pt]{GlobalNavigation.PNG}
+\caption{MATCH (x\{name:'Global Navigation'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Global top navigation og footer.
+Script der indsætter navigation og footer på dr.dk.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Ingen umiddelbart nødvendig.
 
 
 \subsection{BrugerUpload}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=80pt]{BrugerUpload.PNG}
+\caption{MATCH (x\{name:'BrugerUpload'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+React komponent med egen backend, der bl.a. bruges til upload af brugernes egne vejrbilleder. Har sin egen Drupal komponent.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Ingen umiddelbart nødvendig.
 
 
 \subsection{Imagescaler}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=160pt]{Imagescaler.PNG}
+\caption{MATCH (x\{name:'Imagescaler'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Egenudviklet billedskaleringsservice, som Drupal RG og frontend anvender til at skalere billeder efter behov.	
+
+Billedskalering, konvertering og systemspecifikke workarounds for at aftage billeder.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Der er ingen udestående problemer med Imagescaler som den står nu. 
 
 
 \subsection{ADFS}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=120pt]{ADFS.PNG}
+\caption{MATCH (x\{name:'ADFS'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Active Directory Federation Service, SSO for DR-brugere.
+
+SSO-loginservice til DR's ansatte, så de kan anvende samme login til alle systemer.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Der er ingen udeståender problemer med ADFS som den står nu.
 
 
 \subsection{Global Assets}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=80pt]{GlobalAssets.PNG}
+\caption{MATCH (x\{name:'Global Assets'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Globale JavaScript og CSS assets, primært til gammelt dr.dk design.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Da Global Assets primært benyttes af det gamle design, så virker det oplagt at vi kikker på om det giver mening at bibeholde de gamle sider. Det kan meget vel give mening at få ryddet lidt op og her kunne være et oplagt sted at starte.
 
 
 \subsection{Global}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=80pt]{Global.PNG}
+\caption{MATCH (x\{name:'Global'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Globale front-end assets (JS, CSS, fonte), mere strømlinet erstatning for Global Assets. Hostes på Heroku.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Der er ingen udeståender problemer med Global som den står nu.
 
 
 \subsection{Webstat}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=60pt]{Webstat.PNG}
+\caption{MATCH (x\{name:'Webstat'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Diverse statistik (mv.) scripts. Det meste af funktionaliteten håndteres i dag af Ensighten men f.eks. Gallup håndteres stadig af Webstat.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+I oprydningens ånd, så skal vi have kikket på om det er relevant at få Webstat pensioneret og de sidste anvendere flyttet til f.eks. Ensighten.
 
 
 \subsection{Describe Assets}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=120pt]{DescribeAssets.PNG}
+\caption{MATCH (x\{name:'Describe Assets'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Udstiller data for givne indholdsressourcer (tre separate services for hvert større indholdssystem).
+
+Ud fra en URN kan Describe Assets udstille de relevante data for denne URN, som en hurtig og endpoint-agnostisk service der omsætter et ID til data
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Der er ingen udeståender problemer med Describe Assets som den står nu. Når vi kikker nærmere på vores generelle Datamodel og URN / URL, så kan det meget vel være der også kommer opgaver til Describe Assets.
 
 
 \subsection{URN Router}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=80pt]{URNRouter.PNG}
+\caption{MATCH (x\{name:'URN Router'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+URN-oversætter, der returnerer links til Describe Assets.
+
+For at afskærme aftagere fra hvilke systemer der udstiller hvilke typer indhold, tilbyder URN Router ét samlet endpoint hvortil en URN kan sendes, og der returneres en URL til et endpoint hvor de ønskede data om den givne URN kan hentes.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Der er ingen udeståender problemer med URN Router som den står nu. Når vi kikker nærmere på vores generelle Datamodel og URN / URL, så kan det meget vel være der også kommer opgaver til URN Router.
 
 
 \subsection{Freja}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
+\includegraphics[width=80pt]{Freja.PNG}
 \caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Drupal 8 site, præsentation og forside API.	
+
+RG samt API til vedligeholdelse og udstilling af præsentationsdata vedr. Drupal sektioner, forsider og artikelsider, f.eks. farver, logoer, backdrops.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Der er ingen udeståender problemer med Freja som den står nu.
 
 
 \subsection{Karrierekanonen}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=60pt]{Karrierekanonen.PNG}
+\caption{MATCH (x\{name:'Karrierekanonen'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Applikation til musik, præsentation (Front-end + admin)
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Der er ingen udeståender problemer med Karrierekanonen som den står nu.
 
 
 \subsection{Apigee}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=120pt]{Apigee.PNG}
+\caption{MATCH (x\{name:'Apigee'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+API-gateway for DR's backendsystemer hostet udenfor DR Byen.
+
+API-gateway, der afskærmer backendsystemer fra DDoS-angreb, tilbyder API-authentication og nøglehåndtering.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Det giver rigtigt god mening at alle de APIer vi udstiller ligger bag en god API-gateway. Vi skal have kikket på præcist hvad vi gør med API gateway når vi begynder at nærme os at flytte systemer over på pipeline
 
 
 \subsection{Varnish}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=160pt]{Varnish.PNG}
+\caption{MATCH (x\{name:'Varnish'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
-\subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Håndterer caching og routing, primært for systemer hostet i DR Byen.
 
-
-\subsection{Newspackage service}
-\begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
-\end{figure}
-\subsubsection{Kort beskrivelse}
+Varnish sikrer at forespørgsler til backends eller andre services rammer et centralt sted, og derefter sendes til den relevante service eller backend, samt tilbyder cachingmuligheder for svaret, således at belastningen på service eller backend reduceres kraftigt.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Varnish er i sig selv ikke noget vi kan påvirke i Web \& Apps. Vores afhængighed af systemet hænger sammen med afhængigheden af de systemer der ligger bag Varnish. 
+De systemer der benytter Varnish i dag er enten nogen der allerede er planer for at erstatte eller ligger i systemer som vi ikke kan påvirke.
 
 
 \subsection{Freki}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=80pt]{Freki.PNG}
+\caption{MATCH (x\{name:'Freki'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+System til at gemme applikations specifik personfølsom data.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Der er ingen udeståender problemer med Freki som den står nu.
+
 
 
 \subsection{Berigelsessider}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=80pt]{Berigelsessider.PNG}
+\caption{MATCH (x\{name:'Berigelsessider'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Opsamler ekstra data om en bruger i forbindelse med Login.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+Der er ingen udeståender problemer med Berigelsessider som den står nu.
+
 
 
 \subsection{IronMQ}
 \begin{figure}[h]
-\includegraphics[width=30pt]{CHANGE.PNG}
-\caption{MATCH (x\{name:'CHANGE'\})- -(y) RETURN x,y}
+\includegraphics[width=80pt]{IronMQ.PNG}
+\caption{MATCH (x\{name:'IronMQ'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
+Køsystem til tilstandsløs integration mellem systemer, primært udenfor DR Byen.
+
+Varetager modtagelse og distribution af beskeder mellem systemer, kan underrette aftagende systemer når der er nyt indhold i en given kø, fremfor at disse systemer poller IronMQ.
+
+SaaS implementering, så dermed ikke noget vi kan udvikle på selv.
 \subsubsection{Anbefalet handling}
-\subsubsection{Overslag}
+En eventbaseret tilgang til opdatering af systemer er i mange tilfælde en strålende løsning og gerne også en vi skal have kikket nærmere på. Om vi skal benytte IronMQ eller et andet pub / sub system skal vi have kikket nærmere på.
 
-
-\section{Anbefaling}
-
-% Der mangler nok lidt fyld her
 
 \end{document}
