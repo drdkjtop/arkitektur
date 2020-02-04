@@ -24,16 +24,17 @@ Denne rapport er skrevet ud fra information i DR-systemkatalog og de betragtning
 Mere præcise estimater vil være mulige for hvert delopgave, men er uden for scope af denne rapport.
 
 \section{Executive summary}
-Arkitekturen i Web \& Apps bærer præg af at have vokset organisk frem. Når et forretningsproblem har vist sig, er en løsning på problemet lavet ud fra de for håndenværende ressourcer og kompetencer, uden hensyntagen til hvordan løsningen passer ind i resten af systemlandskabet. Det har resulteret i at vi i dag har mange eksempler på parallelle implementeringer, på systemer der ikke kan vedligeholdes, på ukendt aftagerlandskab og på fragmenteret infrastruktur.
+Arkitekturen i Web \& Apps bærer præg af at have vokset organisk frem. Når et forretningsproblem har vist sig, er en løsning på problemet lavet ud fra de for hånden værende ressourcer og kompetencer, uden hensyntagen til hvordan løsningen passer ind i resten af systemlandskabet. Det har resulteret i at vi i dag har mange eksempler på parallelle implementeringer, på systemer der ikke kan vedligeholdes, på ukendt aftager landskab og på fragmenteret infrastruktur.
 
-% Hvad er formålet med at gennemgå disse skridt? Kan det opridses på forhånd?
+Hvis vi er interesseret i at løfte infrastrukturen fra hvad vi har i dag til et niveau som er lettere at vedligeholde, hurtigere at udvikle til og sikrere at teste, så er der en række tiltag vi bør gennemføre.
+
+De enkelte skridt ridses op i de følgende afsnit men kan kort beskrives som:
 De vigtigste skridt vi skal igennem er følgende:
 \begin{itemize}
 \item Design af gennemgående datamodel
 \item Konsolidering af infrastruktur
 \item Omskrivning af forældede produkter
-    % Sikre et tilstrækkeligt fundament, eller at der ER et fundament?
-\item Sikre DevOps fundament
+\item Sikre ensartet DevOps fundament i afdelingen
 \end{itemize}
 Vi skulle gerne ende op med en arkitektur, hvor det er muligt at have styr på vores aftager-landskab. Vi skal også have mulighed for hurtig kommunikation imellem interne komponenter via sikret og afgrænset netværk. Det skal være muligt at teste komponenter individuelt og i et sammenhængende produktionslignende test setup.
 
@@ -42,7 +43,6 @@ Vi kan passende gå i gang med de lavt hængende frugter i form af at flytte de 
 Det er svært at tids estimere præcist uden at grave dybere ned i detaljerne for de enkelte opgaver. Selve transformationen vil formentligt tage 2 år eller længere. Hvis vi i den tidsperiode stadig vil kunne varetage normale udviklingsopgaver, så bør vil allerede nu overveje at mande op i de forskellige teams.
 
 \section{Forretningsbehov}
-
 
 \subsection{Nyhedsapp}
 Nyhedsappen har fungeret fint i 4 år og er i efteråret 2019 blevet vurderet af app bureauet Nodes som værende så godt optimeret som det er muligt baseret på den teknologi den er bygget på. Hvis nyhedsappen skal fortsætte med at være tidssvarende og blive ved med at give en god brugeroplevelse, så var det Nodes anbefaling at skifte over til en native applikation. Det vil sige at der skal udvikles en native IOS og en native Android version.
@@ -62,7 +62,6 @@ Garnnøgle og TAG system har af flere omgange været oppe og vende som problemat
 Da relationssystemer både har stor forretningsmæssig potentiale og er i kritisk vedligeholdelsestilstand, så er det et oplagt område at prioritere i vores systemgennemgang.
 
 \subsection{Udgivelseshastighed}
-
 En stor del af den kompleksitet der er i vores platform i dag er på grund af afhængighederne imellem systemerne. Hver gang der er forbindelse mellem to systemer hvor det afhænger af en brugerhandling eller et push af informationer fra et system til et andet system, så er der mulighed for forbedringer både i form af reaktionstid men også i form af systemkompleksitet ved at vende afhængighederne om og lade alle systemer udstille generaliserede APIer og lade systemer udgive og abonnere på events i forbindelse med opdateringer.
 
 I dag, når en artikel udgives i Drupal, så skabes der et event, som opfanges af mimer og bruges til at igangsætte indekseringen.
@@ -126,23 +125,19 @@ Hvad end behovet vil være, så bør vi være sikre på at vi er forberedt på a
 \subsection{Indholdsdatamodel}
 Noget af det vigtigste for at få arkitekturen til at hænge sammen, er at vi etablerer en generel og gennemgående datamodel, som kan være med til at sikre at alle vores komponenter kan kommunikere på tværs. Det er et vigtigt stykke forarbejde, som både bidrager til muligheden for at rydde op i den nuværende hårknude-arkitektur, og gør det muligt at sikre at nyudviklede komponenter kan benyttes på tværs. Det kommer til at kræve en del arbejde at få etableret denne datamodel og derefter at få de forskellige systemer tilpasset til denne datamodel.
 
-% Hvad er argumentet for at læne sig op af Steffis tilgang? Djævlens advokat ville indvende,
-% at Steffi ikke udstiller en datamodel, men en liste af attributter som aftagere kan vælge ud fra?
-% NB: Jeg er ikke uenig, men savner argumentation og ligeledes klarhed over hvilke dele fra Steffi,
-% der bør tjene til inspiration. Min frygt er at man *benytter Steffis tilgang, og dermed får
-% en datamodel som er en visningsmodel, altså hvilke felter der skal vises i frontend.
-Det anbefales at vi starter med at udarbejde en så dækkende model som muligt. Her kan vi passende tage udgangspunkt i den datamodel der allerede benyttes af Steffi og afdække hvorvidt den dækker de behov vi kan forudse. Dermed får vi et centralt udgangspunkt som, når det bredes ud, kan bruges som samlingspunkt om vores content aggregation service. 
+Vi kan enten starte helt fra bunden af og skabe en datamodel som vi forventer kan løse alle de problemer vi kan forudse eller vi kan læne os op ad en af de datamodeller der allerede er i brug i dag et sted i arkitekturen. Starter vi modelleringen ud fra en eksisterende datamodel, vil vi være i stand fra at starte fra et punkt hvor mindst 2 dele af arkitekturen allerede er alignet med datamodellen og vil være i stand til at foretage en inkrementel udvidelse / omskrivning, så den bliver mere dækkende og kan spredes ud til resten af arkitekturen. Derimod, hvis vi starter fra bunden af, så kan vi formentligt designe en renere model der lever op til vores ønsker uden at være besværet af unødvendig kompleksitet, men design heraf vil tage mærkbart længere tid og vil ikke være forankret i noget system før vi også redesigner dem.
 
-Datamodellen skal ikke nødvendigvis implementeres på tværs af hele dr.dk fra starten af, men det vil være til stor gavn hvis vi kan arbejde os i retning af en fælles datamodel i alle fremtidige større ændringer af systemerne,
-samt i al større nyudvikling.
-Udarbejdelse af datamodellen bør ske inden næste store ændring i et af de centrale indholdsbærende datalag (Mimer, Steffi, Hydra, Nyhedsapp eller lignende).
+Det anbefales at vi starter med at udarbejde en så dækkende model som muligt. Her kan vi passende tage udgangspunkt i den datamodel der allerede benyttes af Steffi og afdække hvorvidt den dækker de behov vi kan forudse. Dermed får vi et centralt udgangspunkt som, når det bredes ud, kan bruges som samlingspunkt om vores content aggregation service.  
 
-    \textit{TODO: evt et estimat}
+Datamodellen skal ikke nødvendigvis implementeres på tværs af hele dr.dk fra starten af, men det vil være til stor gavn hvis vi kan arbejde os i retning af en fælles datamodel i alle fremtidige større ændringer af systemerne, samt i al større nyudvikling. Datamodellen skal dermed designes ud fra et synspunkt om at den skal være fælles for så store dele af arkitekturen som muligt.
+
+Udarbejdelse af datamodellen bør ske inden eller i forbindelse med næste store ændring i et af de centrale indholdsbærende datalag (Drupal, Mimer, Steffi, Hydra, Nyhedsapp eller lignende).
 
 
 \subsection{URN / URL}
 Vi bør i forbindelse med arbejdet på datamodellen også kikke på at få etableret en URN / URL der unikt kan identificere et hvilket som helst stykke indhold på tværs af systemlandskabet. Denne URN skal være i stand til unikt og konsistent kunne identificere en artikel, en relationsliste, et billede eller hvad som helst andet. Det bør ud fra URN alene være muligt at slå indhold op uden at man nødvendigvis kender det underliggende systemlandskab. Det vil gøre det muligt at have meget løst koblede systemer.
 Jo mere vi kan adskille vores systemer, jo lettere vil det være at udskifte enkelte elementer og jo lettere kan vi skalere de enkelte komponenter. 
+
 
 % systemafhængighed og problemerne
 % Event System og omvendt afhængighed
@@ -150,8 +145,6 @@ Jo mere vi kan adskille vores systemer, jo lettere vil det være at udskifte enk
 
 % Kan det uddybes hvad problemstillingen er, og hvilke fordele vi kan opnå
 % ved at udrulle/ensrette URN/URL?
-
-
     \textit{TODO: Mere fyld!}
 
 \subsection{Underliggende infrastruktur}
@@ -174,13 +167,14 @@ Kommunikationsudfald eller nedbrud hos en af cloud-udbyderne vil i de fleste til
 
 \subsection{Parallelliseret og distribueret system}
 DR har i kraft af Public Service-kontrakten med staten, en forpligtigelse til at kunne udkomme med nyheder og varslinger hele tiden og med kort varsel.
+
 Det stiller selvfølgeligt krav til vores systemers oppetid. Jo tættere koblet et system er, jo mere sårbar er det over for nedbrud i kæden af de systemer, det er koblet til.
+
 De systemer vi selv hoster og drifter, bør sikres i det omfang det er muligt. Jeg vil foreslå at vi kikker grundigt på et parallelt sky-setup, så vi f.eks. har en primær region (europe-west2) hvor der er veldefinerede skaleringsregler og etableret overvågning.
 Vi kan samtidigt have en sekundær sky sat op i en anden region (f.eks. europe-west4) som er skaleret helt i bund og ingen trafik varetager.
 Ved nedbrud i den primære region kan vi skifte til den sekundære og lade den skalere op.
 
-    \textit{TODO: Grovestimat af fordele / ulemper ved dette}
-
+Der er flere muligheder for hvordan et sådan setup kan fungere. Vi kan enten have et fuldt parat system allerede spundet op og parat eller vi kan sørge for at have en scriptet mulighed for at deploye et komplet system ud fra kompileret kode og database backups. Præcist hvordan dette skal sættes op og hvor meget det vil koste bliver vi nød til at kikke nærmere på når det bliver en mulighed.
 
 \subsection{DevOps-kulturen styrkes}
 Den primære fokus i DevOps kulturen er et forsøg på at gøre op med de forskelle der er imellem en udviklingsafdeling og en driftsafdeling. Dette er primært ud fra anerkendelsen af at udviklerne af et stykke software formentligt også er dem der bedst er i stand til at finde og rette fejl i deres software.
@@ -188,6 +182,14 @@ Den primære fokus i DevOps kulturen er et forsøg på at gøre op med de forske
 Et vigtigt element i dette er at det skal være muligt for udviklerne at teste i et produktionslignende miljø og at kunne deploye en rettelse til produktion med god antagelse af at det ikke har en negativ impact på resten af infrastrukturen. 
 
 Det er her relevant at kikke nærmere på elementer fra CI/CD kulturen (Continuous Integration / Continuous Deployment). Standardiseret byg pipeline, statisk kodeanalyse, afvikling af unittests og automatiseret deploy til test miljø og relateret tiltag vil være med til at finde fejl og mangler så tidligt som muligt, så releases til produktion kan ske både trygt og hurtigt.
+
+%* DevOps tankegangen er et strålende bud på en løsning af 3 delingen mellem infrastruktur, drift og udvikling.
+%* Devops skal styrkes i de enkelte udviklings teams.
+%	De skal kunne lave hyppige releases.
+%	De skal kunne lave sikre releases.
+%	De skal kunne overvåge deres applikationer.
+%	De skal kunne fejlfinde i deres applikationer på tværs af hele platformen.
+
 
 \subsubsection{Ensretning af pipeline}
 De pipelines der i dag benyttes på tværs af web og apps er ret optimeret i forhold til de enkelte teams og deres release process. Hvis vi går fra en specialiseret til en generel pipeline vil de enkelte teams releaseprocess skulle tilrettes markant for blot at opnå den samme funktionalitet som i dag. Der vil dog være store fordele der kan høstes hvis pipelinen benyttes af flere teams. 
@@ -206,9 +208,11 @@ Det vil ligeledes give den fordel at det vil være lettere for udviklerne at afl
 Ideelt set skal det være muligt at deploye et komplet miljø til enten test eller produktion fra et centralt sted. Det må meget gerne være muligt at have et aktivt produktionssystem, et inaktivt produktionssystem, et aktivt test system og mulighed for deploy af dedikerede testsystemer. 
 
 \begin{itemize}
-    \item fast fuld funktionibelt testsystem (staging).
+    \item fast fuld funktionibelt testsystem baseret på seneste release (staging).
     \item mulighed for deploy af nyt miljø med nødvendige komponenter.
 \end{itemize}
+
+Da det aldrig vil være muligt at få vilkårligt mange testsystemer stillet til rådighed af alle vores samarbejdspartnere eller SaaS leverandører, vil vi med al sandsynlighed være tvunget til at lade flere testsystemer tilgå de samme eksterne services, hvilket normalt ikke er noget problem, men i de tilfælde hvor eksterne services har behov for at kalde tilbage til vores systemer, vil vi formentligt være nød til at etablere et proxy system, der kan route kald til de respektive testsystemer, hvis det er nødvendigt.
 
 
 \subsubsection{Fælles overvågning}
@@ -223,21 +227,13 @@ For at opnå det er der behov for følgende:
 \end{itemize}
 
 Udviklerne i de enkelte teams har ansvaret for udvikling, test og vedligeholdelse af deres systemer. Udviklerne skal ligeledes sørge for at der opsættes overvågningspunkter, så der kan rapporteres systemstatus til overvågningen samt drejebøger for hvordan almindelige fejl kan afhjælpes.
-DevOps-afdelingen skal stå for udvikling af de nødvendige værktøjer og skal have det formelle ejerskab af infrastrukturen. Hvis der er nedbrud på netværk, hosting eller andre infrastrukturkomponenter, så skal dette løses af ejeren af infrastrukturen.
+DevOps-afdelingen skal stå for udvikling af de nødvendige værktøjer og skal have det formelle ejerskab af infrastrukturen. Hvis der er nedbrud på netværk, hosting eller andre infrastruktur komponenter, så skal dette løses af ejeren af infrastrukturen.
 
 Overvågningen kan varetages af Infra-afdelingen. Denne overvågning skal være af både infrastruktur og overvågningspunkter der leveres af udviklerne i de enkelte udviklingsteams. Da hverken DevOps eller de enkelte udviklingsteams har døgnbemanding, er Infra reelt eneste mulighed for at afhjælpe problemer på platformen uden for normal arbejdstid.
 
-%* DevOps tankegangen er et strålende bud på en løsning af 3 delingen mellem infrastruktur, drift og udvikling.
-%* Devops skal styrkes i de enkelte udviklings teams.
-%	De skal kunne lave hyppige releases.
-%	De skal kunne lave sikre releases.
-%	De skal kunne overvåge deres applikationer.
-%	De skal kunne fejlfinde i deres applikationer på tværs af hele platformen.
-%Centraliseret overvågning af infrastrukturen.
-%	De enkelte teams i Web og apps skal ikke være ansvarlige for overvågning af hele infrastrukturen.
-%	Teams skal kunne fejlfinde i egne applikationer på tværs af hele platformen.
+Opstår der et problem med infrastrukturen (udfald i tjenester hos cloud provider eller nedbrud i kubernetes setup) bør det være ejerne deraf der løser problemerne. Opstår der nedbrud i de enkelte tjenester der er deployet, som ikke kan afhjælpes ud fra den tilhørende drejebog, så bør det være de respektive udviklingsteams der har ansvaret for at afhjælpe dem.
 
-%TODO. Dette er nok det vigtigste afsnit. Her skal skrives MEGET
+En naturlig del af en fælles overvågning er også en fælles tilgang og standard for logning af events på tværs af platformen. Hvis vi er enige om hvordan der logges, hvad der logges og hvor meget der logges, så vil det i mange tilfælde være en lettere oplevelse at fejl finde på tværs af platformen og dermed at spotte hvor et problem opstår, ikke kun hvor et problem er tydeligt. 
 
 
 \section{Analyse af komponenter}
@@ -318,8 +314,7 @@ Præsentationslag (Node.js) trækker data fra API (Node.js). Redaktørgrænsefla
 \subsubsection{Anbefalet handling}
 Hvordan Webdok er flettet ind i vores nuværende arkitektur skal undersøges nærmere. Dokumentationen som den står nu giver et lidt mudret billede
 % TODO
-\subsubsection{Overslag}
-Ukendt.
+
 
 
 \subsection{Skole-Undervisning}
@@ -406,7 +401,7 @@ Tjenesten passer ind i vores referencearkitektur. Om Firebase bliver ved med at 
 
 \subsection{OCS}
 \begin{figure}[h]
-\includegraphics[width=200pt]{OCS.PNG}
+\includegraphics[width=120pt]{OCS.PNG}
 \caption{MATCH (x\{name:'OCS'\})- -(y) RETURN x,y}
 \end{figure}
 \subsubsection{Kort beskrivelse}
