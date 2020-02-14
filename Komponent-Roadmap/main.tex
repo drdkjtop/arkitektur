@@ -1,6 +1,15 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage[rightcaption]{sidecap}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,  
+    urlcolor=cyan,
+    bookmarks=true,
+    pdfpagemode=FullScreen,
+}
+\urlstyle{same}
 \graphicspath{ {./billeder/} }
 \input{structure.tex}
 \author {Jesper Toplund}
@@ -137,6 +146,7 @@ Udarbejdelse af datamodellen bør ske inden eller i forbindelse med næste store
 Vi bør i forbindelse med arbejdet på datamodellen også kikke på at få etableret en URN / URL der unikt kan identificere et hvilket som helst stykke indhold på tværs af systemlandskabet. Denne URN skal være i stand til unikt og konsistent kunne identificere en artikel, en relationsliste, et billede eller hvad som helst andet. Det bør ud fra URN alene være muligt at slå indhold op uden at man nødvendigvis kender det underliggende systemlandskab. Det vil gøre det muligt at have meget løst koblede systemer.
 Jo mere vi kan adskille vores systemer, jo lettere vil det være at udskifte enkelte elementer og jo lettere kan vi skalere de enkelte komponenter. 
 
+\url{https://developer.dr.dk/docs/specs/urn.html}
 
 % systemafhængighed og problemerne
 % Event System og omvendt afhængighed
