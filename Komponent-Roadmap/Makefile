@@ -1,4 +1,4 @@
-BINARY_NAME=main.pdf
+BINARY_NAME=KomponentOversigt.pdf
 PREFIX=main
 
 all: build

@@ -2,6 +2,7 @@
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{float}
+\usepackage{cprotect}
 \hypersetup{
     colorlinks=true,
     linkcolor=black,
@@ -16,7 +17,7 @@
 \graphicspath{ {./billeder/} }
 \input{structure.tex}
 \author {Jesper Toplund}
-\title{Roadmap for komponenter}
+\title{Komponent oversigt}
 \date{}
 
 \begin{document}
@@ -117,7 +118,7 @@ Vi bør konsolidere vores cloud strategi til at benytte den samme udbyder på tv
 \subsection{Antallet af systemer der aftager artikler vil efter alt at dømme stige}
 Vi bør derfor sørge for at adskille visningslag fra artikel lag i videst muligt omfang og sikre en konsistent datastruktur for artikeldata. Hvis vi får etableret en gennemgribende datamodel, så vil den samme platform kunne levere artikel data til hvilket som helst medie (web, IOS / Android, nyhedsbreve, RSS feeds, TTV osv.) der måtte forbruge det og vi vil stadig være i stand til at give en rimeligt konsistent oplevelse på tværs af medier.
 
-Vores mål arkitektur bør i videst muligt omfang være forberedt på at vi ikke nødvendigvis kender aftager landskabet i morgen, så jo bedre vi er i stand til at udstille vores indholdsdata i en veldefineret format på så mange niveauer som muligt, jo bedre vil vi være i stand til at imødekomme ønskerne fra morgendagens aftagere, om det så er interne eller eksterne aftagere.
+Vores reference arkitektur bør i videst muligt omfang være forberedt på at vi ikke nødvendigvis kender aftager landskabet i morgen, så jo bedre vi er i stand til at udstille vores indholdsdata i en veldefineret format på så mange niveauer som muligt, jo bedre vil vi være i stand til at imødekomme ønskerne fra morgendagens aftagere, om det så er interne eller eksterne aftagere.
 
 
 \subsection{Event system}
@@ -265,6 +266,53 @@ Opstår der et problem med infrastrukturen (udfald i tjenester hos cloud provide
 
 En naturlig del af en fælles overvågning er også en fælles tilgang og standard for logning af events på tværs af platformen. Hvis vi er enige om hvordan der logges, hvad der logges og hvor meget der logges, så vil det i mange tilfælde være en lettere oplevelse at fejl finde på tværs af platformen og dermed at spotte hvor et problem opstår, ikke kun hvor et problem er tydeligt. 
 
+\section{Reference Arkitektur}
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{Konceptuel_arkitektur_Eksemplificeret.png}
+\caption{Reference Arkitektur}
+\end{figure}
+\subsection{Produkt / Platform adskillelse}
+Produkter kendetegnes ved hurtige ændringer over kortere levetid, direkte værdiudløsning overfor brugerne og højere grad af styringsmæssig autonomi. 
+Produkternes udviklingshastighed, specialisering og tilpasningsevne kan dikteres af forretningsbehovet så frem der tages hensyn til platformskomponenterne der skal anvendes. 
+
+Platformen kendetegnes ved færre ændringer over lang levetid, indirekte værdiudløsning gennem produkter og styringsmæssig alignment på tværs af tid og produkter. Platformens robusthed og tværgående værdi skal ikke kompromitteres af produkternes specifikke implementeringer, lokale beslutninger eller korte levetid. En platformskomponent kan ikke afhænge af en produktkomponent.
+
+\begin{itemize}
+\item Produkter udvikles ovenpå og anvender platformens komponenter og opfylder specifikke produktkrav som platformen ikke selv kan eller skal.
+\item Produkter skal have et meget snævert fokus, kort levetid og kan endda udvikles ud fra stik modsatte principper end platformen.
+\item Produkter kan let tilpasse sig skiftende kundespecifikke behov.
+\item Produkters lifecycle skal forventningsafstemmes inden etablering, og løbende justeres om nødvendigt.
+\item Produkt komponenter kan forfremmes til platform komponenter hvis de overholder den for platformen gældende governance. Produkt komponenter bør forfremmes hvis en produkt komponent skal anvendes af flere forskellige produkter.
+\item Platform komponenter har ofte en lang levetid og må forvente at der er mange aftagere. Når en platformskomponent ændres bør der tages højde for de mange aftagere.
+\item Platformen kan implementere ændringer og understøtte funktionalitet, hvis værdiudløsning bevidst først kommer efter adskillige iterationer og et større antal produkter.
+\item Platformen har en stram governance, hvor ændringer skal imødekomme et større antal aftagere, således at ændringer ikke afføder uventede konsekvenser hos platformens aftagere.
+\end{itemize}
+
+Denne opdeling passer godt med Gartners PACE layered application strategy, der forsøger at give et fornuftigt bud på application lifecycle management.  
+
+\url{https://cio-wiki.org/wiki/Gartner%27s_PACE_Layered_Application_Strategy}
+
+
+\subsection{Systemgruppering}
+I det følgende beskrives de forskellige grupperinger i Referencearkitekturen kort.
+\subsubsection{Content Sources}
+Content Sources er de indholds bærende systemer. Dette kan f.eks. være Drupal, DR Billeder eller MU-Online. Content Sources indeholder oftest data der udstilles mange forskellige steder. Data fra Content Sources udstilles udelukkende igennem Content Services, men Content Sources kan opdateres fra andre fra andre systemer der kalder Content Sources direkte.
+\subsubsection{Content Services}
+Content Services er de services der som oftest er bygget oven på de enkelte Content Sources. Content Services benyttes oftest til at skærme Content Sources fra at skulle overholde kontrakter over for mange forskellige aftagere og for at beskytte mod tunge belastninger af Content Sources.
+Eksempler på Content Services kan f.eks. være Mimer 4 eller DR Billeder.
+\subsubsection{Platform Services}
+Platform Services er centralle services der udstiller funktioner og data der benyttes af flere aftagere. Eksempler på Platform Services kan være Image Scaler, Midas eller Garnnøgle.
+\subsubsection{Product Services}
+
+\subsubsection{Frontend Products}
+% Beskrivelse af Platform Services, Product Services, Content Services, Content Sources og Frontend Products
+
+
+%\section{Ordforklaring}
+% TODO Skriv ind hvad der menes med målarkitektur / referencearkitektur og andre drilske ord.
+% Indsæt målarkitekturen, beskriv de forskellige lag, deres SLA, og adherence til Gartners Pace Layered application strategy.
+
+
 \newpage
 
 \section{Analyse af komponenter}
@@ -272,7 +320,7 @@ En naturlig del af en fælles overvågning er også en fælles tilgang og standa
 \subsection{Akamai}
 \begin{figure}[H]
 \includegraphics[width=300pt]{Akamai.PNG}
-\caption{MATCH (x\{name:'Akamai'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Akamai'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Akamai benyttes som det primære CDN (Content delivery Network). 
@@ -289,7 +337,7 @@ Indgår ikke som sådan i roadmap.
 \subsection{Hydra}
 \begin{figure}[H]
 \includegraphics[width=300pt]{Hydra.PNG}
-\caption{MATCH (x\{name:'Hydra'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Hydra'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Web-frontend, der varetager indholdsvisning for artikler og forsider. Anvender Drupal-visning til sider, der endnu ikke understøttes af Hydra.
@@ -303,18 +351,19 @@ Hydra burde kun afhænge af platform utilities, platform services, product servi
 \subsection{Steffi}
 \begin{figure}[H]
 \includegraphics[width=300pt]{Steffi.PNG}
-\caption{MATCH (x\{name:'Steffi'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Steffi'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Forespørgselslag, der tilbyder GraphQL-grænseflader til frontendapplikationer.
-Benytter Content aggregering.
-
+Benytter Content aggregering. Der findes to kopier af Steffie i produktion, en der benytter en kort cache til hyppigt adspurgte ressourcer og en der ikke har nogen cache. Der er ingen cache invaliderings strategier eller mulighed for at reagere på events fra underliggende systemer.
+\subsubsection*{Anbefalet handling}
+Steffie er vores akutelle bud på et content aggregation lag.
 
 
 \subsection{Talentholdet}
 \begin{figure}[H]
 \includegraphics[width=80pt]{Talentholdet.PNG}
-\caption{MATCH (x\{name:'Talentholdet'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Talentholdet'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Talentholdet er en rekrutteringsplatform for nye talenter til DR. Talentholdet har sin egen database hvori den gemmer personidentificerbar data i krypteret form. Talentholdet afhænger af Imagescaler
@@ -326,7 +375,7 @@ Prioriteten af Talentholdet er dog ret lav, så den manuelle process kan tolerer
 \subsection{Elements}
 \begin{figure}[H]
 \includegraphics[width=120pt]{Elements.PNG}
-\caption{MATCH (x\{name:'Elements'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Elements'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Elements er DR's centrale komponentbibliotek, som består af frontendkomponenter. Elements er kodet i React. Elements benyttes af en række af vores frontend-produkter, men ikke alle.
@@ -337,7 +386,7 @@ Elements benyttes af en række af vores frontend-produkter og passer fint ind i 
 \subsection{Webdok}
 \begin{figure}[H]
 \includegraphics[width=180pt]{Webdok.PNG}
-\caption{MATCH (x\{name:'Webdok'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Webdok'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 CMS og præsentation af featureartikler i særformater.	
@@ -351,7 +400,7 @@ Hvordan Webdok er flettet ind i vores nuværende arkitektur skal undersøges næ
 \subsection{Skole-Undervisning}
 \begin{figure}[H]
 \includegraphics[width=80pt]{Skole-Undervisning.PNG}
-\caption{MATCH (x\{name:'Skole-Undervisning'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Skole-Undervisning'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Skole og Undervisning er et site, der formidler undervisningsforløb og undervisningsmateriale til Skoler.  Sitet er opbygget i Drupal, men har en række specialløsninger konstrueret for at kunne samle temaer og autogenerere faktabokse etc. 
@@ -363,7 +412,7 @@ Afhængigt af levetiden for projektet (Gartners TIME-model) skal vi overveje hva
 \subsection{Mad}
 \begin{figure}[H]
 \includegraphics[width=240pt]{Mad.PNG}
-\caption{MATCH (x\{name:'Mad'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Mad'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Mad er en applikation, der håndterer opskrifter, artikler og opskriftssamlinger. Mad er bygget som Headless Drupal med egen RG til opskrifter. Artikler publiceres gennem Drupal. 
@@ -374,7 +423,7 @@ Mad passer ikke helt ind i referencearkitekturen som beskrevet. Om det er en man
 \subsection{Nyhedsapp-Frontend}
 \begin{figure}[H]
 \includegraphics[width=160pt]{Nyhedsapp-Frontend.PNG}
-\caption{MATCH (x\{name:'Nyhedsapp Frontend'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Nyhedsapp Frontend'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Præsentationslag for indhold i Nyhedsapp, således at visningen mellem iOS og Android er homogen, samt har lignende homogenitet til visningen på DR.dk
@@ -386,7 +435,7 @@ Nyhedsapp-Frontend eksisterer kun i kraft af den aktuelle implementering af Nyhe
 \subsection{Nyhedsapp-iOS}
 \begin{figure}[H]
 \includegraphics[width=120pt]{Nyhedsapp-IOS.PNG}
-\caption{MATCH (x\{name:'Nyhedsapp IOSApp'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Nyhedsapp IOSApp'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Afvikler Nyhedsapp-frontend, integrerer til iOS-native funktionalitet
@@ -397,7 +446,7 @@ Nyhedsapp til både iOS og Android overholder referencearkitekturen. Der er mås
 \subsection{Nyhedsapp-Android}
 \begin{figure}[H]
 \includegraphics[width=120pt]{Nyhedsapp-Android.PNG}
-\caption{MATCH (x\{name:'Nyhedsapp AndroidApp'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Nyhedsapp AndroidApp'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Native Android-wrapper, der afvikler Nyhedsapp-Frontend
@@ -408,7 +457,7 @@ Nyhedsapp til både iOS og Android overholder referencearkitekturen. Der er mås
 \subsection{Batch.com}
 \begin{figure}[H]
 \includegraphics[width=120pt]{Batch-com.PNG}
-\caption{MATCH (x\{name:'Batch.com'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Batch.com'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 SaaS tjeneste der benyttes til push af beskeder til Nyhedsapp.
@@ -420,7 +469,7 @@ Tjenesten passer ind i vores referencearkitektur. Om Batch.com bliver ved med at
 \subsection{Firebase}
 \begin{figure}[H]
 \includegraphics[width=220pt]{Firebase.PNG}
-\caption{MATCH (x\{name:'Firebase'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Firebase'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 SaaS tjeneste der benyttes til Push-service af flere applikationer:
@@ -434,7 +483,7 @@ Tjenesten passer ind i vores referencearkitektur. Om Firebase bliver ved med at 
 \subsection{OCS}
 \begin{figure}[H]
 \includegraphics[width=120pt]{OCS.PNG}
-\caption{MATCH (x\{name:'OCS'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'OCS'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 API-afløseren til PSDB (MU-online), der leverer video- og radio-data (ikke anvendt i Web \& Apps endnu).
@@ -448,7 +497,7 @@ Ved ændringer i systemer der afhænger af PSDB, så bør det undersøges om det
 \subsection{Garnnøgle}
 \begin{figure}[H]
 \includegraphics[width=200pt]{Garnnoegle.PNG}
-\caption{MATCH (x\{name:'Garnnøgle'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Garnnøgle'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Tema- og sagskategorisering af artikelindhold, således specielt nyhedsindhold kan inddeles i overordnede kategorier. Bruges også som emnebaseret abonnement-mekanisme i Nyhedsapp
@@ -460,7 +509,7 @@ Garnnøgles placering i forhold til referencearkitekturen er ok. Selve implement
 \subsection{Drupal}
 \begin{figure}[H]
 \includegraphics[width=200pt]{Drupal.PNG}
-\caption{MATCH (x\{name:'Drupal'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Drupal'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Det primære CMS til tekstbaseret indhold på DR.dk, samt redaktionel grænseflade til indholdsproduktion og slutteligt mulighed for at grafisk opbygge sektionsforsider og sites.
@@ -479,7 +528,7 @@ Migrering fra Drupal 7 til andet CMS system vil være en betydelig opgave, især
 \subsection{Mimer 1.0 API}
 \begin{figure}[H]
 \includegraphics[width=120pt]{MimerAPI.PNG}
-\caption{MATCH (x\{name:'Mimer 1.0 API'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Mimer 1.0 API'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Mimer 1.0 API er nogle REST services i Drupal, som giver Mimer 1.1 adgang til at oprette nyt indhold.
@@ -490,7 +539,7 @@ Mimer 1.0 API er allerede under afvikling. Denne afvikling bør fortsættes og s
 \subsection{Drupal RG}
 \begin{figure}[H]
 \includegraphics[width=300pt]{DrupalRG.PNG}
-\caption{MATCH (x\{name:'Drupal RG'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Drupal RG'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Nyeste version af redaktør grænsefladen, lanceret Q1-2018. Redaktør grænsefladen (RG) er journalisternes værktøj til artikelproduktion. Den findes i to udgaver, hhv. RG1 og RG2.	
@@ -502,7 +551,7 @@ Webbaseret grænseflade til at oprette, redigere og distribuere tekstbaseret ind
 \subsection{Drupal Entity API}
 \begin{figure}[H]
 \includegraphics[width=200pt]{DrupalEntityAPI.PNG}
-\caption{MATCH (x\{name:'Drupal Entity API'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Drupal Entity API'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Udstiller væsentlige dele af Drupals datamodel for indholdstyper i et simpelt API
@@ -513,7 +562,7 @@ Udstiller væsentlige dele af Drupals datamodel for indholdstyper i et simpelt A
 \subsection{Drupal Menu API}
 \begin{figure}[H]
 \includegraphics[width=120pt]{DrupalMenuAPI.PNG}
-\caption{MATCH (x\{name:'Drupal Menu API'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Drupal Menu API'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Udstiller Drupals menu og sitestruktur til aftagere, der ønsker at præsentere indhold i en hierarkisk visning.
@@ -522,7 +571,7 @@ Udstiller Drupals menu og sitestruktur til aftagere, der ønsker at præsentere 
 \subsection{Ensighten}
 \begin{figure}[H]
 \includegraphics[width=250pt]{Ensighten.PNG}
-\caption{MATCH (x\{name:'Ensighten'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Ensighten'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Indskyder JavaScript på dr.dk sider, f.eks. til analytics, bannere, mv. Sørger derudover også for at hente og behandle metadata til analytics og anbefalingssystemer.
@@ -540,7 +589,7 @@ SaaS. Der er ingen udviklingsmuligheder her, kun eventuelt at fjerne afhængighe
 \subsection{Midas}
 \begin{figure}[H]
 \includegraphics[width=200pt]{Midas.PNG}
-\caption{MATCH (x\{name:'Midas'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Midas'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Oembed-service, der omsætter oEmbed-referencer til markup, til brug i frontend.
@@ -550,7 +599,7 @@ Oembed-service, der omsætter oEmbed-referencer til markup, til brug i frontend.
 \subsection{PSDB (MU-online)}
 \begin{figure}[H]
 \includegraphics[width=300pt]{PSDB.PNG}
-\caption{MATCH (x\{name:'PSDB (MU-online)'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'PSDB (MU-online)'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Program og seriedatabase til TV-baseret indhold
@@ -562,7 +611,7 @@ Ejerskabet af dette system ligger uden for Web og Apps.
 \subsection{Scanpix}
 \begin{figure}[H]
 \includegraphics[width=160pt]{Scanpix.PNG}
-\caption{MATCH (x\{name:'Scanpix'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Scanpix'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Billededatabase. Ekstern service, der tilbyder redaktører at søge efter billed- og videoindhold som kan importeres og anvendes i DR's systemer.
@@ -574,7 +623,7 @@ SaaS. Der er ingen udviklingsmuligheder her, kun eventuelt at fjerne afhængighe
 \subsection{Cxense}
 \begin{figure}[H]
 \includegraphics[width=200pt]{Cxense.PNG}
-\caption{MATCH (x\{name:'Cxense'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Cxense'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Analysesystem til personalisering
@@ -586,7 +635,7 @@ SaaS. Der er ingen udviklingsmuligheder her, kun eventuelt at fjerne afhængighe
 \subsection{Adobe Analytics}
 \begin{figure}[H]
 \includegraphics[width=160pt]{AdobeAnalytics.PNG}
-\caption{MATCH (x\{name:'Adobe Analytics'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Adobe Analytics'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Analysesystem til personalisering
@@ -602,7 +651,7 @@ Pressesite på dr.dk Udsendelse af nyhedsbreve, integration til Mosaic-billeddat
 \subsection{WebCMS}
 \begin{figure}[H]
 \includegraphics[height=120pt]{WebCMS.PNG}
-\caption{MATCH (x\{name:'WebCMS'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'WebCMS'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Content Management System håndtering af sider på dr.dk. Udfaset og afløst af Drupal.
@@ -612,7 +661,7 @@ Content Management System håndtering af sider på dr.dk. Udfaset og afløst af 
 \subsection{DR Search}
 \begin{figure}[H]
 \includegraphics[width=200pt]{DRSearch.PNG}
-\caption{MATCH (x\{name:'DR Search'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'DR Search'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Søgemaskine tekst, video og radioindhold på DR.dk	
@@ -632,7 +681,7 @@ DR Search er for tiden uden ejerskab og uden ansvarlige udviklere. Enten skal sy
 \subsection{Nyhedsbreve}
 \begin{figure}[H]
 \includegraphics[width=160pt]{Nyhedsbreve.PNG}
-\caption{MATCH (x\{name:'Nyhedsbreve'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Nyhedsbreve'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Udsendelse af nyhedsbreve. Benytter Peytz' service	
@@ -647,7 +696,7 @@ Det skal vurderes om denne løsning er passende for vores fremtidige arkitektur.
 \subsection{DR Billeder}
 \begin{figure}[H]
 \includegraphics[width=200pt]{DRBilleder.PNG}
-\caption{MATCH (x\{name:'DR Billeder'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'DR Billeder'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Billedhåndteringssystem til DR's indholdsproducenter, anvender standardsystemet Cumulus fra Canto. Der anvendes en underleverandør, Attention, til at konfigurere systemet. Består af følgende delkomponenter: Database, applikationsserver, web UI, tyk klient.
@@ -659,7 +708,7 @@ Ingen handling nødvendig. Systemet håndteres uden for Web og Apps
 \subsection{DR.DK oEmbed S3 bucket}
 \begin{figure}[H]
 \includegraphics[width=120pt]{S3Bucket.PNG}
-\caption{MATCH (x\{name:'DR.DK oEmbed S3 bucket'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'DR.DK oEmbed S3 bucket'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 En AWS S3 bucket der anvendes til online versioner af billeder som indlejres med oEmbed
@@ -671,7 +720,7 @@ Ingen handling nødvendig. Systemet håndteres uden for Web og Apps
 \subsection{Mimer 3}
 \begin{figure}[H]
 \includegraphics[width=300pt]{Mimer3.PNG}
-\caption{MATCH (x\{name:'Mimer 3'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Mimer 3'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 API til Drupals artikelindhold.
@@ -686,7 +735,7 @@ Der mangler stadig mange afhængigheder der skal migreres over på Mimer 4. Diss
 \subsection{Mimer 4}
 \begin{figure}[H]
 \includegraphics[width=200pt]{Mimer4.PNG}
-\caption{MATCH (x\{name:'Mimer 4'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Mimer 4'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 API til Drupals artikelindhold.
@@ -699,7 +748,7 @@ Udstiller Drupals primære indholdstyper til brug og visning i andre systemer.
 \subsection{Tag}
 \begin{figure}[H]
 \includegraphics[width=200pt]{Tag.PNG}
-\caption{MATCH (x\{name:'Tag'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Tag'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Tagsystem til opmærkning af DR's web-indhold.
@@ -713,7 +762,7 @@ Tag manager systemet bliver slet ikke brugt i det omfang det burde. Sidste opdat
 \subsection{Urd}
 \begin{figure}[H]
 \includegraphics[width=160pt]{Urd.PNG}
-\caption{MATCH (x\{name:'Urd'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Urd'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Metadataservice, der leverer metadata til brug i TMS
@@ -724,7 +773,7 @@ Metadataservice, der leverer metadata til brug i TMS
 \subsection{Infomedia}
 \begin{figure}[H]
 \includegraphics[width=130pt]{Infomedia.PNG}
-\caption{MATCH (x\{name:'Infomedia'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Infomedia'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Taksonomidatabase og tekstanalysesystem til tags.
@@ -740,7 +789,7 @@ Infomedia bruges idag til tag systemet. Tag systemet og Garnnøgle står forment
 \subsection{Auth0}
 \begin{figure}[H]
 \includegraphics[width=130pt]{Auth0.PNG}
-\caption{MATCH (x\{name:'Auth0'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Auth0'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Oauth autentifikations platform. SaaS.
@@ -752,7 +801,7 @@ Auth0 er en fin platform til autentificering af brugere. Det er en betalt servic
 \subsection{Identity API}
 \begin{figure}[H]
 \includegraphics[width=130pt]{Identity.PNG}
-\caption{MATCH (x\{name:'Identity API'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Identity API'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Backend til DR's login-løsning.
@@ -763,7 +812,7 @@ Ingen nødvendig
 \subsection{Telegrammaskine}
 \begin{figure}[H]
 \includegraphics[width=200pt]{Telegrammaskine.PNG}
-\caption{MATCH (x\{name:'Telegrammaskine'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Telegrammaskine'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Integration til Ritzau-indhold, med mulighed for at redigere og udgive telegrammer som Drupal-artikler.	
@@ -776,7 +825,7 @@ Ingen ændringer nødvendigt.
 \subsection{Dr. Edition}
 \begin{figure}[H]
 \includegraphics[width=220pt]{DrEdition.PNG}
-\caption{MATCH (x\{name:'Dr. Edition'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Dr. Edition'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Forsideværktøj til forsiden af DR.dk, hvor redaktører udarbejder forsider, inkluderer også API. Benytter Aptomas Dr. Edition-produkt. (steffi kommer snart til at trække til den nye forside). 
@@ -789,7 +838,7 @@ Tilbyder forsideredaktører at opbygge og redigere forsiden af DR.dk ud fra sene
 \subsection{dr.dk forsiden}
 \begin{figure}[H]
 \includegraphics[width=160pt]{DrDkForsiden.PNG}
-\caption{MATCH (x\{name:'dr.dk forsiden'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'dr.dk forsiden'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Azure-driftet ASP.NET MVC applikation til at hente data og vise forsiden af dr.dk
@@ -802,7 +851,7 @@ Robust system til visning af de forsider som forsideredaktører udarbejder i Dr.
 \subsection{Alle Nyheder}
 \begin{figure}[H]
 \includegraphics[width=120pt]{AlleNyheder.PNG}
-\caption{MATCH (x\{name:'Alle Nyheder'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Alle Nyheder'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Systemet der driver siden allenyheder (alle nyheder): http://www.dr.dk/nyheder/allenyheder/	
@@ -817,7 +866,7 @@ Tilbyder overblik over senest publiceret artikelindhold samt en søgning ud fra 
 \subsection{Newsapp UI}
 \begin{figure}[H]
 \includegraphics[width=50pt]{NyhedsAppUi.PNG}
-\caption{MATCH (x\{name:'Newsapp UI'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Newsapp UI'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Web-renderingsværktøj til DR Nyheder (app). Web-hostet værktøj til at se mobil app i web-version. Placeret på https://www.dr.dk/tjenester/newsapp-ui/.	
@@ -830,7 +879,7 @@ Ingen nødvendig. Applikationen lever eller dør med de 2 nyheds App
 \subsection{SMD (API shortmessage-dispatcher)}
 \begin{figure}[H]
 \includegraphics[width=120pt]{SMD.PNG}
-\caption{MATCH (x\{name:'SMD (API shortmessage-dispatcher)'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'SMD (API shortmessage-dispatcher)'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Push SMS; nyhedsbrev, Nyheds app. fra f.eks. Drupal, facebook.
@@ -843,7 +892,7 @@ Tilbyder push af tekstbaseret indhold til en række forskellige platforme og dis
 \subsection{Mest læste og delte}
 \begin{figure}[H]
 \includegraphics[height=120pt]{MestL.PNG}
-\caption{MATCH (x\{name:'Mest læste og delte'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Mest læste og delte'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 ESI mest læste og delte mm. på DR.dk og Drupal sider.
@@ -857,7 +906,7 @@ Applikationen skal lukkes ned, da dens funktionalitet bliver erstattet af Cxense
 \subsection{Nyhedsapp Backend}
 \begin{figure}[H]
 \includegraphics[height=200pt]{NyhedsappBE.PNG}
-\caption{MATCH (x\{name:'Nyhedsapp Backend'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Nyhedsapp Backend'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Backend til DR's Nyhedsapp.	
@@ -872,7 +921,7 @@ Det virker ikke rationelt at omskrive nyhedsapp kun med henblik på at rydde lid
 \subsection{Tag Admin}
 \begin{figure}[H]
 \includegraphics[width=120pt]{TagAdmin.PNG}
-\caption{MATCH (x\{name:'Tag Admin'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Tag Admin'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Administrative interface for Tag API.
@@ -887,7 +936,7 @@ Tag API skal vi have kikket på i den generelle renovation af Relations systemer
 \subsection{Ritzau}
 \begin{figure}[H]
 \includegraphics[width=80pt]{Ritzau.PNG}
-\caption{MATCH (x\{name:'Ritzau'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Ritzau'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Eksternt system. Dataleverandør til Drupal-artikler.
@@ -900,7 +949,7 @@ Eksternt system som er kritisk for redaktionen. Ingen handling nødvendig.
 \subsection{Ratatosk}
 \begin{figure}[H]
 \includegraphics[width=80pt]{Ratatosk.PNG}
-\caption{MATCH (x\{name:'Ratatosk'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Ratatosk'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 RSS feed generator. Leverer data til Nyhedsbreve.
@@ -909,7 +958,7 @@ RSS feed generator. Leverer data til Nyhedsbreve.
 \subsection{Drupal Vinr Mimer}
 \begin{figure}[H]
 \includegraphics[width=120pt]{DrupalVinrMimer.PNG}
-\caption{MATCH (x\{name:'Drupal Vinr Mimer'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Drupal Vinr Mimer'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Mikroservice til at udstille indhold ud fra flere forskellige identifikationsmuligheder
@@ -920,7 +969,7 @@ I forbindelse med alignment med reference arkitekturen, så skal vi have kikket 
 \subsection{DRIP}
 \begin{figure}[H]
 \includegraphics[width=120pt]{DRIP.PNG}
-\caption{MATCH (x\{name:'DRIP'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'DRIP'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 DR Integrationsplatform, et køsystem til udveksling og transformation af beskeder mellem systemer. Har ind- og ud-adapters.
@@ -933,7 +982,7 @@ Skal muligvis erstattes af et Event system alt efter hvad analysen af det viser.
 \subsection{Global Navigation}
 \begin{figure}[H]
 \includegraphics[width=120pt]{GlobalNavigation.PNG}
-\caption{MATCH (x\{name:'Global Navigation'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Global Navigation'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Global top navigation og footer.
@@ -945,7 +994,7 @@ Ingen umiddelbart nødvendig.
 \subsection{BrugerUpload}
 \begin{figure}[H]
 \includegraphics[width=80pt]{BrugerUpload.PNG}
-\caption{MATCH (x\{name:'BrugerUpload'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'BrugerUpload'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 React komponent med egen backend, der bl.a. bruges til upload af brugernes egne vejrbilleder. Har sin egen Drupal komponent.
@@ -956,7 +1005,7 @@ Ingen umiddelbart nødvendig.
 \subsection{Imagescaler}
 \begin{figure}[H]
 \includegraphics[width=160pt]{Imagescaler.PNG}
-\caption{MATCH (x\{name:'Imagescaler'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Imagescaler'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Egenudviklet billedskaleringsservice, som Drupal RG og frontend anvender til at skalere billeder efter behov.	
@@ -969,7 +1018,7 @@ Der er ingen udestående problemer med Imagescaler som den står nu.
 \subsection{ADFS}
 \begin{figure}[H]
 \includegraphics[width=120pt]{ADFS.PNG}
-\caption{MATCH (x\{name:'ADFS'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'ADFS'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Active Directory Federation Service, SSO for DR-brugere.
@@ -982,7 +1031,7 @@ Der er ingen udeståender problemer med ADFS som den står nu.
 \subsection{Global Assets}
 \begin{figure}[H]
 \includegraphics[width=80pt]{GlobalAssets.PNG}
-\caption{MATCH (x\{name:'Global Assets'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Global Assets'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Globale JavaScript og CSS assets, primært til gammelt dr.dk design.
@@ -993,7 +1042,7 @@ Da Global Assets primært benyttes af det gamle design, så virker det oplagt at
 \subsection{Global}
 \begin{figure}[H]
 \includegraphics[width=80pt]{Global.PNG}
-\caption{MATCH (x\{name:'Global'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Global'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Globale front-end assets (JS, CSS, fonte), mere strømlinet erstatning for Global Assets. Hostes på Heroku.
@@ -1004,7 +1053,7 @@ Der er ingen udeståender problemer med Global som den står nu.
 \subsection{Webstat}
 \begin{figure}[H]
 \includegraphics[width=60pt]{Webstat.PNG}
-\caption{MATCH (x\{name:'Webstat'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Webstat'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Diverse statistik (mv.) scripts. Det meste af funktionaliteten håndteres i dag af Ensighten men f.eks. Gallup håndteres stadig af Webstat.
@@ -1015,7 +1064,7 @@ I oprydningens ånd, så skal vi have kikket på om det er relevant at få Webst
 \subsection{Describe Assets}
 \begin{figure}[H]
 \includegraphics[width=120pt]{DescribeAssets.PNG}
-\caption{MATCH (x\{name:'Describe Assets'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Describe Assets'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Udstiller data for givne indholdsressourcer (tre separate services for hvert større indholdssystem).
@@ -1028,7 +1077,7 @@ Der er ingen udeståender problemer med Describe Assets som den står nu. Når v
 \subsection{URN Router}
 \begin{figure}[H]
 \includegraphics[width=80pt]{URNRouter.PNG}
-\caption{MATCH (x\{name:'URN Router'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'URN Router'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 URN-oversætter, der returnerer links til Describe Assets.
@@ -1041,7 +1090,7 @@ Der er ingen udeståender problemer med URN Router som den står nu. Når vi kik
 \subsection{Freja}
 \begin{figure}[H]
 \includegraphics[width=80pt]{Freja.PNG}
-\caption{MATCH (x\{name:'Freja'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Freja'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Drupal 8 site, præsentation og forside API.	
@@ -1054,7 +1103,7 @@ Der er ingen udeståender problemer med Freja som den står nu.
 \subsection{Karrierekanonen}
 \begin{figure}[H]
 \includegraphics[width=60pt]{Karrierekanonen.PNG}
-\caption{MATCH (x\{name:'Karrierekanonen'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Karrierekanonen'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Applikation til musik, præsentation (Front-end + admin)
@@ -1065,7 +1114,7 @@ Der er ingen udeståender problemer med Karrierekanonen som den står nu.
 \subsection{Apigee}
 \begin{figure}[H]
 \includegraphics[width=120pt]{Apigee.PNG}
-\caption{MATCH (x\{name:'Apigee'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Apigee'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 API-gateway for DR's backendsystemer hostet udenfor DR Byen.
@@ -1078,7 +1127,7 @@ Det giver rigtigt god mening at alle de APIer vi udstiller ligger bag en god API
 \subsection{Varnish}
 \begin{figure}[H]
 \includegraphics[width=160pt]{Varnish.PNG}
-\caption{MATCH (x\{name:'Varnish'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Varnish'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Håndterer caching og routing, primært for systemer hostet i DR Byen.
@@ -1092,7 +1141,7 @@ De systemer der benytter Varnish i dag er enten nogen der allerede er planer for
 \subsection{Freki}
 \begin{figure}[H]
 \includegraphics[width=80pt]{Freki.PNG}
-\caption{MATCH (x\{name:'Freki'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Freki'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 System til at gemme applikations specifik personfølsom data.
@@ -1104,7 +1153,7 @@ Der er ingen udeståender problemer med Freki som den står nu.
 \subsection{Berigelsessider}
 \begin{figure}[H]
 \includegraphics[width=80pt]{Berigelsessider.PNG}
-\caption{MATCH (x\{name:'Berigelsessider'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'Berigelsessider'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Opsamler ekstra data om en bruger i forbindelse med Login.
@@ -1116,7 +1165,7 @@ Der er ingen udeståender problemer med Berigelsessider som den står nu.
 \subsection{IronMQ}
 \begin{figure}[H]
 \includegraphics[width=80pt]{IronMQ.PNG}
-\caption{MATCH (x\{name:'IronMQ'\})- -(y) RETURN x,y}
+\cprotect\caption{\verb|MATCH (x{name:'IronMQ'})--(y) RETURN x,y|}
 \end{figure}
 \subsubsection*{Kort beskrivelse}
 Køsystem til tilstandsløs integration mellem systemer, primært udenfor DR Byen.
