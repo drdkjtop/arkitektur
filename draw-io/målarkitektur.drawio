@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-11-03T08:59:30.535Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36" etag="awNt34d3t0pY0hoJTD5M" version="15.6.6" type="github" pages="5">
+<mxfile host="app.diagrams.net" modified="2021-11-03T09:11:47.335Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36" etag="EJrQ_JdHXS-YFGl2iDsi" version="15.6.6" type="github" pages="5">
   <diagram name="0.3.2 Generaliseret - Målarkitektur " id="Or-p5rp0bc3KpjhMZaEB">
     <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -1610,7 +1610,7 @@
     </mxGraphModel>
   </diagram>
   <diagram id="Yu9HYrw5YJWcUaNjSSaM" name="As Is udgivelseskæden">
-    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1038" dy="579" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="8Ucxof_nwie7bLGFzqGO-0" />
         <mxCell id="8Ucxof_nwie7bLGFzqGO-1" parent="8Ucxof_nwie7bLGFzqGO-0" />
@@ -1917,7 +1917,7 @@
         <mxCell id="t3_9lI50ncxIUFSpSBSm-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jumpStyle=arc;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#000000;" parent="8Ucxof_nwie7bLGFzqGO-1" source="t3_9lI50ncxIUFSpSBSm-0" target="Jb82SwjL1crC5XEno5je-0" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="t3_9lI50ncxIUFSpSBSm-0" value="DRIP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="8Ucxof_nwie7bLGFzqGO-1" vertex="1">
+        <mxCell id="t3_9lI50ncxIUFSpSBSm-0" value="DRIP" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=default;" parent="8Ucxof_nwie7bLGFzqGO-1" vertex="1">
           <mxGeometry x="800" y="490" width="120" height="60" as="geometry" />
         </mxCell>
         <mxCell id="t3_9lI50ncxIUFSpSBSm-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;jumpStyle=arc;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;strokeColor=#000000;" parent="8Ucxof_nwie7bLGFzqGO-1" source="kJZ40vPGCjSgyVssJhY1-35" target="t3_9lI50ncxIUFSpSBSm-0" edge="1">
@@ -1943,7 +1943,7 @@
     </mxGraphModel>
   </diagram>
   <diagram name="To Be udgivelseskæden" id="rFS6bLE3oU8ESYZhCwwu">
-    <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1038" dy="579" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="Jmh7QS3N8SK8HMQIumPX-0" />
         <mxCell id="Jmh7QS3N8SK8HMQIumPX-1" parent="Jmh7QS3N8SK8HMQIumPX-0" />
