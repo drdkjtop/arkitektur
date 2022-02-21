@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-02-21T07:22:30.678Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" etag="5hkp909rogh5LOPo7dtQ" version="15.9.6" type="github">
+<mxfile host="app.diagrams.net" modified="2022-02-21T10:07:54.340Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" etag="3xBQIJvaNZ68bm1ZxWyI" version="15.9.6" type="github">
   <diagram id="jmcXrmn8KbR-PX1Stm4x" name="Page-1">
     <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -193,6 +193,9 @@
             <mxPoint x="510" y="475" as="sourcePoint" />
             <mxPoint x="640" y="565" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="4BAr5wa8gltEw5_P-PHC-107" value="&lt;ul&gt;&lt;li&gt;RSS Service trækker i dag data fra Steffi&lt;/li&gt;&lt;li&gt;CSX og CAS etableres og data nødvendigt for RSS gøres tilgængeligt i CAS&lt;/li&gt;&lt;li&gt;RSS Service migreres til at trække data fra CAS&lt;/li&gt;&lt;li&gt;CAS udvides over tid til at dække al data fra Drupal&lt;/li&gt;&lt;li&gt;Når CAS udstiller Mimer4s data kan Steffi migreres til at trække fra CAS&lt;/li&gt;&lt;li&gt;Mimer 4 kan lukkes&lt;/li&gt;&lt;/ul&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;align=left;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="680" y="200" width="260" height="360" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
