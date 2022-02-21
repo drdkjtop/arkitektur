@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-02-21T09:28:40.676Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" etag="FgAtilJUtZGOC8L8fZdX" version="15.9.6" type="github">
+<mxfile host="app.diagrams.net" modified="2022-02-21T10:09:46.129Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" etag="grojy6lfRFU8FCVqHfzv" version="15.9.6" type="github">
   <diagram id="TL5UxQqcXWMGM7SQSwtr" name="Page-1">
     <mxGraphModel dx="1422" dy="794" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
@@ -314,7 +314,7 @@
         <mxCell id="V_gKk9-HJMqSHG7EkTyj-49" value="Nuværende infrastruktur bag Nyhedsapp" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
           <mxGeometry x="360" y="150" width="60" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="V_gKk9-HJMqSHG7EkTyj-53" value="Under Steffi / CAS fungerer platform og content services som for de gør for dr.dk og udelades derfor her." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;align=left;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+        <mxCell id="V_gKk9-HJMqSHG7EkTyj-53" value="Under Steffi / CAS fungerer platform og content services som de gør for dr.dk og udelades derfor her." style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;align=left;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
           <mxGeometry x="680" y="620" width="120" height="160" as="geometry" />
         </mxCell>
       </root>
