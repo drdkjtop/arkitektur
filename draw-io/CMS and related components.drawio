@@ -1,19 +1,16 @@
-<mxfile host="app.diagrams.net" modified="2022-05-25T08:31:17.634Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="TaimHKnfmAw6nEE6nIw3" version="17.4.0" type="github">
+<mxfile host="app.diagrams.net" modified="2022-05-25T08:45:32.430Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="0JKgivJgtqtlf58KOokc" version="17.4.0" type="github">
   <diagram name="Page-1" id="b5b7bab2-c9e2-2cf4-8b2a-24fd1a2a6d21">
     <mxGraphModel dx="1778" dy="921" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="6e0c8c40b5770093-72" value="" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=194;tabHeight=22;tabPosition=left;html=1;rounded=0;shadow=0;comic=0;labelBackgroundColor=none;strokeWidth=1;fillColor=none;fontFamily=Verdana;fontSize=10;align=center;" parent="1" vertex="1">
-          <mxGeometry x="210" y="115" width="1121" height="940" as="geometry" />
-        </mxCell>
         <mxCell id="6e0c8c40b5770093-58" style="rounded=0;html=1;dashed=1;labelBackgroundColor=none;startFill=0;endArrow=open;endFill=0;endSize=10;fontFamily=Verdana;fontSize=10;entryX=0.592;entryY=0.2;entryPerimeter=0;edgeStyle=elbowEdgeStyle;" parent="1" target="6e0c8c40b5770093-11" edge="1">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="527" y="244.5" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="6e0c8c40b5770093-73" value="DR.dk CMS Context diagram" style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=10;fontFamily=Verdana" parent="1" vertex="1">
-          <mxGeometry x="240" y="114.5" width="130" height="20" as="geometry" />
+        <mxCell id="4k3_10itk6TQqzx8U7jZ-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="4k3_10itk6TQqzx8U7jZ-1" target="4k3_10itk6TQqzx8U7jZ-14">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="4k3_10itk6TQqzx8U7jZ-1" value="&lt;p style=&quot;margin: 0px ; margin-top: 6px ; text-align: center&quot;&gt;&lt;b&gt;DR.dk CMS Tender Scope&lt;/b&gt;&lt;/p&gt;&lt;hr&gt;&lt;p style=&quot;margin: 0px ; margin-left: 8px&quot;&gt;&lt;br&gt;&lt;/p&gt;" style="align=left;overflow=fill;html=1;dropTarget=0;fillColor=#f5f5f5;fontColor=#333333;strokeColor=#666666;" vertex="1" parent="1">
           <mxGeometry x="435" y="500" width="790" height="330" as="geometry" />
@@ -35,9 +32,6 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="4k3_10itk6TQqzx8U7jZ-39" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="4k3_10itk6TQqzx8U7jZ-6" target="4k3_10itk6TQqzx8U7jZ-17">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="4k3_10itk6TQqzx8U7jZ-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="4k3_10itk6TQqzx8U7jZ-6" target="4k3_10itk6TQqzx8U7jZ-30">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="4k3_10itk6TQqzx8U7jZ-6" value="CAS&lt;br&gt;Content Aggregation Service" style="html=1;dropTarget=0;" vertex="1" parent="1">
@@ -73,7 +67,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="4k3_10itk6TQqzx8U7jZ-14" value="Midas" style="html=1;dropTarget=0;" vertex="1" parent="1">
-          <mxGeometry x="1040" y="907" width="180" height="90" as="geometry" />
+          <mxGeometry x="1280" y="520" width="180" height="90" as="geometry" />
         </mxCell>
         <mxCell id="4k3_10itk6TQqzx8U7jZ-15" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="4k3_10itk6TQqzx8U7jZ-14">
           <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
@@ -164,13 +158,19 @@
             <mxPoint x="-27" y="7" as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="4k3_10itk6TQqzx8U7jZ-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;dashed=1;" edge="1" parent="1" source="4k3_10itk6TQqzx8U7jZ-32" target="4k3_10itk6TQqzx8U7jZ-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="4k3_10itk6TQqzx8U7jZ-32" value="Push Frontends&lt;br&gt;(News letter, Newsapp push,&lt;br&gt;&amp;nbsp;SMS and so on)" style="html=1;dropTarget=0;" vertex="1" parent="1">
-          <mxGeometry x="500" y="190" width="180" height="90" as="geometry" />
+          <mxGeometry x="500" y="199" width="180" height="90" as="geometry" />
         </mxCell>
         <mxCell id="4k3_10itk6TQqzx8U7jZ-33" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="4k3_10itk6TQqzx8U7jZ-32">
           <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
             <mxPoint x="-27" y="7" as="offset" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="6e0c8c40b5770093-73" value="DR.dk CMS Context diagram" style="text;html=1;align=left;verticalAlign=top;spacingTop=-4;fontSize=10;fontFamily=Verdana" parent="1" vertex="1">
+          <mxGeometry x="250" y="70" width="130" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
