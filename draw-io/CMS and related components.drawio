@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2022-05-25T09:13:35.442Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="d0ElQgeFp4ntgmhpCZ2k" version="17.4.0" type="github">
+<mxfile host="app.diagrams.net" modified="2022-05-25T10:55:57.051Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.67 Safari/537.36" etag="Ti6qTLUVHHQtgmteuHyX" version="17.4.0" type="github">
   <diagram name="Page-1" id="b5b7bab2-c9e2-2cf4-8b2a-24fd1a2a6d21">
     <mxGraphModel dx="1778" dy="921" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
@@ -212,6 +212,22 @@
           <mxGeometry x="1045" y="348" width="180" height="90" as="geometry" />
         </mxCell>
         <mxCell id="4k3_10itk6TQqzx8U7jZ-59" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="4k3_10itk6TQqzx8U7jZ-58">
+          <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
+            <mxPoint x="-27" y="7" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4k3_10itk6TQqzx8U7jZ-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;dashed=1;" edge="1" parent="1" source="4k3_10itk6TQqzx8U7jZ-66" target="4k3_10itk6TQqzx8U7jZ-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="4k3_10itk6TQqzx8U7jZ-69" value="Access rights&lt;br&gt;&amp;lt;&amp;lt;flow&amp;gt;&amp;gt;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="4k3_10itk6TQqzx8U7jZ-68">
+          <mxGeometry x="-0.2486" y="-3" relative="1" as="geometry">
+            <mxPoint x="20" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="4k3_10itk6TQqzx8U7jZ-66" value="Active Directory" style="html=1;dropTarget=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="240" y="910" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="4k3_10itk6TQqzx8U7jZ-67" value="" style="shape=module;jettyWidth=8;jettyHeight=4;" vertex="1" parent="4k3_10itk6TQqzx8U7jZ-66">
           <mxGeometry x="1" width="20" height="20" relative="1" as="geometry">
             <mxPoint x="-27" y="7" as="offset" />
           </mxGeometry>
